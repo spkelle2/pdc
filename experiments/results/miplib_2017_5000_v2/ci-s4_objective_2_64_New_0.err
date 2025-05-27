@@ -1,0 +1,3 @@
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/utility/nbspace.cpp:368: Ray 374: Calculated dot product with obj differs from solver's. Obj viol from solver: 0.00004680. Calculated: 0.00004697.
+messed up a farkas cofficient
+setting all farkas coefficients to 0
