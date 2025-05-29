@@ -1,0 +1,1 @@
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/disjunction/PartialBBDisjunction.cpp:249: Giving up on getting cuts from the partial branch-and-bound tree (too few terms). Model status is 0.

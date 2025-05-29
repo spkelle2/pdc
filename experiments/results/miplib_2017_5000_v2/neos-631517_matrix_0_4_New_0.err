@@ -1,0 +1,3 @@
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/utility/nbspace.cpp:368: Ray 752: Calculated dot product with obj differs from solver's. Obj viol from solver: 0.60856764. Calculated: 0.60856745.
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/utility/nbspace.cpp:368: Ray 1280: Calculated dot product with obj differs from solver's. Obj viol from solver: 336.87950149. Calculated: 336.87950132.
+*** ERROR (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/disjunction/Disjunction.cpp:251: Objective at disjunctive term 175/175 is incorrect. Before, it was 'inf', now it is 3620111.043.

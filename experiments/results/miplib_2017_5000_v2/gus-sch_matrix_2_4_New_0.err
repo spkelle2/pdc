@@ -1,0 +1,4 @@
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/disjunction/Disjunction.cpp:258: Objective at disjunctive term 9/9 is incorrect. Before, it was 'inf', now it is -1080.653.
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/disjunction/Disjunction.cpp:258: Objective at disjunctive term 41/41 is incorrect. Before, it was 'inf', now it is -1083.037.
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/disjunction/Disjunction.cpp:258: Objective at disjunctive term 17/17 is incorrect. Before, it was 'inf', now it is -1089.362.
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/disjunction/Disjunction.cpp:258: Objective at disjunctive term 58/58 is incorrect. Before, it was 'inf', now it is -1089.683.
