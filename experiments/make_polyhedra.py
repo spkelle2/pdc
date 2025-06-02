@@ -158,18 +158,27 @@ if True:
     f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
               color='red', alpha=0.2)
 
-    # annotate
-    f.ax.annotate('', xy=(.75, 1), xytext=(.6, 1.15),
-                  arrowprops=dict(arrowstyle='-', color='black', lw=1))
-    f.ax.text(-.15, 1.5, "1) calculate Farkas\nmultipliers for\ninitial cut", ha='left', va='top', fontsize=18, color='black')
-    f.ax.annotate('', xy=(2.75, .75), xytext=(2.5, .5),
-                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-    f.ax.text(2.65, .5, "2) change\ninstance", ha='left', va='center', fontsize=18, color='black')
-    f.ax.annotate('', xy=(1.85, 1.5), xytext=(1.85, 1),
-                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-    f.ax.text(1.915, 1.25, "3) generate parametric\ndisjunctive cut", ha='left', va='center', fontsize=18, color='black')
+    if False:
+        # annotate
+        f.ax.annotate('', xy=(.75, 1), xytext=(.6, 1.15),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1))
+        f.ax.text(-.15, 1.5, "1) calculate Farkas\nmultipliers for\ninitial cut", ha='left', va='top', fontsize=18, color='black')
+        f.ax.annotate('', xy=(2.75, .75), xytext=(2.5, .5),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(2.65, .5, "2) change\ninstance", ha='left', va='center', fontsize=18, color='black')
+        f.ax.annotate('', xy=(1.85, 1.5), xytext=(1.85, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(1.915, 1.25, "3) generate parametric\ndisjunctive cut", ha='left', va='center', fontsize=18, color='black')
 
-    f.show(wait_for_click=False, filename='P7-8_poster.png')
+        f.show(wait_for_click=False, filename='P7-8_poster.png')
+
+    if True:
+        f.ax.annotate('', xy=(1.85, 1.5), xytext=(1.85, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(1.915, 1.25, "generate parametric\ndisjunctive cut", ha='left', va='center', fontsize=18,
+                  color='black')
+
+        f.show(wait_for_click=False, filename='P7-8_teaser.png')
 
 #
 # # P9
@@ -296,7 +305,7 @@ if True:
 #            linestyle='dashed', color='black')
 # f.show(wait_for_click=False, filename='P10.png')
 
-if True:
+if False:
 
     # P9-10
     # make a matrix perturbed polyhedron with a matrix parametrized disjunctive cut
@@ -649,7 +658,7 @@ if True:
 # f.ax.legend(loc='center right')
 # f.show(wait_for_click=False, filename='P14.png')
 
-if True:
+if False:
 
     # P13-14
     # combine last two into one
@@ -748,7 +757,7 @@ if True:
     f.show(wait_for_click=False, filename='P13-14_poster.png')
 
 # make a counter example for when LP solution no longer separated
-if True:
+if False:
     A_1 = np.array(
         [[1, -1],
          [-1, -1],
@@ -838,7 +847,7 @@ if True:
 
     f.show(wait_for_click=False, filename='P15-16_poster.png')
 
-if True:
+if False:
 
     # show how infeasible terms become feasible during parameterization
     # P17-18
@@ -1006,39 +1015,54 @@ if True:
     f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
               color='red', alpha=0.2)
 
-    # add perturbed basis
-    f.ax.annotate('', xy=(2, .8), xytext=(2, 1),
-                  arrowprops=dict(arrowstyle='-|>', color='blue', lw=1))
-    f.ax.annotate('', xy=(2.15, .85), xytext=(2, 1),
-                  arrowprops=dict(arrowstyle='-|>', color='blue', lw=1))
-    f.ax.annotate('', xy=(2, 1.3), xytext=(2, 1.5),
-                  arrowprops=dict(arrowstyle='-|>', linestyle=':', color='blue', lw=1))
-    f.ax.annotate('', xy=(2.15, 1.35), xytext=(2, 1.5),
-                  arrowprops=dict(arrowstyle='-|>', linestyle=':', color='blue', lw=1))
+    if False:
 
-    # annotate
-    # 1) perturb
-    f.ax.annotate('', xy=(2, 1.5), xytext=(2, 1),
-                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1,
-                                  connectionstyle="arc3,rad=-.2"))
-    f.ax.annotate('', xy=(2.61, .9), xytext=(2.25, .75),
-                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-    f.ax.text(2.275, 1.09, "1) change instance", ha='left', va='center', fontsize=18, color='black')
-    f.ax.annotate('', xy=(2.325, .8), xytext=(2.325, 1.05),
-                  arrowprops=dict(arrowstyle='-', color='black', lw=1))
-    f.ax.annotate('', xy=(1.95, 1.24), xytext=(2.25, 1.13),
-                  arrowprops=dict(arrowstyle='-', color='black', lw=1))
-    f.ax.text(2.2, 1.4875, "basis becomes\ninfeasible", ha='left', va='top', fontsize=18, color='black')
-    # 2) parameterize
-    f.ax.annotate('', xy=(0, 1.5), xytext=(0, 1),
-                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-    f.ax.text(-.21, 1, "2) generate\nparametric\ndisjunctive cut", ha='left', va='top', fontsize=18, color='black')
+        # add perturbed basis
+        f.ax.annotate('', xy=(2, .8), xytext=(2, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='blue', lw=1))
+        f.ax.annotate('', xy=(2.15, .85), xytext=(2, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='blue', lw=1))
+        f.ax.annotate('', xy=(2, 1.3), xytext=(2, 1.5),
+                      arrowprops=dict(arrowstyle='-|>', linestyle=':', color='blue', lw=1))
+        f.ax.annotate('', xy=(2.15, 1.35), xytext=(2, 1.5),
+                      arrowprops=dict(arrowstyle='-|>', linestyle=':', color='blue', lw=1))
 
-    # 3) tighten
-    f.ax.annotate('', xy=(.3, 1.165), xytext=(0.3, 1.5),
-                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-    f.ax.text(.35, 1.375, "3) reparameterize\nand regenerate", ha='left', va='center', fontsize=18, color='black')
+        # annotate
+        # 1) perturb
+        f.ax.annotate('', xy=(2, 1.5), xytext=(2, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1,
+                                      connectionstyle="arc3,rad=-.2"))
+        f.ax.annotate('', xy=(2.61, .9), xytext=(2.25, .75),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(2.275, 1.09, "1) change instance", ha='left', va='center', fontsize=18, color='black')
+        f.ax.annotate('', xy=(2.325, .8), xytext=(2.325, 1.05),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1))
+        f.ax.annotate('', xy=(1.95, 1.24), xytext=(2.25, 1.13),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1))
+        f.ax.text(2.2, 1.4875, "basis becomes\ninfeasible", ha='left', va='top', fontsize=18, color='black')
+        # 2) parameterize
+        f.ax.annotate('', xy=(0, 1.5), xytext=(0, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(-.21, 1, "2) generate\nparametric\ndisjunctive cut", ha='left', va='top', fontsize=18, color='black')
 
-    f.show(wait_for_click=False, filename='P19-20_poster.png')
+        # 3) tighten
+        f.ax.annotate('', xy=(.3, 1.165), xytext=(0.3, 1.5),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(.35, 1.375, "3) reparameterize\nand regenerate", ha='left', va='center', fontsize=18, color='black')
+
+        f.show(wait_for_click=False, filename='P19-20_poster.png')
+
+    if True:
+        # 2) parameterize
+        f.ax.annotate('', xy=(0, 1.5), xytext=(0, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(-.21, 1, "1) generate\nparametric\ndisjunctive cut", ha='left', va='top', fontsize=18, color='black')
+
+        # 3) tighten
+        f.ax.annotate('', xy=(2.3, 1.165), xytext=(2.3, 1.5),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(2.35, 1.375, "2) strengthen", ha='left', va='center', fontsize=18, color='black')
+
+        f.show(wait_for_click=False, filename='P19-20_teaser.png')
 
 print()
