@@ -74,11 +74,11 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
             print(f"instance {instance} requires {mem}gb")
 
             for perturbation in os.listdir(os.path.join(input_fldr, instance)):
-                if not os.path.isdir(os.path.join(input_fldr, instance, perturbation)) or "_4" in perturbation:
+                if not os.path.isdir(os.path.join(input_fldr, instance, perturbation)) or "bound" in perturbation:
                     continue
 
                 for terms in [4, 64]:
-                    for generator in ["None", "New", "Farkas", "All", "Disjunction", "Matrix", "Term", "Basis"]:  #, "NoDisjunction", "NoTerm", "NoMatrix", "NoBasis"]:
+                    for generator in ["None", "New", "Farkas", "All"]:  #, "Disjunction", "Matrix", "Term", "Basis"]:  #, "NoDisjunction", "NoTerm", "NoMatrix", "NoBasis"]:
 
                         # increment the total number of jobs
                         total_jobs += 1
