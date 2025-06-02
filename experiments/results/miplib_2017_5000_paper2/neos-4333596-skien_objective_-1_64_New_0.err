@@ -1,0 +1,7 @@
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+Objective values must match for feasible terms.
+Assertion failed
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/utility/nbspace.cpp:368: Ray 108: Calculated dot product with obj differs from solver's. Obj viol from solver: 1840.17817173. Calculated: 1840.17817188.
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/utility/nbspace.cpp:368: Ray 115: Calculated dot product with obj differs from solver's. Obj viol from solver: 2003.12789703. Calculated: 2003.12789718.
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/utility/nbspace.cpp:368: Ray 121: Calculated dot product with obj differs from solver's. Obj viol from solver: 498.33997660. Calculated: 498.33997674.

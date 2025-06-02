@@ -1,0 +1,3 @@
+Objective values must match for feasible terms.
+Assertion failed
+*** ERROR (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/disjunction/Disjunction.cpp:251: Objective at disjunctive term 4/4 is incorrect. Before, it was -21.347, now it is -20.373.
