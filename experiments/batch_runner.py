@@ -24,7 +24,7 @@ def get_queue(time_limit):
 
 def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
               mip_solver: str = "CBC", provide_primal_bound: bool = True,
-              cumulative_queue_limit: int = 8000, repeats: int = 1):
+              cumulative_queue_limit: int = 8000, repeats: int = 3):
     """ For all problems and perturbations, run the .mps associated with each series
 
     :param test_fldr: directory containing directories of instances which in turn
