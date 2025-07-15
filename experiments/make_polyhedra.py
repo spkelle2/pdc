@@ -1,6 +1,7 @@
 from coinor.grumpy.polyhedron2D import Polyhedron2D, Figure
 from matplotlib import pyplot as plt
 import numpy as np
+from matplotlib.pyplot import legend
 
 plt.rcParams['font.size'] = 12
 
@@ -90,7 +91,7 @@ plt.rcParams['text.usetex'] = True
 # f.show(wait_for_click=False, filename='P8.png')
 #
 
-if True:
+if False:
     # condense the last two into one
     A_1 = np.array(
         [[1, -1],
@@ -305,7 +306,10 @@ if True:
 #            linestyle='dashed', color='black')
 # f.show(wait_for_click=False, filename='P10.png')
 
-if False:
+if True:
+
+    example = True
+    poster = False
 
     # P9-10
     # make a matrix perturbed polyhedron with a matrix parametrized disjunctive cut
@@ -353,16 +357,16 @@ if False:
     f = Figure()
     f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='solid')
     f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='dotted')
-    f.set_xlim([-.25, 3.25])
-    f.set_ylim([-.25, 1.85])
+    f.set_xlim([-.25, 3.25 + (.75 if example else 0)])
+    f.set_ylim([-.25, 1.85 + (.375 if example else 0)])
 
     # add disjunction and disjunctive cut
     f.add_line(alpha_1, beta_1, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-               linestyle='--', color='green')
+               linestyle='--', color='green', label=r'$(\alpha^1, \beta^1)$')
     f.add_line(alpha_2, beta_2, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-               linestyle='-.', color='green')
+               linestyle='-.', color='green', label=r'$(\alpha^2, \beta^2)$')
     f.add_line(alpha_2, beta_2_tight, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-               linestyle=':', color='green')
+               linestyle=':', color='green', label=r'$(\alpha^2, \bar{\beta}^2)$')
     # f.add_line([1, 0], 1, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
     #            linestyle='dotted', color='black')
     # f.add_line([1, 0], 2, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
@@ -370,35 +374,51 @@ if False:
 
     # shade in feasible regions
     f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
-              color='red', alpha=0.3)
+              color='red', alpha=0.3, label=r'$Q^{1,1} \cup Q^{1,2}$')
     f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
-              color='red', alpha=0.2)
+              color='red', alpha=0.2, label=r'$Q^{2,1} \cup Q^{2,2}$')
     f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
               color='red', alpha=0.3)
     f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
               color='red', alpha=0.2)
 
     # annotate
-    f.ax.annotate('', xy=(.75, .875), xytext=(.75, .7),
-                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-    f.ax.text(.35, .75, "1) change\ninstance", ha='center', va='center', fontsize=18, color='black')
-    f.ax.annotate('', xy=(.8, 1.2), xytext=(.85, 1),
-                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-    f.ax.text(-.175, 1.5, "2) generate parametric\ndisjunctive cut", ha='left', va='center', fontsize=18, color='black')
-    f.ax.annotate('', xy=(2.2 + 1*2.5/64, 1.37 - 4*2.5/64), xytext=(2.2, 1.37),
-                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-    f.ax.annotate('', xy=(.8, 1.05), xytext=(.4, 1.35),
-                  arrowprops=dict(arrowstyle='-', color='black', lw=1,
-                                  connectionstyle="arc3,rad=.3"))
-    f.ax.text(2., 1.775, "3) reparameterize\nand regenerate", ha='left', va='top', fontsize=18, color='black')
-    f.ax.annotate('', xy=(2.25, 1.3), xytext=(2.4, 1.5),
-                  arrowprops=dict(arrowstyle='-', color='black', lw=1,
-                                  connectionstyle="arc3,rad=-.3"))
-    f.ax.text(2.39, .875, "coefficient\nmatrix\nchanged", ha='left', va='top', fontsize=18, color='black')
-    f.ax.annotate('', xy=(2.15, .875), xytext=(2.39, .8),
-                  arrowprops=dict(arrowstyle='-', color='black', lw=1))
+    if poster or not example:
+        f.ax.annotate('', xy=(.75, .875), xytext=(.75, .7),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(.35, .75, "1) change\ninstance", ha='center', va='center', fontsize=18, color='black')
+        f.ax.annotate('', xy=(.8, 1.2), xytext=(.85, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(-.175, 1.5, "2) generate parametric\ndisjunctive cut", ha='left', va='center', fontsize=18, color='black')
+        f.ax.annotate('', xy=(2.2 + 1*2.5/64, 1.37 - 4*2.5/64), xytext=(2.2, 1.37),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.annotate('', xy=(.8, 1.05), xytext=(.4, 1.35),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1,
+                                      connectionstyle="arc3,rad=.3"))
+        f.ax.text(2., 1.775, "3) reparameterize\nand regenerate", ha='left', va='top', fontsize=18, color='black')
+        f.ax.annotate('', xy=(2.25, 1.3), xytext=(2.4, 1.5),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1,
+                                      connectionstyle="arc3,rad=-.3"))
+        f.ax.text(2.39, .875, "coefficient\nmatrix\nchanged", ha='left', va='top', fontsize=18, color='black')
+        f.ax.annotate('', xy=(2.15, .875), xytext=(2.39, .8),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1))
 
-    f.show(wait_for_click=False, filename='P9-10_poster.png')
+    else:
+        f.ax.annotate('', xy=(.84, 1.05), xytext=(.8, 1.21),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(-.175, 1.75, "Algorithm 1 generates\nand strengthens " + r"$(\alpha^2, \beta^2)$" +
+                  "\nto yield " + r"$(\alpha^2, \bar{\beta}^2)$", ha='left', va='center', fontsize=18,
+                  color='black')
+        f.ax.annotate('', xy=(.8, 1.15), xytext=(.475, 1.475),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1,
+                                      connectionstyle="arc3,rad=.4"))
+
+    if poster:
+        f.show(wait_for_click=False, filename='P9-10_poster.png')
+    else:
+        if example:
+            f.ax.legend(loc='upper right', fontsize=15)
+        f.show(wait_for_click=False, filename=f"P9-10_paper{'_example' if example else ''}.png")
 #
 # # P9-10_simple
 # # simplify the above to just show the perturbation case
@@ -944,7 +964,7 @@ if False:
 
     f.show(wait_for_click=False, filename='P17-18_poster.png')
 
-if True:
+if False:
 
     # # P19-20
     # # make a perturbed polyhedron where a feasible basis becomes infeasible

@@ -1,7 +1,0 @@
-instanceIndex,seedIndex,vpcGenerator,terms,lpBound,disjunctiveDualBound,lpBoundPostVpc,rootDualBound,dualBound,primalBound,vpcGenerationTime,rootDualBoundTime,bestSolutionTime,terminationTime,nodes,iterations,maxTime,actualTerms,numCuts,cutLimit,mipSolver,providePrimalBound,infeasibleTerms,feasibleToInfeasibleTerms,infeasibleToFeasibleTerms,termRemainsFeasibleBasisInfeasible,cutsChangedCoefficients,feasibleTermsPrunedByBound,tighten_disjunction,tighten_matrix_perturbation,tighten_infeasible_to_feasible_term,tighten_feasible_to_infeasible_basis
-0,0,New,4,0.000000,1202.000000,21.000000,1212.666667,1224.000000,1224.000000,1.429100,1.782436,1.429100,1.788390,1,1665,3600.000000,4,3,94,GUROBI,1,0,0,0,0,0,0,0,0,0,0
-1,0,Term,4,-9.500000,1188.500000,10.500000,1203.750000,1205.000000,1205.000000,0.021349,0.293706,0.021349,0.295520,1,1253,3600.000000,4,3,0,GUROBI,1,0,0,0,0,0,0,0,0,1,0
-2,0,Term,4,-46.000000,1151.000000,-22.000000,1155.333333,1170.000000,1170.000000,0.025865,0.264633,0.025865,0.274625,1,1185,3600.000000,4,3,0,GUROBI,1,0,0,0,0,0,0,0,0,1,0
-3,0,Term,4,-139.500000,1039.000000,-119.500000,1035.437500,1039.000000,1039.000000,0.030413,0.268796,0.030413,0.271767,1,1135,3600.000000,4,3,0,GUROBI,1,0,0,0,0,0,0,0,0,1,0
-4,0,Term,4,-73.500000,1132.000000,-48.500000,1078.833333,1142.000000,1142.000000,0.028438,0.245483,0.028438,0.248724,1,1037,3600.000000,4,3,0,GUROBI,1,0,0,0,0,0,0,0,0,1,0
-5,0,Term,4,-35.500000,1159.000000,-17.500000,1137.833333,1159.000000,1159.000000,0.025320,0.259146,0.025320,0.261767,1,948,3600.000000,4,3,0,GUROBI,1,0,0,0,0,0,0,0,0,1,0
