@@ -39,7 +39,6 @@ tmpvpc*
 experiments/outfiles/
 core
 *.out
-experiments/*.err
 outfiles/
 outfiles_generation/
 *.tar.gz
