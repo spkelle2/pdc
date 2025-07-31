@@ -1,4 +1,4 @@
-# V-polyhedral cut Warm Starts
+# Parametric Disjunctive Cuts
 
 A library parameterizing disjunctive inequalities to provide a warm start to the cut pool for a series of mixed-integer linear programs.
 
