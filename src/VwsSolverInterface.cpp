@@ -26,6 +26,7 @@
 #include "RunData.hpp" // RunData
 #include "VwsSolverInterface.hpp"
 #include "VwsUtility.hpp" // findNonZero
+#include "../../vpc/include/test/SymphonyHelper.hpp" // Symphony solve functions
 
 
 /** Default constructor */
@@ -38,7 +39,8 @@ VwsSolverInterface::VwsSolverInterface(VPCParametersNamespace::VPCParameters par
                                        std::string mipSolver):
   params(params), mipSolver(mipSolver){
 
-  verify(mipSolver == "CBC" || mipSolver == "GUROBI", "mipSolver must be CBC or GUROBI");
+  verify(mipSolver == "CBC" || mipSolver == "GUROBI" || mipSolver == "SYMPHONY",
+         "mipSolver must be CBC, GUROBI, or SYMPHONY");
 
 } /* constructor */
 
@@ -113,6 +115,9 @@ RunData VwsSolverInterface::solve(
           params, params.get(VPCParametersNamespace::BB_STRATEGY), si,
           disjCuts.get(), info, primalBound);
     }
+  } else if (mipSolver == "SYMPHONY") {
+    doBranchAndBoundWithSymphony(params, params.get(VPCParametersNamespace::BB_STRATEGY),
+                                 si, info, primalBound);
   } else {
     if (vpcGenerator == "None") {
       doBranchAndBoundWithGurobi(params, params.get(VPCParametersNamespace::BB_STRATEGY),
