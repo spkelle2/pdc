@@ -1,4 +1,4 @@
-# Parametric Disjunctive Cuts
+# Parametric Disjunctive Cuts (pdc)
 
 A library parameterizing disjunctive inequalities to provide a warm start to the cut pool for a series of mixed-integer linear programs.
 

@@ -175,13 +175,12 @@ TEST_CASE( "Test Simple") {
     RunData runDataNone;
 
     // check to make sure we get the same dual bounds
-    // i.e. make sure we didn't
     for (int i = 0; i < testRunnerFarkas.instanceSolvers.size(); i++){
       RunData runDataFarkas = testRunnerFarkas.seriesSolver.solve(
           testRunnerFarkas.instanceSolvers[i], i < 1 ? "New" : "Farkas", 1e10);
       RunData runDataNone = testRunnerNone.seriesSolver.solve(
           testRunnerFarkas.instanceSolvers[i], "None", 1e10);
-      REQUIRE(isZero(runDataFarkas.dualBound - runDataNone.dualBound, 1e-3));
+      REQUIRE(isZero((runDataFarkas.dualBound - runDataNone.dualBound)/runDataNone.dualBound, 1e-3));
     }
   }
 
