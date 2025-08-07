@@ -37,7 +37,7 @@
  * associated with each VPC. The other MIPs in the series will apply the previous
  * dijsunctions and Farkas multipliers to generate VPCs.
  */
-class VwsSolverInterface {
+class PdcSolverInterface {
 public:
   /** vector of Farkas multipliers used to create VPCs from previous MIPs.
    * Indexed [mip][cut][disjunctive term][Farkas multiplier] */
@@ -59,10 +59,10 @@ public:
   std::string mipSolver;
 
   /** Default constructor */
-  VwsSolverInterface();
+  PdcSolverInterface();
 
   /** constructor */
-  VwsSolverInterface(VPCParametersNamespace::VPCParameters params, std::string mipSolver);
+  PdcSolverInterface(VPCParametersNamespace::VPCParameters params, std::string mipSolver);
 
   /** Solve a MIP with VPCs added */
   RunData solve(const OsiClpSolverInterface& instanceSolver, const std::string vpcGenerator,
@@ -88,5 +88,5 @@ public:
   std::shared_ptr<OsiCuts> createVpcsFromOldDisjunctionPRLP(
       OsiClpSolverInterface* si, RunData& data, bool tighten_disjunction=false);
 
-}; /* VwsSolverInterface */
+}; /* PdcSolverInterface */
 

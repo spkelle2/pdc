@@ -161,7 +161,7 @@ TEST_CASE( "Test Simple") {
     file.close();
   }
 
-  SECTION("VwsUtility::getCertificate"){
+  SECTION("PdcUtility::getCertificate"){
 
     // read in data
     fs::path inputFolder = "../src/test/test_instances/f2gap801600";

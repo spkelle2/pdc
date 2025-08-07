@@ -1,5 +1,5 @@
 /**
- * @file VwsUtility.hpp
+ * @file PdcUtility.hpp
  * @author Sean Kelley
  * @date 2023-02-13
  */
@@ -30,7 +30,7 @@
 #include "utility.hpp" // greaterThanVal, isVal, isZero
 
 // project modules
-#include "VwsUtility.hpp"
+#include "PdcUtility.hpp"
 
 // namespaces
 using namespace Eigen;
