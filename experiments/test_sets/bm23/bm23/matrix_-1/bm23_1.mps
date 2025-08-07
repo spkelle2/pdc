@@ -1,4 +1,4 @@
-NAME BM23_copy_pre
+NAME BM23_pre_copy
 ROWS
  N  OBJ
  L  R101    
@@ -525,7 +525,7 @@ COLUMNS
     C127      R115      2
     C127      R116      2
     C127      R117      1
-    C127      R118      2
+    C127      R118      1
     C127      R119      -5
     C127      R120      1
     MARKER    'MARKER'                 'INTEND'

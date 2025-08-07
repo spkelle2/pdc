@@ -1,0 +1,3 @@
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/disjunction/Disjunction.cpp:258: Objective at disjunctive term 14/14 is incorrect. Before, it was 1898.663, now it is 1890.659.
+Objective values must match for feasible terms.
+Assertion failed

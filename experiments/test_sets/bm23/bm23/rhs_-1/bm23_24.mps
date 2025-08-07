@@ -1,4 +1,4 @@
-NAME BM23_copy_pre
+NAME BM23_pre_copy
 ROWS
  N  OBJ
  L  R101    
@@ -543,10 +543,10 @@ RHS
     RHS1      R111      17
     RHS1      R112      -5
     RHS1      R113      4
-    RHS1      R114      21
+    RHS1      R114      20.5
     RHS1      R115      24
-    RHS1      R116      -6
-    RHS1      R117      17
+    RHS1      R116      -5.5
+    RHS1      R117      16.5
     RHS1      R118      -13
     RHS1      R119      -30
     RHS1      R120      1

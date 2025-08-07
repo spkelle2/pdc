@@ -1,41 +1,12 @@
-name: vws
+name: pdc
 channels:
-  - anaconda
-  - conda-forge
-  - bioconda
   - defaults
-  - https://conda.anaconda.org/gurobi
-  - https://repo.anaconda.com/pkgs/main
-  - https://repo.anaconda.com/pkgs/free
-dependencies:
-  - bzip2
-  - ca-certificates
-  - certifi
   - gurobi
-  - gxx
-  - ld_impl_linux-64
-  - libblas
-  - libedit
-  - libffi
-  - libgcc-ng
-  - libgfortran-ng
-  - libgfortran4
-  - liblapack
-  - libopenblas
-  - libstdcxx-ng
-  - ncurses
+dependencies:
+  - gurobi
+  - mkl
   - numpy
-  - openssl
   - pandas
   - pip
   - python
-  - python_abi
-  - readline
   - scipy
-  - setuptools
-  - sqlite
-  - tk
-  - valgrind
-  - wheel
-  - xz
-  - zlib

@@ -25,9 +25,9 @@ RM = rm -f
 BUILD_CONFIG = unit_test
 BUILD_CONFIG = release
 BUILD_CONFIG = debug
-UNIT_TEST_FILE = TestVwsSolverInterface.cpp
+UNIT_TEST_FILE = TestMipComp.cpp
 
-### Variables user should set ###
+## these variables should stay the same and rely on defaults ##
 REPOS_DIR=${PWD}/..
 PROJ_DIR=${PWD}
 COIN_VERSION = trunk
@@ -36,6 +36,8 @@ VPC_DIR = ${REPOS_DIR}/vpc
 COIN_OR = $(VPC_DIR)/lib/Cbc-$(COIN_VERSION)
 COIN_OR_BUILD_DIR_DEBUG = buildg
 COIN_OR_BUILD_DIR_RELEASE = build
+
+### Variables user should set ###
 GUROBI_DIR = /Library/gurobi1003/macos_universal2
 GUROBI_LINK="gurobi100"
 
@@ -45,7 +47,7 @@ ifeq ($(USER),sek519)
   GUROBI_LINK="gurobi100"
 endif
 
-# Options for solvers - do not change these - we expect Gurobi to be installed for vws
+# Options for solvers - do not change these - we expect Gurobi to be installed for Pdc
 USE_COIN   = 1
 USE_CLP    = 1
 USE_EIGEN  = 1
@@ -57,7 +59,7 @@ USE_CPLEX_SOLVER = 0
 
 # Concerning executable
 ifneq ($(BUILD_CONFIG),unit_test)
-	EXECUTABLE_STUB = vws
+	EXECUTABLE_STUB = pdc
 	SOURCES = main.cpp
 endif
 # can make this take an argument for which unit test to build
@@ -75,10 +77,10 @@ VPC_CBC_VERSION = $(shell git -C ${COIN_OR}/Cbc log -1 --pretty=format:"%H")
 VPC_CLP_VERSION = $(shell git -C ${COIN_OR}/Clp log -1 --pretty=format:"%H")
 
 SOURCES += \
-	VwsSolverInterface.cpp \
+	PdcSolverInterface.cpp \
 	MipComp.cpp \
 	RunData.cpp \
-	VwsUtility.cpp
+	PdcUtility.cpp
 
 # VPC directories
 VPC_SRC_DIR = ${VPC_DIR}/src

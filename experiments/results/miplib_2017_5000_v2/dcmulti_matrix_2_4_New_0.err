@@ -1,0 +1,3 @@
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 8352.07 was found prior while getting disjunction.
+*** WARNING (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 7184.71 was found prior while getting disjunction.
+*** ERROR (version #e563127): /home/sek519/warm_starting/vws/../vpc/src/disjunction/Disjunction.cpp:251: Objective at disjunctive term 10/10 is incorrect. Before, it was 11192.450, now it is 8941.331.

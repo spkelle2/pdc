@@ -1,4 +1,4 @@
-NAME BM23_copy_pre
+NAME BM23_pre_copy
 ROWS
  N  OBJ
  L  R101    
@@ -80,7 +80,7 @@ COLUMNS
     C103      R117      6
     C103      R118      -5
     C103      R119      -8
-    C103      R120      1
+    C103      R120      2
     C104      OBJ       8
     C104      R102      -3
     C104      R103      -3
@@ -162,7 +162,7 @@ COLUMNS
     C108      R111      8
     C108      R112      1
     C108      R113      -2
-    C108      R114      4
+    C108      R114      5
     C108      R115      7
     C108      R116      6
     C108      R117      3

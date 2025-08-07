@@ -1,0 +1,2 @@
+must have primalBound >= root LP objective value when minimizing
+Assertion failed

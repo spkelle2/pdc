@@ -1,6 +1,7 @@
 from coinor.grumpy.polyhedron2D import Polyhedron2D, Figure
 from matplotlib import pyplot as plt
 import numpy as np
+from matplotlib.pyplot import legend
 
 plt.rcParams['font.size'] = 12
 
@@ -89,85 +90,96 @@ plt.rcParams['text.usetex'] = True
 #            linestyle='dotted', color='black')
 # f.show(wait_for_click=False, filename='P8.png')
 #
-# # condense the last two into one
-# A_1 = np.array(
-#     [[1, -1],
-#      [-1, -1],
-#      [1, 0],
-#      [0, 1]]
-# )
-# b_1 = np.array([0, -3, 0, 0])
-# # make children terms
-# A_11 = np.vstack([A_1, [-1, 0]])
-# b_11 = np.append(b_1, -1)
-# A_12 = np.vstack([A_1, [1, 0]])
-# b_12 = np.append(b_1, 2)
-# # make disjunctive cut
-# alpha_1 = [0, 1]
-# beta_1 = 1
-#
-# # make perturbed instance
-# A_2 = np.array(
-#     [[1, -1],
-#      [-1, -1],
-#      [1, 0],
-#      [0, 1]]
-# )
-# b_2 = np.array([0, -3.5, 0, 0])
-# # make children terms
-# A_21 = np.vstack([A_2, [-1, 0]])
-# b_21 = np.append(b_2, -1)
-# A_22 = np.vstack([A_2, [1, 0]])
-# b_22 = np.append(b_2, 2)
-# # make disjunctive cut
-# alpha_2 = [0, 1]
-# beta_2 = 1.5
-#
-# # instantiate polyhedra
-# op_1 = Polyhedron2D(A=-A_1, b=-b_1)  # negative because we use Ax >= b but grumpy assumes Ax <= b
-# lc_1 = Polyhedron2D(A=-A_11, b=-b_11)
-# rc_1 = Polyhedron2D(A=-A_12, b=-b_12)
-# op_2 = Polyhedron2D(A=-A_2, b=-b_2)
-# lc_2 = Polyhedron2D(A=-A_21, b=-b_21)
-# rc_2 = Polyhedron2D(A=-A_22, b=-b_22)
-# f = Figure()
-# f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='dotted')
-# f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='solid')
-# f.set_xlim([-.25, 3.75])
-# f.set_ylim([-.125, 1.875])
-#
-# # add disjunction and disjunctive cut
-# f.add_line(alpha_1, beta_1, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-#            linestyle=':', color='green')
-# f.add_line(alpha_2, beta_2, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-#            linestyle='--', color='green')
-# # f.add_line([1, 0], 1, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
-# #            linestyle='dotted', color='black')
-# # f.add_line([1, 0], 2, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
-# #            linestyle='dotted', color='black')
-#
-# # shade in feasible regions
-# f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
-#           color='red', alpha=0.3)
-# f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
-#           color='red', alpha=0.2)
-# f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
-#           color='red', alpha=0.3)
-# f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
-#           color='red', alpha=0.2)
-#
-# # annotate
-# f.ax.annotate('', xy=(.6, 1), xytext=(.5, .75),
-#               arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-# f.ax.text(-.15, .75, "1) generate\ndisjunctive cut", ha='left', va='center', fontsize=12, color='black')
-# f.ax.annotate('', xy=(2.75, .75), xytext=(2.5, .5),
-#               arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-# f.ax.text(2.65, .575, "2) perturb", ha='left', va='center', fontsize=12, color='black')
-# f.ax.annotate('', xy=(2.25, 1.5), xytext=(2.25, 1),
-#               arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-# f.ax.text(2.3, 1.3, "3) parameterize", ha='left', va='center', fontsize=12, color='black')
-#
-# f.show(wait_for_click=False, filename='P7-8.png')
+
+if False:
+    # condense the last two into one
+    A_1 = np.array(
+        [[1, -1],
+         [-1, -1],
+         [1, 0],
+         [0, 1]]
+    )
+    b_1 = np.array([0, -3, 0, 0])
+    # make children terms
+    A_11 = np.vstack([A_1, [-1, 0]])
+    b_11 = np.append(b_1, -1)
+    A_12 = np.vstack([A_1, [1, 0]])
+    b_12 = np.append(b_1, 2)
+    # make disjunctive cut
+    alpha_1 = [0, 1]
+    beta_1 = 1
+
+    # make perturbed instance
+    A_2 = np.array(
+        [[1, -1],
+         [-1, -1],
+         [1, 0],
+         [0, 1]]
+    )
+    b_2 = np.array([0, -3.5, 0, 0])
+    # make children terms
+    A_21 = np.vstack([A_2, [-1, 0]])
+    b_21 = np.append(b_2, -1)
+    A_22 = np.vstack([A_2, [1, 0]])
+    b_22 = np.append(b_2, 2)
+    # make disjunctive cut
+    alpha_2 = [0, 1]
+    beta_2 = 1.5
+
+    # instantiate polyhedra
+    op_1 = Polyhedron2D(A=-A_1, b=-b_1)  # negative because we use Ax >= b but grumpy assumes Ax <= b
+    lc_1 = Polyhedron2D(A=-A_11, b=-b_11)
+    rc_1 = Polyhedron2D(A=-A_12, b=-b_12)
+    op_2 = Polyhedron2D(A=-A_2, b=-b_2)
+    lc_2 = Polyhedron2D(A=-A_21, b=-b_21)
+    rc_2 = Polyhedron2D(A=-A_22, b=-b_22)
+    f = Figure()
+    f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='solid')
+    f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='dotted')
+    f.set_xlim([-.25, 3.75])
+    f.set_ylim([-.125, 1.875])
+
+    # add disjunction and disjunctive cut
+    f.add_line(alpha_1, beta_1, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle='--', color='green')
+    f.add_line(alpha_2, beta_2, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle=':', color='green')
+    # f.add_line([1, 0], 1, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
+    #            linestyle='dotted', color='black')
+    # f.add_line([1, 0], 2, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
+    #            linestyle='dotted', color='black')
+
+    # shade in feasible regions
+    f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
+    f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
+
+    if False:
+        # annotate
+        f.ax.annotate('', xy=(.75, 1), xytext=(.6, 1.15),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1))
+        f.ax.text(-.15, 1.5, "1) calculate Farkas\nmultipliers for\ninitial cut", ha='left', va='top', fontsize=18, color='black')
+        f.ax.annotate('', xy=(2.75, .75), xytext=(2.5, .5),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(2.65, .5, "2) change\ninstance", ha='left', va='center', fontsize=18, color='black')
+        f.ax.annotate('', xy=(1.85, 1.5), xytext=(1.85, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(1.915, 1.25, "3) generate parametric\ndisjunctive cut", ha='left', va='center', fontsize=18, color='black')
+
+        f.show(wait_for_click=False, filename='P7-8_poster.png')
+
+    if True:
+        f.ax.annotate('', xy=(1.85, 1.5), xytext=(1.85, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(1.915, 1.25, "generate parametric\ndisjunctive cut", ha='left', va='center', fontsize=18,
+                  color='black')
+
+        f.show(wait_for_click=False, filename='P7-8_teaser.png')
 
 #
 # # P9
@@ -294,89 +306,119 @@ plt.rcParams['text.usetex'] = True
 #            linestyle='dashed', color='black')
 # f.show(wait_for_click=False, filename='P10.png')
 
-# # P9-10
-# # make a matrix perturbed polyhedron with a matrix parametrized disjunctive cut
-# A_1 = np.array(
-#     [[1, -1],
-#      [-1, -1],
-#      [1, 0],
-#      [0, 1]]
-# )
-# b_1 = np.array([0, -3, 0, 0])
-# # make children terms
-# A_11 = np.vstack([A_1, [-1, 0]])
-# b_11 = np.append(b_1, -1)
-# A_12 = np.vstack([A_1, [1, 0]])
-# b_12 = np.append(b_1, 2)
-# # make disjunctive cut
-# alpha_1 = [0, 1]
-# beta_1 = 1
-#
-# # make perturbed instance
-# A_2 = np.array(
-#     [[1.1, -1],
-#      [-1, -0.9],
-#      [1, 0],
-#      [0, 1]]
-# )
-# b_2 = np.array([0, -3, 0, 0])
-# # make children terms
-# A_21 = np.vstack([A_2, [-1, 0]])
-# b_21 = np.append(b_2, -1)
-# A_22 = np.vstack([A_2, [1, 0]])
-# b_22 = np.append(b_2, 2)
-# # make disjunctive cut
-# alpha_2 = [1, -9]
-# beta_2 = -10
-# beta_2_tight = -8.9
-#
-# # instantiate polyhedra
-# op_1 = Polyhedron2D(A=-A_1, b=-b_1)  # negative because we use Ax >= b but grumpy assumes Ax <= b
-# lc_1 = Polyhedron2D(A=-A_11, b=-b_11)
-# rc_1 = Polyhedron2D(A=-A_12, b=-b_12)
-# op_2 = Polyhedron2D(A=-A_2, b=-b_2)
-# lc_2 = Polyhedron2D(A=-A_21, b=-b_21)
-# rc_2 = Polyhedron2D(A=-A_22, b=-b_22)
-# f = Figure()
-# f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='dotted')
-# f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='solid')
-# f.set_xlim([-.25, 3.25])
-# f.set_ylim([-.25, 1.85])
-#
-# # add disjunction and disjunctive cut
-# f.add_line(alpha_1, beta_1, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-#            linestyle=':', color='green')
-# f.add_line(alpha_2, beta_2, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-#            linestyle='-.', color='green')
-# f.add_line(alpha_2, beta_2_tight, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-#            linestyle='--', color='green')
-# # f.add_line([1, 0], 1, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
-# #            linestyle='dotted', color='black')
-# # f.add_line([1, 0], 2, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
-# #            linestyle='dotted', color='black')
-#
-# # shade in feasible regions
-# f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
-#           color='red', alpha=0.3)
-# f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
-#           color='red', alpha=0.2)
-# f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
-#           color='red', alpha=0.3)
-# f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
-#           color='red', alpha=0.2)
-#
-# # annotate
-# f.ax.annotate('', xy=(.75, .875), xytext=(.75, .7),
-#               arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-# f.ax.text(.45, .775, "1) perturb", ha='center', va='center', fontsize=12, color='black')
-# f.ax.annotate('', xy=(.8, 1.2), xytext=(.85, 1),
-#               arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-# f.ax.text(.4, 1.23, "2) parameterize", ha='center', va='center', fontsize=12, color='black')
-# f.ax.annotate('', xy=(2.2 + 1*2.5/64, 1.37 - 4*2.5/64), xytext=(2.2, 1.37),
-#               arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-# f.ax.text(2.125, 1.125, "3) reparameterize", ha='left', va='center', fontsize=12, color='black')
-#
-# f.show(wait_for_click=False, filename='P9-10.png')
+if True:
+
+    example = True
+    poster = False
+
+    # P9-10
+    # make a matrix perturbed polyhedron with a matrix parametrized disjunctive cut
+    A_1 = np.array(
+        [[1, -1],
+         [-1, -1],
+         [1, 0],
+         [0, 1]]
+    )
+    b_1 = np.array([0, -3, 0, 0])
+    # make children terms
+    A_11 = np.vstack([A_1, [-1, 0]])
+    b_11 = np.append(b_1, -1)
+    A_12 = np.vstack([A_1, [1, 0]])
+    b_12 = np.append(b_1, 2)
+    # make disjunctive cut
+    alpha_1 = [0, 1]
+    beta_1 = 1
+
+    # make perturbed instance
+    A_2 = np.array(
+        [[1.1, -1],
+         [-1, -0.9],
+         [1, 0],
+         [0, 1]]
+    )
+    b_2 = np.array([0, -3, 0, 0])
+    # make children terms
+    A_21 = np.vstack([A_2, [-1, 0]])
+    b_21 = np.append(b_2, -1)
+    A_22 = np.vstack([A_2, [1, 0]])
+    b_22 = np.append(b_2, 2)
+    # make disjunctive cut
+    alpha_2 = [1, -9]
+    beta_2 = -10
+    beta_2_tight = -8.9
+
+    # instantiate polyhedra
+    op_1 = Polyhedron2D(A=-A_1, b=-b_1)  # negative because we use Ax >= b but grumpy assumes Ax <= b
+    lc_1 = Polyhedron2D(A=-A_11, b=-b_11)
+    rc_1 = Polyhedron2D(A=-A_12, b=-b_12)
+    op_2 = Polyhedron2D(A=-A_2, b=-b_2)
+    lc_2 = Polyhedron2D(A=-A_21, b=-b_21)
+    rc_2 = Polyhedron2D(A=-A_22, b=-b_22)
+    f = Figure()
+    f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='solid')
+    f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='dotted')
+    f.set_xlim([-.25, 3.25 + (.75 if example else 0)])
+    f.set_ylim([-.25, 1.85 + (.375 if example else 0)])
+
+    # add disjunction and disjunctive cut
+    f.add_line(alpha_1, beta_1, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle='--', color='green', label=r'$(\alpha^1, \beta^1)$')
+    f.add_line(alpha_2, beta_2, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle='-.', color='green', label=r'$(\alpha^2, \beta^2)$')
+    f.add_line(alpha_2, beta_2_tight, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle=':', color='green', label=r'$(\alpha^2, \bar{\beta}^2)$')
+    # f.add_line([1, 0], 1, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
+    #            linestyle='dotted', color='black')
+    # f.add_line([1, 0], 2, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
+    #            linestyle='dotted', color='black')
+
+    # shade in feasible regions
+    f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3, label=r'$Q^{1,1} \cup Q^{1,2}$')
+    f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2, label=r'$Q^{2,1} \cup Q^{2,2}$')
+    f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
+
+    # annotate
+    if poster or not example:
+        f.ax.annotate('', xy=(.75, .875), xytext=(.75, .7),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(.35, .75, "1) change\ninstance", ha='center', va='center', fontsize=18, color='black')
+        f.ax.annotate('', xy=(.8, 1.2), xytext=(.85, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(-.175, 1.5, "2) generate parametric\ndisjunctive cut", ha='left', va='center', fontsize=18, color='black')
+        f.ax.annotate('', xy=(2.2 + 1*2.5/64, 1.37 - 4*2.5/64), xytext=(2.2, 1.37),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.annotate('', xy=(.8, 1.05), xytext=(.4, 1.35),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1,
+                                      connectionstyle="arc3,rad=.3"))
+        f.ax.text(2., 1.775, "3) reparameterize\nand regenerate", ha='left', va='top', fontsize=18, color='black')
+        f.ax.annotate('', xy=(2.25, 1.3), xytext=(2.4, 1.5),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1,
+                                      connectionstyle="arc3,rad=-.3"))
+        f.ax.text(2.39, .875, "coefficient\nmatrix\nchanged", ha='left', va='top', fontsize=18, color='black')
+        f.ax.annotate('', xy=(2.15, .875), xytext=(2.39, .8),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1))
+
+    else:
+        f.ax.annotate('', xy=(.84, 1.05), xytext=(.8, 1.21),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(-.175, 1.75, "Algorithm 1 generates\nand strengthens " + r"$(\alpha^2, \beta^2)$" +
+                  "\nto yield " + r"$(\alpha^2, \bar{\beta}^2)$", ha='left', va='center', fontsize=18,
+                  color='black')
+        f.ax.annotate('', xy=(.8, 1.15), xytext=(.475, 1.475),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1,
+                                      connectionstyle="arc3,rad=.4"))
+
+    if poster:
+        f.show(wait_for_click=False, filename='P9-10_poster.png')
+    else:
+        if example:
+            f.ax.legend(loc='upper right', fontsize=15)
+        f.show(wait_for_click=False, filename=f"P9-10_paper{'_example' if example else ''}.png")
 #
 # # P9-10_simple
 # # simplify the above to just show the perturbation case
@@ -636,186 +678,411 @@ plt.rcParams['text.usetex'] = True
 # f.ax.legend(loc='center right')
 # f.show(wait_for_click=False, filename='P14.png')
 
-# # P13-14
-# # combine last two into one
-# A_1 = np.array(
-#     [[3, -1],
-#      [-1, -1],
-#      [1, 0],
-#      [0, 1]]
-# )
-# b_1 = np.array([2.5, -3, 0, 0])
-# A_11 = np.vstack([A_1, [-1, 0]])
-# b_11 = np.append(b_1, -1)
-# A_12 = np.vstack([A_1, [1, 0]])
-# b_12 = np.append(b_1, 2)
-# # make disjunctive cut
-# alpha_1 = [1, -2]
-# beta_1 = 0
-#
-# # make polyhedron
-# A_2 = np.array(
-#     [[3, -1],
-#      [-1, -1],
-#      [1, 0],
-#      [0, 1]]
-# )
-# b_2 = np.array([2, -3.125, 0, 0])
-# A_21 = np.vstack([A_2, [-1, 0]])
-# b_21 = np.append(b_2, -1)
-# A_22 = np.vstack([A_2, [1, 0]])
-# b_22 = np.append(b_2, 2)
-# # make disjunctive cut
-# alpha_2 = [1, -2]
-# beta_2 = -1
-# beta_2_tight = -1/4
-#
-# # instantiate polyhedra
-# op_1 = Polyhedron2D(A=-A_1, b=-b_1)  # negative because we use Ax >= b but grumpy assumes Ax <= b
-# lc_1 = Polyhedron2D(A=-A_11, b=-b_11)
-# rc_1 = Polyhedron2D(A=-A_12, b=-b_12)
-# op_2 = Polyhedron2D(A=-A_2, b=-b_2)
-# lc_2 = Polyhedron2D(A=-A_21, b=-b_21)
-# rc_2 = Polyhedron2D(A=-A_22, b=-b_22)
-# f = Figure()
-# f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='dotted')
-# f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='-')
-# f.set_xlim([.5, 3.25])
-# f.set_ylim([-.25, 2.25])
-#
-# # add disjunction and disjunctive cut
-# f.add_line(alpha_1, beta_1, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
-#            linestyle=':', color='green')
-# # f.add_line(alpha_2, beta_2, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
-# #            linestyle='-.', color='green')
-# f.add_line(alpha_2, beta_2_tight, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
-#            linestyle='--', color='green')
-# # f.add_line([1, 0], 1, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
-# #            linestyle='dotted', color='black')
-# # f.add_line([1, 0], 2, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
-# #            linestyle='dotted', color='black')
-#
-# # primal bound stuff
-# scale = .35
-# f.ax.annotate('', xy=(1.28 + scale/10, 1.83 + scale), xytext=(1.28, 1.83),
-#               arrowprops=dict(arrowstyle='-|>', color='blue', lw=1))
-# f.ax.text(1.4, 2, "objective:\nmax x + 10y", ha='left', va='center', fontsize=12, color='black')
-# f.ax.plot(2, 1, 'ko', markersize=4)
-# f.ax.text(2.05, .95, "incumbent solution: (2, 1)", ha='left', va='center', fontsize=12, color='black')
-#
-# # shade in feasible regions
-# f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
-#           color='red', alpha=0.3)
-# f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
-#           color='red', alpha=0.2)
-# f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
-#           color='red', alpha=0.3)
-# f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
-#           color='red', alpha=0.2)
-#
-#
-# # annotate
-# f.ax.annotate('', xy=(.65, -.05), xytext=(.85, -.05),
-#               arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-# f.ax.text(0.75, -0.08, "1) perturb", ha='center', va='top', fontsize=12, color='black')
-# f.ax.text(0.9, .35, "X", ha='center', va='center', fontsize=96, color='black')
-# f.ax.text(.75, .875, "2) prune", ha='center', va='top', fontsize=12, color='black')
-# f.ax.annotate('', xy=(2.5 - 1*4/64, 1.25 + 2*4/64), xytext=(2.5, 1.25),
-#               arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-# f.ax.text(2.5, 1.25, "3) parameterize", ha='left', va='top', fontsize=12, color='black')
-#
-# f.show(wait_for_click=False, filename='P13-14.png')
+if False:
+
+    # P13-14
+    # combine last two into one
+    A_1 = np.array(
+        [[3, -1],
+         [-1, -1],
+         [1, 0],
+         [0, 1]]
+    )
+    b_1 = np.array([2.5, -3, 0, 0])
+    A_11 = np.vstack([A_1, [-1, 0]])
+    b_11 = np.append(b_1, -1)
+    A_12 = np.vstack([A_1, [1, 0]])
+    b_12 = np.append(b_1, 2)
+    # make disjunctive cut
+    alpha_1 = [1, -2]
+    beta_1 = 0
+
+    # make polyhedron
+    A_2 = np.array(
+        [[3, -1],
+         [-1, -1],
+         [1, 0],
+         [0, 1]]
+    )
+    b_2 = np.array([2, -3.125, 0, 0])
+    A_21 = np.vstack([A_2, [-1, 0]])
+    b_21 = np.append(b_2, -1)
+    A_22 = np.vstack([A_2, [1, 0]])
+    b_22 = np.append(b_2, 2)
+    # make disjunctive cut
+    alpha_2 = [1, -2]
+    beta_2 = -1
+    beta_2_tight = -1/4
+
+    # instantiate polyhedra
+    op_1 = Polyhedron2D(A=-A_1, b=-b_1)  # negative because we use Ax >= b but grumpy assumes Ax <= b
+    lc_1 = Polyhedron2D(A=-A_11, b=-b_11)
+    rc_1 = Polyhedron2D(A=-A_12, b=-b_12)
+    op_2 = Polyhedron2D(A=-A_2, b=-b_2)
+    lc_2 = Polyhedron2D(A=-A_21, b=-b_21)
+    rc_2 = Polyhedron2D(A=-A_22, b=-b_22)
+    f = Figure()
+    f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='-')
+    f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle=':')
+    f.set_xlim([.5, 3.25])
+    f.set_ylim([-.25, 2.25])
+
+    # add disjunction and disjunctive cut
+    f.add_line(alpha_1, beta_1, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
+               linestyle='--', color='green')
+    f.add_line(alpha_2, beta_2, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
+               linestyle='-.', color='green', alpha=.5)
+    f.add_line(alpha_2, beta_2_tight, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
+               linestyle=':', color='green')
+    # f.add_line([1, 0], 1, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
+    #            linestyle='dotted', color='black')
+    # f.add_line([1, 0], 2, op_2.xlim + [0, 0.8], op_2.ylim + [0.2, 1.8],
+    #            linestyle='dotted', color='black')
+
+    # primal bound stuff
+    scale = .35
+    f.ax.annotate('', xy=(1.28 + scale/10, 1.83 + scale), xytext=(1.28, 1.83),
+                  arrowprops=dict(arrowstyle='-|>', color='blue', lw=1))
+    f.ax.text(.55, 2, "objective:\nmax x + 10y", ha='left', va='center', fontsize=18, color='black')
+    f.ax.plot(2, 1, 'ko', markersize=4)
+    f.ax.text(2.05, .45, "incumbent: (2, 1)", ha='left', va='center', fontsize=18, color='black')
+    f.ax.annotate('', xy=(2.01, .975), xytext=(2.1, .5),
+                  arrowprops=dict(arrowstyle='-', color='black', lw=1))
+
+    # shade in feasible regions
+    f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
+              color='grey', alpha=0.3)
+    f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
+              color='grey', alpha=0.2)
+    f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
+
+
+    # annotate
+    f.ax.annotate('', xy=(.65, -.05), xytext=(.85, -.05),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+    f.ax.text(0.55, -0.08, "1) change instance", ha='left', va='top', fontsize=18, color='black')
+    f.ax.text(0.9, .35, "X", ha='center', va='center', fontsize=96, color='black')
+    f.ax.text(1.05, .45, "2) prune", ha='left', va='top', fontsize=18, color='black')
+    f.ax.annotate('', xy=(2.45 - 1.1*4/64, 1.2 + 1.1*2*4/64), xytext=(2.45, 1.2),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+    f.ax.text(2.45, 1.2, "3) generate\nparametric\ndisjunctive cut", ha='left', va='top', fontsize=18, color='black')
+    f.ax.text(1.7, 2, "parametric disjunctive\ncut without pruning", ha='left', va='center', fontsize=18, color='black')
+    f.ax.annotate('', xy=(2.25, 1.65), xytext=(2.1, 1.85),
+                  arrowprops=dict(arrowstyle='-', color='black', lw=1,
+                                  connectionstyle="arc3,rad=.2"))
+
+    f.show(wait_for_click=False, filename='P13-14_poster.png')
 
 # make a counter example for when LP solution no longer separated
-A_1 = np.array(
-    [[1, -1],
-     [-1, -1],
-     [0, -1],
-     [1, 0],
-     [0, 1]]
-)
-b_1 = np.array([0, -3, -1.4, 0, 0])
-# make children terms
-A_11 = np.vstack([A_1, [-1, 0]])
-b_11 = np.append(b_1, -1)
-A_12 = np.vstack([A_1, [1, 0]])
-b_12 = np.append(b_1, 2)
-# make disjunctive cut
-alpha_1 = [1/3, -1]
-beta_1 = -2/3
+if False:
+    A_1 = np.array(
+        [[1, -1],
+         [-1, -1],
+         [0, -1],
+         [1, 0],
+         [0, 1]]
+    )
+    b_1 = np.array([0, -3, -1.4, 0, 0])
+    # make children terms
+    A_11 = np.vstack([A_1, [-1, 0]])
+    b_11 = np.append(b_1, -1)
+    A_12 = np.vstack([A_1, [1, 0]])
+    b_12 = np.append(b_1, 2)
+    # make disjunctive cut
+    alpha_1 = [1/3, -1]
+    beta_1 = -2/3
 
-# make perturbed instance
-A_2 = np.array(
-    [[1, -1],
-     [-1, -1],
-     [0, -1],
-     [1, 0],
-     [0, 1]]
-)
-b_2 = np.array([-.25, -3.25, -1.4, 0, 0])
-# make children terms
-A_21 = np.vstack([A_2, [-1, 0]])
-b_21 = np.append(b_2, -1)
-A_22 = np.vstack([A_2, [1, 0]])
-b_22 = np.append(b_2, 2)
-# make disjunctive cut
-alpha_2 = [1/3, -1]
-beta_2 = 1/3 - 1.25
+    # make perturbed instance
+    A_2 = np.array(
+        [[1, -1],
+         [-1, -1],
+         [0, -1],
+         [1, 0],
+         [0, 1]]
+    )
+    b_2 = np.array([-.25, -3.25, -1.4, 0, 0])
+    # make children terms
+    A_21 = np.vstack([A_2, [-1, 0]])
+    b_21 = np.append(b_2, -1)
+    A_22 = np.vstack([A_2, [1, 0]])
+    b_22 = np.append(b_2, 2)
+    # make disjunctive cut
+    alpha_2 = [1/3, -1]
+    beta_2 = 1/3 - 1.25
 
-# instantiate polyhedra
-op_1 = Polyhedron2D(A=-A_1, b=-b_1)  # negative because we use Ax >= b but grumpy assumes Ax <= b
-lc_1 = Polyhedron2D(A=-A_11, b=-b_11)
-rc_1 = Polyhedron2D(A=-A_12, b=-b_12)
-op_2 = Polyhedron2D(A=-A_2, b=-b_2)
-lc_2 = Polyhedron2D(A=-A_21, b=-b_21)
-rc_2 = Polyhedron2D(A=-A_22, b=-b_22)
-f = Figure()
-f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='dotted')
-f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='solid')
-f.set_xlim([-.25, 3.75])
-f.set_ylim([-.125, 1.875])
+    # instantiate polyhedra
+    op_1 = Polyhedron2D(A=-A_1, b=-b_1)  # negative because we use Ax >= b but grumpy assumes Ax <= b
+    lc_1 = Polyhedron2D(A=-A_11, b=-b_11)
+    rc_1 = Polyhedron2D(A=-A_12, b=-b_12)
+    op_2 = Polyhedron2D(A=-A_2, b=-b_2)
+    lc_2 = Polyhedron2D(A=-A_21, b=-b_21)
+    rc_2 = Polyhedron2D(A=-A_22, b=-b_22)
+    f = Figure()
+    f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='dotted')
+    f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='solid')
+    f.set_xlim([-.25, 3.75])
+    f.set_ylim([-.125, 1.875])
 
-# add disjunctive cut and basic solutions
-f.add_line(alpha_1, beta_1, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-           linestyle=':', color='green')
-f.add_line(alpha_2, beta_2, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-           linestyle='--', color='green')
-f.ax.plot(1.6, 1.4, 'ko', markersize=4)
-f.ax.text(1.5, 1.36, "$x^{k,B}$", ha='center', va='top', fontsize=12, color='black')
-f.ax.plot(1.85, 1.4, 'ko', markersize=4)
-f.ax.text(1.89, 1.4, "$x^{\ell,B}$", ha='left', va='bottom', fontsize=12, color='black')
-f.ax.plot(1, 1, 'ko', markersize=4)
-f.ax.text(1.05, .975, "$x^{k t, B^t}$", ha='left', va='top', fontsize=12, color='black')
-f.ax.plot(1, 1.25, 'ko', markersize=4)
-f.ax.text(.995, 1.25, "$x^{\ell t, B^t}$", ha='right', va='bottom', fontsize=12, color='black')
+    # add disjunctive cut and basic solutions
+    f.add_line(alpha_1, beta_1, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle=':', color='green')
+    f.add_line(alpha_2, beta_2, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle='--', color='green')
+    f.ax.plot(1.6, 1.4, 'ko', markersize=4)
+    f.ax.text(1.55, 1.38, r"$\bar{x}$", ha='center', va='top', fontsize=12, color='black')
+    f.ax.plot(1.85, 1.4, 'ko', markersize=4)
+    f.ax.plot(1, 1, 'ko', markersize=4)
+    f.ax.text(1.025, .9875, "$x^{t}$", ha='left', va='top', fontsize=12, color='black')
+    f.ax.plot(1, 1.25, 'ko', markersize=4)
 
-# shade in feasible regions
-f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
-          color='red', alpha=0.3)
-f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
-          color='red', alpha=0.2)
-f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
-          color='red', alpha=0.3)
-f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
-          color='red', alpha=0.2)
+    # shade in feasible regions
+    f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
+    f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
 
-# annotate
-f.ax.annotate('', xy=(.25, .75), xytext=(.25, .575),
-              arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-f.ax.text(-.15, .5, "1) generate\ndisjunctive cut", ha='left', va='center', fontsize=12, color='black')
-f.ax.annotate('', xy=(1, 1.25), xytext=(1, 1),
-              arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-f.ax.annotate('', xy=(1.85, 1.4), xytext=(1.6, 1.4),
-              arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-f.ax.annotate('', xy=(.95, 1.1), xytext=(.25, 1.6),
-              arrowprops=dict(arrowstyle='-', color='black', lw=1))
-f.ax.annotate('', xy=(1.725, 1.425), xytext=(.6, 1.65),
-              arrowprops=dict(arrowstyle='-', color='black', lw=1))
-f.ax.text(0, 1.65, "2) perturb", ha='left', va='center', fontsize=12, color='black')
-f.ax.annotate('', xy=(2.25, 1.675), xytext=(2.25, 1.4125),
-              arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-f.ax.text(2.3, 1.375, "3) parameterize", ha='left', va='center', fontsize=12, color='black')
+    # annotate
+    f.ax.annotate('', xy=(.25, .75), xytext=(.25, .575),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+    f.ax.text(-.15, .5, "1) generate\ndisjunctive cut", ha='left', va='center', fontsize=12, color='black')
+    f.ax.annotate('', xy=(1, 1.25), xytext=(1, 1),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+    f.ax.annotate('', xy=(1.85, 1.4), xytext=(1.6, 1.4),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+    f.ax.annotate('', xy=(.95, 1.1), xytext=(.25, 1.6),
+                  arrowprops=dict(arrowstyle='-', color='black', lw=1))
+    f.ax.annotate('', xy=(1.725, 1.425), xytext=(.6, 1.65),
+                  arrowprops=dict(arrowstyle='-', color='black', lw=1))
+    f.ax.text(0, 1.65, "2) perturb", ha='left', va='center', fontsize=12, color='black')
+    f.ax.annotate('', xy=(2.25, 1.675), xytext=(2.25, 1.4125),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+    f.ax.text(2.3, 1.375, "3) parameterize", ha='left', va='center', fontsize=12, color='black')
 
-f.show(wait_for_click=False, filename='P15-16.png')
+    f.show(wait_for_click=False, filename='P15-16_poster.png')
+
+if False:
+
+    # show how infeasible terms become feasible during parameterization
+    # P17-18
+    # make a pair of polyhedra where a disjunctive term goes from infeasible to feasible
+    A_1 = np.array(
+        [[1, -1],
+         [-1, -1],
+         [1, 0],
+         [0, 1]]
+    )
+    b_1 = np.array([0, -2.5, 1.25, 0])
+    # make children terms
+    A_11 = np.vstack([A_1, [-1, 0]])
+    b_11 = np.append(b_1, -1)
+    A_12 = np.vstack([A_1, [1, 0]])
+    b_12 = np.append(b_1, 2)
+    # make disjunctive cut
+    alpha_1 = [0, 1]
+    beta_1 = .5
+
+    # make perturbed instance
+    A_2 = np.array(
+        [[1, -1],
+         [-1, -1],
+         [1, 0],
+         [0, 1]]
+    )
+    b_2 = np.array([0, -2.75, .75, 0])
+    # make children terms
+    A_21 = np.vstack([A_2, [-1, 0]])
+    b_21 = np.append(b_2, -1)
+    A_22 = np.vstack([A_2, [1, 0]])
+    b_22 = np.append(b_2, 2)
+    # make disjunctive cut
+    alpha_2 = [0, 1]
+    beta_2_tight = 1
+
+    # instantiate polyhedra
+    op_1 = Polyhedron2D(A=-A_1, b=-b_1)  # negative because we use Ax >= b but grumpy assumes Ax <= b
+    lc_1 = Polyhedron2D(A=-A_11, b=-b_11)
+    rc_1 = Polyhedron2D(A=-A_12, b=-b_12)
+    op_2 = Polyhedron2D(A=-A_2, b=-b_2)
+    lc_2 = Polyhedron2D(A=-A_21, b=-b_21)
+    rc_2 = Polyhedron2D(A=-A_22, b=-b_22)
+    f = Figure()
+    f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='solid')
+    f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='dotted')
+    f.set_xlim([.25, 3.25])
+    f.set_ylim([-.25, 1.75])
+
+    # add disjunction and disjunctive cut
+    f.add_line(alpha_1, beta_1, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle='--', color='green')
+    f.add_line(alpha_2, beta_2_tight, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle=':', color='green')
+
+    # shade in feasible regions
+    f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
+    f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
+
+    # add term solution
+    f.ax.plot(1, 1, 'ko', markersize=4)
+    f.ax.text(1.065, .935, r"$x^t$", ha='center', va='center', fontsize=18, color='black')
+
+    # annotate
+    # 1) perturb
+    f.ax.annotate('', xy=(.75, -0.05), xytext=(1.25, -0.05),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1.5), annotation_clip=False)
+    f.ax.annotate('', xy=(2.75, -0.05), xytext=(2.5, -0.05),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1.5), annotation_clip=False)
+    f.ax.text(1.875, -.075, "1) change instance", ha='center', va='center', fontsize=18, color='black')
+
+    f.ax.text(.28, -.2, "term becomes feasible", ha='left', va='center', fontsize=18, color='black')
+    f.ax.annotate('', xy=(.85, .15), xytext=(.55, -.15),
+                  arrowprops=dict(arrowstyle='-', color='black', lw=1, connectionstyle="arc3,rad=-.2"))
+
+
+    # 2) Find Farkas certificate
+    f.ax.annotate('', xy=(.99, 1.02), xytext=(.875, 1.35),
+                  arrowprops=dict(arrowstyle='-', color='black', lw=1))
+    f.ax.text(.515, 1.755, r"2) find $(x^t, v^t)$"+"\nprimal-dual optimal\n"+r"for LP-kt($\alpha$)",
+              ha='left', va='top', fontsize=18, color='black')
+
+    # 3) parameterize
+    f.ax.annotate('', xy=(2.11, 1), xytext=(2.11, .5),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+    f.ax.text(2.15, .8, "3) generate\nparametric\ndisjunctive cut", ha='left', va='center', fontsize=18, color='black')
+
+    f.show(wait_for_click=False, filename='P17-18_poster.png')
+
+if False:
+
+    # # P19-20
+    # # make a perturbed polyhedron where a feasible basis becomes infeasible
+    A_1 = np.array(
+        [[1, -1],
+         [-1, -1],
+         [-1, -3],
+         [1, 0],
+         [0, 1]]
+    )
+    b_1 = np.array([0, -3, -5.5, 0, 0])
+    # make children terms
+    A_11 = np.vstack([A_1, [-1, 0]])
+    b_11 = np.append(b_1, -1)
+    A_12 = np.vstack([A_1, [1, 0]])
+    b_12 = np.append(b_1, 2)
+    # make disjunctive cut
+    alpha_1 = [0, 1]
+    beta_1 = 1
+
+    # make perturbed instance
+    A_2 = np.array(
+        [[1, -1],
+         [-1, -1],
+         [-1, -3],
+         [1, 0],
+         [0, 1]]
+    )
+    b_2 = np.array([0, -3.5, -5.5, 0, 0])
+    # make children terms
+    A_21 = np.vstack([A_2, [-1, 0]])
+    b_21 = np.append(b_2, -1)
+    A_22 = np.vstack([A_2, [1, 0]])
+    b_22 = np.append(b_2, 2)
+    # make disjunctive cut
+    alpha_2 = [0, 1]
+    beta_2 = 1.5
+    beta_2_tight = 7/6
+
+    # instantiate polyhedra
+    op_1 = Polyhedron2D(A=-A_1, b=-b_1)  # negative because we use Ax >= b but grumpy assumes Ax <= b
+    lc_1 = Polyhedron2D(A=-A_11, b=-b_11)
+    rc_1 = Polyhedron2D(A=-A_12, b=-b_12)
+    op_2 = Polyhedron2D(A=-A_2, b=-b_2)
+    lc_2 = Polyhedron2D(A=-A_21, b=-b_21)
+    rc_2 = Polyhedron2D(A=-A_22, b=-b_22)
+    f = Figure()
+    f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='solid')
+    f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='dotted')
+    f.set_xlim([-.25, 3.75])
+    f.set_ylim([-.25, 1.6])
+
+    # add disjunction and disjunctive cut
+    f.add_line(alpha_1, beta_1, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle='--', color='green')
+    f.add_line(alpha_2, beta_2, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle='-.', color='green')
+    f.add_line(alpha_2, beta_2_tight, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle=':', color='green')
+
+    # shade in feasible regions
+    f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
+    f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
+
+    if False:
+
+        # add perturbed basis
+        f.ax.annotate('', xy=(2, .8), xytext=(2, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='blue', lw=1))
+        f.ax.annotate('', xy=(2.15, .85), xytext=(2, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='blue', lw=1))
+        f.ax.annotate('', xy=(2, 1.3), xytext=(2, 1.5),
+                      arrowprops=dict(arrowstyle='-|>', linestyle=':', color='blue', lw=1))
+        f.ax.annotate('', xy=(2.15, 1.35), xytext=(2, 1.5),
+                      arrowprops=dict(arrowstyle='-|>', linestyle=':', color='blue', lw=1))
+
+        # annotate
+        # 1) perturb
+        f.ax.annotate('', xy=(2, 1.5), xytext=(2, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1,
+                                      connectionstyle="arc3,rad=-.2"))
+        f.ax.annotate('', xy=(2.61, .9), xytext=(2.25, .75),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(2.275, 1.09, "1) change instance", ha='left', va='center', fontsize=18, color='black')
+        f.ax.annotate('', xy=(2.325, .8), xytext=(2.325, 1.05),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1))
+        f.ax.annotate('', xy=(1.95, 1.24), xytext=(2.25, 1.13),
+                      arrowprops=dict(arrowstyle='-', color='black', lw=1))
+        f.ax.text(2.2, 1.4875, "basis becomes\ninfeasible", ha='left', va='top', fontsize=18, color='black')
+        # 2) parameterize
+        f.ax.annotate('', xy=(0, 1.5), xytext=(0, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(-.21, 1, "2) generate\nparametric\ndisjunctive cut", ha='left', va='top', fontsize=18, color='black')
+
+        # 3) tighten
+        f.ax.annotate('', xy=(.3, 1.165), xytext=(0.3, 1.5),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(.35, 1.375, "3) reparameterize\nand regenerate", ha='left', va='center', fontsize=18, color='black')
+
+        f.show(wait_for_click=False, filename='P19-20_poster.png')
+
+    if True:
+        # 2) parameterize
+        f.ax.annotate('', xy=(0, 1.5), xytext=(0, 1),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(-.21, 1, "1) generate\nparametric\ndisjunctive cut", ha='left', va='top', fontsize=18, color='black')
+
+        # 3) tighten
+        f.ax.annotate('', xy=(2.3, 1.165), xytext=(2.3, 1.5),
+                      arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+        f.ax.text(2.35, 1.375, "2) strengthen", ha='left', va='center', fontsize=18, color='black')
+
+        f.show(wait_for_click=False, filename='P19-20_teaser.png')
 
 print()
