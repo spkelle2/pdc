@@ -24,7 +24,7 @@ using namespace VPCParametersNamespace;
 
 // project modules
 #include "MipComp.hpp" // MipComp
-#include "VwsUtility.hpp" // verify, extractModelFromGunzip, writeSolution
+#include "PdcUtility.hpp" // verify, extractModelFromGunzip, writeSolution
 
 // namespaces
 namespace fs = ghc::filesystem;
@@ -128,7 +128,7 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
   }
 
   // set the solver interface
-  seriesSolver = VwsSolverInterface(params, mipSolver);
+  seriesSolver = PdcSolverInterface(params, mipSolver);
 } /* Constructor */
 
 /** Solves each instance in the series and prints each's run metadata to stdout */

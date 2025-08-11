@@ -134,7 +134,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                             ])
                         else:
                             # run locally
-                            local_args = ["../Release/vws", series_input_fldr, stem + ".csv",
+                            local_args = ["../Release/pdc", series_input_fldr, stem + ".csv",
                                           str(max_time), generator, str(terms),
                                           mip_solver, str(int(provide_primal_bound)), str(seed_index),
                                           str(td), str(tm), str(tt), str(tb)]

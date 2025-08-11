@@ -14,7 +14,7 @@
 
 // project modules
 #include "RunData.hpp"
-#include "VwsSolverInterface.hpp"
+#include "PdcSolverInterface.hpp"
 
 // namespaces
 namespace fs = ghc::filesystem;
@@ -34,7 +34,7 @@ public:
   std::string vpcGenerator;
 
   /** the solver used for the series of mipModels */
-  VwsSolverInterface seriesSolver;
+  PdcSolverInterface seriesSolver;
 
   /** vector of MIP instances to solve */
   std::vector< OsiClpSolverInterface > instanceSolvers;
