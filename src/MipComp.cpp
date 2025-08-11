@@ -112,10 +112,12 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
   params.set(VPCParametersNamespace::BB_TIMELIMIT, maxRunTime); // max time for branch and cut
   params.set(intParam::VERBOSITY, 1); // light output
   params.set(stringParam::TMPFOLDER, "."); // save tmp files in current directory
+  // turn off presolve if not using gurobi since other solvers can't pass cuts through (to my knowledge)
   if (providePrimalBound) {
     // set parameters to use provided bound and skip heuristics
     params.set(BB_STRATEGY, get_bb_option_value({
         BB_Strategy_Options::user_cuts, // to allow VPCs and data collection
+        mipSolver == "GUROBI" ? BB_Strategy_Options::presolve_on : BB_Strategy_Options::presolve_off,
         BB_Strategy_Options::heuristics_off,
         BB_Strategy_Options::use_best_bound
     }));
@@ -123,6 +125,7 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
     // set parameters to use heuristics and ignore bound files
     params.set(BB_STRATEGY, get_bb_option_value({
         BB_Strategy_Options::user_cuts, // to allow VPCs and data collection
+        mipSolver == "GUROBI" ? BB_Strategy_Options::presolve_on : BB_Strategy_Options::presolve_off,
         BB_Strategy_Options::heuristics_on
     }));
   }
