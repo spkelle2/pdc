@@ -117,7 +117,7 @@ RunData PdcSolverInterface::solve(
     }
   } else if (mipSolver == "SYMPHONY") {
     doBranchAndBoundWithSymphony(params, params.get(VPCParametersNamespace::BB_STRATEGY),
-                                 si, info, primalBound);
+                                 si, info, disjCuts.get(), primalBound);
   } else {
     if (vpcGenerator == "None") {
       doBranchAndBoundWithGurobi(params, params.get(VPCParametersNamespace::BB_STRATEGY),
