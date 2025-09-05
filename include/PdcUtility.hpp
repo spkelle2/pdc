@@ -147,10 +147,6 @@ double findPrimalBound(
     /// [in] solution pool
     const std::set<std::vector<double>> solution_pool);
 
-/** check if two solvers have the same coefficient matrix */
-bool sameCoefficientMatrix(const OsiClpSolverInterface* solver1, const OsiClpSolverInterface* solver2,
-                           const std::vector<double>* multipliers = nullptr);
-
 /** check if a basis is feasible for a given solver */
 bool isFeasible(const OsiSolverInterface* solver, const CoinWarmStartBasis* basis);
 

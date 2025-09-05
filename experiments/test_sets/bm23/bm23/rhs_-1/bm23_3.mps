@@ -543,8 +543,8 @@ RHS
     RHS1      R111      17
     RHS1      R112      -5
     RHS1      R113      3.5
-    RHS1      R114      21.5
-    RHS1      R115      23.5
+    RHS1      R114      21
+    RHS1      R115      24
     RHS1      R116      -6
     RHS1      R117      17
     RHS1      R118      -13

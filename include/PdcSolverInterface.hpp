@@ -43,10 +43,10 @@ public:
    * Indexed [mip][cut][disjunctive term][Farkas multiplier] */
   std::vector< std::vector< std::vector< std::vector<double> > > > cutCertificates;
 
-  /** vector of cut generators used to create VPCs from PRLPs */
+  /** vector of disjunctions used to create disjunctive cuts */
   std::vector< std::shared_ptr<PartialBBDisjunction> > disjunctions;
 
-  /** vector of cut generators used to create VPCs from PRLPs */
+  /** vector of solvers used to create farkas certificates */
   std::vector< std::shared_ptr<OsiClpSolverInterface> > solvers;
 
   /** set of previously found solutions */
@@ -55,8 +55,14 @@ public:
   /** parameters used to control VPC functions */
   VPCParametersNamespace::VPCParameters params;
 
-  /** name of the MILP solver to use - either CBC or Gurobi */
+  /** name of the MILP solver to use - either CBC, Gurobi, or Symphony */
   std::string mipSolver;
+
+  /// warm start from previous solve if available
+  std::shared_ptr<CoinWarmStart> ws;
+
+  /** solvers used to generate warm start */
+  std::shared_ptr<OsiClpSolverInterface> warmSolver;
 
   /** Default constructor */
   PdcSolverInterface();
@@ -68,7 +74,8 @@ public:
   RunData solve(const OsiClpSolverInterface& instanceSolver, const std::string vpcGenerator,
                 double primalBound=std::numeric_limits<double>::max(),
                 bool tighten_disjunction=false, bool tighten_matrix_perturbation=false,
-                bool tighten_infeasible_to_feasible_term=false, bool tighten_feasible_to_infeasible_basis=false);
+                bool tighten_infeasible_to_feasible_term=false, bool tighten_feasible_to_infeasible_basis=false,
+                bool dual_warm_start=false);
 
   /** Creates cuts from a PRLP relaxation of the disjunctive terms found from
    *  partially solving the given problem. Simplified from Strengthening's

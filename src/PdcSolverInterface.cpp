@@ -48,7 +48,8 @@ PdcSolverInterface::PdcSolverInterface(VPCParametersNamespace::VPCParameters par
 RunData PdcSolverInterface::solve(
     const OsiClpSolverInterface& instanceSolver, const std::string vpcGenerator,
     double primalBound, bool tighten_disjunction, bool tighten_matrix_perturbation,
-    bool tighten_infeasible_to_feasible_term, bool tighten_feasible_to_infeasible_basis){
+    bool tighten_infeasible_to_feasible_term, bool tighten_feasible_to_infeasible_basis,
+    bool dual_warm_start){
 
   verify(solvers.size() == 0 || (solvers[0]->getNumCols() == instanceSolver.getNumCols() &&
                                  solvers[0]->getNumRows() == instanceSolver.getNumRows()),
@@ -116,8 +117,21 @@ RunData PdcSolverInterface::solve(
           disjCuts.get(), info, primalBound);
     }
   } else if (mipSolver == "SYMPHONY") {
-    doBranchAndBoundWithSymphony(params, params.get(VPCParametersNamespace::BB_STRATEGY),
-                                 si, info, disjCuts.get(), primalBound);
+    if (dual_warm_start) {
+      // provide warm-start here
+      std::shared_ptr<CoinWarmStart> curr_ws = doBranchAndBoundWithSymphony(
+          params, params.get(VPCParametersNamespace::BB_STRATEGY),
+          si, info, disjCuts.get(), ws.get(), warmSolver.get());
+      // save it for next time if this is the first solve
+      if (!ws.get()){
+        ws = curr_ws;
+        warmSolver = std::make_shared<OsiClpSolverInterface>(*dynamic_cast<OsiClpSolverInterface*>(si->clone()));
+      }
+    } else {
+      std::shared_ptr<CoinWarmStart> curr_ws = doBranchAndBoundWithSymphony(
+          params, params.get(VPCParametersNamespace::BB_STRATEGY),
+          si, info, disjCuts.get());
+    }
   } else {
     if (vpcGenerator == "None") {
       doBranchAndBoundWithGurobi(params, params.get(VPCParametersNamespace::BB_STRATEGY),

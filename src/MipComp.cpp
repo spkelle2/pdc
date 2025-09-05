@@ -47,6 +47,10 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
   std::vector<fs::path> inputFiles;
   std::vector<fs::path> primalBoundFiles;
 
+  // flags for objective and bound change
+  bool objectiveChanged;
+  bool boundChanged;
+
   // validate file paths
   fs::path inputFolder(inputFolderStr);
   verify(fs::is_directory(inputFolder), "The path " + inputFolder.string() + " must exist and be a folder.", false);
@@ -77,6 +81,14 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
     instanceSolvers.push_back(instanceSolver);
     std::string instance_name = inputPath.stem().replace_extension("").string();
     instanceNames.push_back(instance_name);
+
+    // check if objective or bound changed
+    if (!sameObjective(&instanceSolvers[0], &instanceSolver)) {
+      objectiveChanged = true;
+    }
+    if (!sameBounds(&instanceSolvers[0], &instanceSolver)) {
+      boundChanged = true;
+    }
 
     // capture index since alphabetical order doesn't match instance number for long series
     std::regex number_at_end_pattern(R"((\d+)$)");
@@ -119,14 +131,16 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
         BB_Strategy_Options::user_cuts, // to allow VPCs and data collection
         mipSolver == "GUROBI" ? BB_Strategy_Options::presolve_on : BB_Strategy_Options::presolve_off,
         BB_Strategy_Options::heuristics_off,
-        BB_Strategy_Options::use_best_bound
+        BB_Strategy_Options::use_best_bound,
+        mipSolver == "SYMPHONY" && boundChanged ? BB_Strategy_Options::all_cuts_off : BB_Strategy_Options::all_cuts_on
     }));
   } else {
     // set parameters to use heuristics and ignore bound files
     params.set(BB_STRATEGY, get_bb_option_value({
         BB_Strategy_Options::user_cuts, // to allow VPCs and data collection
         mipSolver == "GUROBI" ? BB_Strategy_Options::presolve_on : BB_Strategy_Options::presolve_off,
-        BB_Strategy_Options::heuristics_on
+        BB_Strategy_Options::heuristics_on,
+        mipSolver == "SYMPHONY" && boundChanged ? BB_Strategy_Options::all_cuts_off : BB_Strategy_Options::all_cuts_on
     }));
   }
 
@@ -154,6 +168,8 @@ void MipComp::solveSeries() {
     // solve the instance with the given generator
     double primalBound = primalBounds.size() > 0 ? primalBounds[i] :
         std::numeric_limits<double>::max();
+    // symphony expects this .sol file to exist, others will ignore
+    seriesSolver.params.set(VPCParametersNamespace::SOLFILE, instanceNames[i] + ".sol");
     RunData data;
     try {
        data = seriesSolver.solve(
