@@ -36,12 +36,13 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
                  std::string vpcGenerator, int terms, std::string mipSolver,
                  bool providePrimalBound, int seedIndex, bool tighten_disjunction,
                  bool tighten_matrix_perturbation, bool tighten_infeasible_to_feasible_term,
-                 bool tighten_feasible_to_infeasible_basis) :
+                 bool tighten_feasible_to_infeasible_basis, bool disjunctive_warm_start) :
   csvPath(csvPathStr), vpcGenerator(vpcGenerator), mipSolver(mipSolver),
   seedIndex(seedIndex), tighten_disjunction(tighten_disjunction),
   tighten_matrix_perturbation(tighten_matrix_perturbation),
   tighten_infeasible_to_feasible_term(tighten_infeasible_to_feasible_term),
-  tighten_feasible_to_infeasible_basis(tighten_feasible_to_infeasible_basis) {
+  tighten_feasible_to_infeasible_basis(tighten_feasible_to_infeasible_basis),
+  disjunctive_warm_start(disjunctive_warm_start){
 
   // containers for sorting input files and bounds
   std::vector<fs::path> inputFiles;
@@ -81,6 +82,9 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
     instanceSolvers.push_back(instanceSolver);
     std::string instance_name = inputPath.stem().replace_extension("").string();
     instanceNames.push_back(instance_name);
+    ghc::filesystem::path solPath = inputPath;
+    solPath.replace_extension(".sol");
+    solutionFiles[instance_name] = solPath.string();
 
     // check if objective or bound changed
     if (!sameObjective(&instanceSolvers[0], &instanceSolver)) {
@@ -163,19 +167,20 @@ void MipComp::solveSeries() {
     std::cout << "[START] " << std::put_time(std::localtime(&startTime), "%FT%T") << std::endl;
 
     // first iteration should always use New if it makes VPCs - otherwise use requested generator
-    std::string genType = i < 1 && vpcGenerator != "None" ? "New" : vpcGenerator;
+    std::string genType = i < 1 && vpcGenerator != "None" && vpcGenerator != "DisjWarmStart"
+        ? "New" : vpcGenerator;
 
     // solve the instance with the given generator
     double primalBound = primalBounds.size() > 0 ? primalBounds[i] :
         std::numeric_limits<double>::max();
     // symphony expects this .sol file to exist, others will ignore
-    seriesSolver.params.set(VPCParametersNamespace::SOLFILE, instanceNames[i] + ".sol");
+    seriesSolver.params.set(VPCParametersNamespace::SOLFILE, solutionFiles[instanceNames[i]]);
     RunData data;
     try {
        data = seriesSolver.solve(
            instanceSolver, genType, primalBound, tighten_disjunction,
            tighten_matrix_perturbation, tighten_infeasible_to_feasible_term,
-           tighten_feasible_to_infeasible_basis);
+           tighten_feasible_to_infeasible_basis, disjunctive_warm_start);
     } catch (const std::runtime_error& e) {
 
       // skip this experiment if we get an error other than dot product difference
@@ -187,7 +192,7 @@ void MipComp::solveSeries() {
           std::cerr << errorMessage << std::endl;
         }
         // breaking if we expected VPCs in the first iteration and did not get them
-        if (vpcGenerator != "None" and i == 0 and data.numCuts == 0){
+        if (vpcGenerator != "None" and vpcGenerator != "DisjWarmStart" and i == 0 and data.numCuts == 0){
           std::cerr << "No vpcs were made from a new disjunction in first iteration. Stopping series." << std::endl;
           break;
         } else {
@@ -201,14 +206,14 @@ void MipComp::solveSeries() {
     // Need to generate cuts so we have a disjunction/multipliers to reuse and an ideal bound to compare
     data.instanceIndex = instanceIndices[i];
     data.seedIndex = seedIndex;
-    if (vpcGenerator != "None" and i == 0 and data.numCuts == 0){
+    if (vpcGenerator != "None" and vpcGenerator != "DisjWarmStart" and i == 0 and data.numCuts == 0){
       std::cerr << "No vpcs were made from a new disjunction in first iteration. Stopping series." << std::endl;
       break;
     }
 
     // if generating vpcs didn't work, just skip recording this instance
     // since bound comparisons will be off or incomplete
-    if (data.numCuts or vpcGenerator == "None"){
+    if (data.numCuts or vpcGenerator == "None" or vpcGenerator == "DisjWarmStart"){
       // save the data collected by the event handler
       data.writeData(csvPath);
       runData.push_back(data);

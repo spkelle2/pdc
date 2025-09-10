@@ -78,7 +78,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                     continue
 
                 for terms in [4, 64]:
-                    for generator in ["None", "New", "Farkas", "All", "Disjunction", "NoDisjunction"]:  #  "Matrix", "Term", "Basis", "NoTerm", "NoMatrix", "NoBasis"]:
+                    for generator in ["None", "New", "NoDisjunction", "DisjWarmStart"]:  #  "Matrix", "Term", "Basis", "NoTerm", "NoMatrix", "NoBasis"]:
 
                         # increment the total number of jobs
                         total_jobs += 1
@@ -113,7 +113,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                             f'MIP_SOLVER={mip_solver},PROVIDE_PRIMAL_BOUND={int(provide_primal_bound)},' \
                             f'SEED_INDEX={seed_index},TIGHTEN_DISJUNCTION={td},' \
                             f'TIGHTEN_MATRIX_PERTURBATION={tm},TIGHTEN_INFEASIBLE_TERM={tt},' \
-                            f'TIGHTEN_INFEASIBLE_BASIS={tb}'
+                            f'TIGHTEN_INFEASIBLE_BASIS={tb},DISJUNCTIVE_WARM_START={generator == "WarmStart"}'
                         if machine == "coral":
                             # submit the job to the cluster
                             print(f"submitting to queue {queue}")

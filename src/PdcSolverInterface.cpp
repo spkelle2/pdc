@@ -49,11 +49,14 @@ RunData PdcSolverInterface::solve(
     const OsiClpSolverInterface& instanceSolver, const std::string vpcGenerator,
     double primalBound, bool tighten_disjunction, bool tighten_matrix_perturbation,
     bool tighten_infeasible_to_feasible_term, bool tighten_feasible_to_infeasible_basis,
-    bool dual_warm_start){
+    bool disjunctive_warm_start){
 
   verify(solvers.size() == 0 || (solvers[0]->getNumCols() == instanceSolver.getNumCols() &&
                                  solvers[0]->getNumRows() == instanceSolver.getNumRows()),
          "PdcSolverInterface::solve: problem dimension must stay fixed");
+
+  verify(!disjunctive_warm_start || mipSolver == "SYMPHONY",
+         "Disjunctive warm starts only supported for SYMPHONY");
 
   // create a container to track run stats
   RunData data;
@@ -89,7 +92,8 @@ RunData PdcSolverInterface::solve(
                     -1 * params.get(VPCParametersNamespace::CUTLIMIT) * fractional_int_vars;
   } else if (vpcGenerator == "Old") {
     disjCuts = createVpcsFromOldDisjunctionPRLP(si, data, tighten_disjunction);
-  } else if (vpcGenerator == "None") {
+  } else if (vpcGenerator == "None" || vpcGenerator == "DisjWarmStart") {
+    // todo fix this for DisjWarmStart later
     data.disjunctiveDualBound = si->getObjValue();
   } else {
     // assume we are using the Farkas multipliers
@@ -117,7 +121,7 @@ RunData PdcSolverInterface::solve(
           disjCuts.get(), info, primalBound);
     }
   } else if (mipSolver == "SYMPHONY") {
-    if (dual_warm_start) {
+    if (disjunctive_warm_start) {
       // provide warm-start here
       std::shared_ptr<CoinWarmStart> curr_ws = doBranchAndBoundWithSymphony(
           params, params.get(VPCParametersNamespace::BB_STRATEGY),

@@ -45,6 +45,8 @@ public:
   /** indices of each solve MIP instance */
   std::vector< int > instanceIndices;
 
+  std::map<std::string, std::string> solutionFiles;
+
   /** the corresponding optimal objective value for each instance in instanceSolvers */
   std::vector< double > primalBounds;
 
@@ -72,12 +74,15 @@ public:
   /** whether to tighten parametric disjunctive cuts for feasible to infeasible bases */
   bool tighten_feasible_to_infeasible_basis;
 
+  /** whether to use disjunctive warm-starts if available */
+  bool disjunctive_warm_start;
+
   /** Constructor. Initializes attributes based on provided file. */
   MipComp(std::string inputFolderStr, std::string csvPathStr, double maxRunTime,
           std::string vpcGenerator, int terms, std::string mipSolver,
           bool providePrimalBound, int seedIndex, bool tighten_disjunction=false,
           bool tighten_matrix_perturbation=false, bool tighten_infeasible_to_feasible_term=false,
-          bool tighten_feasible_to_infeasible_basis=false);
+          bool tighten_feasible_to_infeasible_basis=false, bool disjunctive_warm_start=false);
 
   /** Solve series of MIP models provided at construction. */
   void solveSeries();

@@ -75,7 +75,7 @@ public:
                 double primalBound=std::numeric_limits<double>::max(),
                 bool tighten_disjunction=false, bool tighten_matrix_perturbation=false,
                 bool tighten_infeasible_to_feasible_term=false, bool tighten_feasible_to_infeasible_basis=false,
-                bool dual_warm_start=false);
+                bool disjunctive_warm_start=false);
 
   /** Creates cuts from a PRLP relaxation of the disjunctive terms found from
    *  partially solving the given problem. Simplified from Strengthening's
