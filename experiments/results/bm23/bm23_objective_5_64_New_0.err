@@ -1,2 +1,13 @@
-/var/spool/torque/mom_priv/jobs/1900178.polyp1.ie.lehigh.edu.SC: line 1: cd: /home/sek519/warm_starting/pdc/experiments: No such file or directory
-/var/spool/torque/mom_priv/jobs/1900178.polyp1.ie.lehigh.edu.SC: line 4: ../Release/pdc: No such file or directory
+*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 15 was found prior while getting disjunction.
+*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 21 was found prior while getting disjunction.
+*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 22 was found prior while getting disjunction.
+*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 28 was found prior while getting disjunction.
+*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 26 was found prior while getting disjunction.
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 31 was found prior while getting disjunction.
+*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 13 was found prior while getting disjunction.
+*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 31 was found prior while getting disjunction.
+*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 29 was found prior while getting disjunction.
+*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 20 was found prior while getting disjunction.
+*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 29 was found prior while getting disjunction.
