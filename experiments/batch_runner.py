@@ -156,4 +156,4 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
 if __name__ == '__main__':
     # repeats = 1 if len(sys.argv) < 3 else int(sys.argv[2])
     max_time = 3600 if len(sys.argv) < 3 else int(sys.argv[2])
-    run_batch(sys.argv[1], max_time=max_time, mip_solver="GUROBI", machine="coral")
+    run_batch(sys.argv[1], max_time=max_time, mip_solver="SYMPHONY", machine="coral")
