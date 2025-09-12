@@ -207,6 +207,9 @@ APPLLIB = -lm -lz -lbz2 -lreadline
 ifeq ($(USER),akazachkov)
 	APPLLIB += -L${CONDA_LIB}
 endif
+ifeq ($(USER),sek519)
+  APPLLIB += -lncurses
+endif
 
 # Linker
 CFLAGS = -Wall -MMD -MP
