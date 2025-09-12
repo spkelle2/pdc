@@ -41,7 +41,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
     assert machine in ["coral", "local", "sol"], "machine must be coral, local, or sol"
 
     # make sure we have a valid mip solver
-    assert mip_solver in ["CBC", "GUROBI"], "mip_solver must be either CBC or GUROBI"
+    assert mip_solver in ["CBC", "GUROBI", "SYMPHONY"], "mip_solver must be either CBC, GUROBI, or SYMPHONY"
 
     # make sure repeats is positive integer
     assert repeats > 0, "repeats must be a positive integer"
