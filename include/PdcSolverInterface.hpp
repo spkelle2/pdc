@@ -11,6 +11,7 @@
 // vpc modules
 #include "PartialBBDisjunction.hpp" // PartialBBDisjunction
 #include "TimeStats.hpp" // Timer
+#include "SymphonyHelper.hpp" // Symphony solve functions
 
 // project modules
 #include "RunData.hpp" // RunData
@@ -58,11 +59,8 @@ public:
   /** name of the MILP solver to use - either CBC, Gurobi, or Symphony */
   std::string mipSolver;
 
-  /// warm start from previous solve if available
-  std::shared_ptr<CoinWarmStart> ws;
-
-  /** solvers used to generate warm start */
-  std::shared_ptr<OsiClpSolverInterface> warmSolver;
+  /** parametric solver, if using symphony */
+  std::shared_ptr<OsiSymSolverInterface> parametric_model;
 
   /** Default constructor */
   PdcSolverInterface();

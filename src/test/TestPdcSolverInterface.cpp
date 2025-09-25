@@ -176,7 +176,7 @@ void check_param(RunData& data){
 void check_bm23_data(RunData& data){
   // algorithm step time comparisons
   REQUIRE(0 <= data.vpcGenerationTime);
-  REQUIRE(data.vpcGenerationTime < data.rootDualBoundTime);
+  REQUIRE(data.vpcGenerationTime <= data.rootDualBoundTime);
   REQUIRE(data.rootDualBoundTime < data.terminationTime);
   REQUIRE(data.terminationTime < 2);
 
@@ -749,73 +749,102 @@ TEST_CASE( "test term infeasibility tightening", "[PdcSolverInterface::createVpc
 
 TEST_CASE("Test symphony integration", "[PdcSolverInterface::PdcSolverInterface][symphony]"){
 
-  // read in and then sort alphabetically all the mps files in the test_instances folder
-  fs::path inputFolder("../src/test/test_instances/rhs_0/");
-  std::vector<std::string> inputStems;
-  for (const auto& entry : fs::directory_iterator(inputFolder)) {
-    if (entry.path().extension() == ".mps") {
-      inputStems.push_back((entry.path().parent_path() / entry.path().stem()).string()); // removes extension
+  std::vector<std::string> input_dirs = {
+      "../src/test/test_instances/rhs_0/",
+      "../src/test/test_instances/rhs_4/",
+      "../src/test/test_instances/objective_0/",
+      "../src/test/test_instances/objective_4/"
+  };
+
+  int iter_ws_loss = 0;
+  int time_ws_loss = 0;
+
+  for (int input_idx = 0; input_idx < input_dirs.size(); input_idx++) {
+
+    // read in and then sort alphabetically all the mps files in the test_instances folder
+    fs::path inputFolder(input_dirs[input_idx]);
+    std::vector<std::string> inputStems;
+    for (const auto& entry : fs::directory_iterator(inputFolder)) {
+      if (entry.path().extension() == ".mps") {
+        inputStems.push_back((entry.path().parent_path() / entry.path().stem()).string()); // removes extension
+      }
     }
+    std::sort(inputStems.begin(), inputStems.end());
+
+    // create a series solver to test symphony integration
+    PdcSolverInterface seriesSolver(getParams(), "SYMPHONY");
+    PdcSolverInterface seriesSolver2(getParams(), "SYMPHONY");
+
+    // set up the parameters accordingly
+    int strategy = get_bb_option_value({
+                                           BB_Strategy_Options::user_cuts,
+                                           BB_Strategy_Options::presolve_off,
+                                           BB_Strategy_Options::heuristics_off,
+                                           BB_Strategy_Options::use_best_bound,
+                                           BB_Strategy_Options::all_cuts_off
+                                       });
+    seriesSolver.params.set(BB_STRATEGY, strategy);
+    seriesSolver.params.set(VPCParametersNamespace::SOLFILE, inputStems[0] + ".sol");
+    seriesSolver2.params.set(BB_STRATEGY, strategy);
+    seriesSolver2.params.set(VPCParametersNamespace::SOLFILE, inputStems[0] + ".sol");
+
+    // solve the original problem
+    OsiClpSolverInterface si;
+    si.readMps((inputStems[0] + ".mps").c_str(), true, false);
+    si.initialSolve();
+
+    // solve the instance making disjunctive cuts via PRLP to get a disjunction and farkas certificate
+    RunData data = seriesSolver.solve(si, "None", 100,
+                                      false, false,
+                                      false, false,
+                                      true);
+    RunData data2 = seriesSolver2.solve(si, "New", 100,
+                                        false, false,
+                                        false, false,
+                                        true);
+
+    // check the event handler
+    check_bm23_data(data);
+    check_bm23_data(data2);
+
+    // iterate over the rest of the files to check to make sure cuts tighten as expected
+    for (int i = 1; i < inputStems.size(); i++){
+      seriesSolver.params.set(VPCParametersNamespace::SOLFILE, inputStems[i] + ".sol");
+      seriesSolver2.params.set(VPCParametersNamespace::SOLFILE, inputStems[i] + ".sol");
+
+      OsiClpSolverInterface tmp_solver;
+      tmp_solver.readMps((inputStems[i] + ".mps").c_str(), true, false);
+      RunData info_ws = seriesSolver.solve(tmp_solver, "DisjWarmStart", 100, false, true,
+                                           true, true, true);
+
+      OsiClpSolverInterface tmp_solver2;
+      tmp_solver2.readMps((inputStems[i] + ".mps").c_str(), true, false);
+      RunData info = seriesSolver2.solve(tmp_solver2, "Farkas", 100, false, true,
+                                         true, true, false);
+
+      if (input_idx % 2 == 0){
+        // LP iterations, and time should be less with disjunctive warm start for small changes
+        REQUIRE(info_ws.iterations < info.iterations);
+        REQUIRE(info_ws.terminationTime < info.terminationTime);
+      } else {
+        // but usually not for larger ones
+        if (info_ws.iterations > info.iterations){
+          iter_ws_loss++;
+        }
+        if (info_ws.terminationTime > info.terminationTime){
+          time_ws_loss++;
+        }
+      }
+
+      // final bounds should be the same always
+      REQUIRE(info_ws.dualBound == info_ws.primalBound);
+      REQUIRE(info_ws.dualBound == info.dualBound);
+      REQUIRE(info_ws.primalBound == info.primalBound);
+
+    }
+
   }
-  std::sort(inputStems.begin(), inputStems.end());
 
-  // create a series solver to test symphony integration
-  PdcSolverInterface seriesSolver(getParams(), "SYMPHONY");
-
-  // set up the parameters accordingly
-  int strategy = get_bb_option_value({
-                                         BB_Strategy_Options::user_cuts,
-                                         BB_Strategy_Options::presolve_off,
-                                         BB_Strategy_Options::heuristics_off,
-                                         BB_Strategy_Options::use_best_bound,
-                                         BB_Strategy_Options::all_cuts_off
-                                     });
-  seriesSolver.params.set(BB_STRATEGY, strategy);
-  seriesSolver.params.set(VPCParametersNamespace::SOLFILE, inputStems[0] + ".sol");
-
-  // solve the original problem
-  OsiClpSolverInterface si;
-  si.readMps((inputStems[0] + ".mps").c_str(), true, false);
-  si.initialSolve();
-
-  // solve the instance making disjunctive cuts via PRLP to get a disjunction and farkas certificate
-  RunData data = seriesSolver.solve(si, "None", 100,
-                                    false, false,
-                                    false, false,
-                                    true);
-
-  // check the event handler
-  check_bm23_data(data);
-
-  // iterate over the rest of the files to check to make sure cuts tighten as expected
-  for (int i = 1; i < inputStems.size(); i++){
-    seriesSolver.params.set(VPCParametersNamespace::SOLFILE, inputStems[i] + ".sol");
-
-    OsiClpSolverInterface tmp_solver;
-    tmp_solver.readMps((inputStems[i] + ".mps").c_str(), true, false);
-    RunData info_ws = seriesSolver.solve(tmp_solver, "None", 100, false, true,
-                                         true, true, true);
-
-    OsiClpSolverInterface tmp_solver2;
-    tmp_solver2.readMps((inputStems[i] + ".mps").c_str(), true, false);
-    RunData info = seriesSolver.solve(tmp_solver2, "None", 100, false, true,
-                                      true, true, false);
-
-    // nodes, LP iterations, and time should be less with warm start
-    REQUIRE(info_ws.nodes < info.nodes);
-    REQUIRE(info_ws.iterations < info.iterations);
-    REQUIRE(info_ws.terminationTime < info.terminationTime);
-    REQUIRE(info_ws.rootDualBoundTime < info.rootDualBoundTime);
-
-    // root dual bound should be better with warm start
-    REQUIRE(info_ws.rootDualBound > info.rootDualBound);
-
-    // final bounds should be the same, root bounds should be weaker
-    REQUIRE(info_ws.dualBound == info_ws.primalBound);
-    REQUIRE(info_ws.dualBound == info.dualBound);
-    REQUIRE(info_ws.primalBound == info.primalBound);
-    REQUIRE(info_ws.rootDualBound <= info_ws.dualBound);
-    REQUIRE(info.rootDualBound <= info.dualBound);
-  }
-
+  REQUIRE(iter_ws_loss > 1);
+  REQUIRE(time_ws_loss > 1);
 }

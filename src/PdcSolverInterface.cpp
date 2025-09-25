@@ -24,7 +24,6 @@
 
 // project modules
 #include "RunData.hpp" // RunData
-#include "SymphonyHelper.hpp" // Symphony solve functions
 #include "PdcSolverInterface.hpp"
 #include "PdcUtility.hpp" // findNonZero
 
@@ -41,6 +40,8 @@ PdcSolverInterface::PdcSolverInterface(VPCParametersNamespace::VPCParameters par
 
   verify(mipSolver == "CBC" || mipSolver == "GUROBI" || mipSolver == "SYMPHONY",
          "mipSolver must be CBC, GUROBI, or SYMPHONY");
+
+  std::shared_ptr<OsiSymSolverInterface> parametric_model = std::shared_ptr<OsiSymSolverInterface>();
 
 } /* constructor */
 
@@ -121,20 +122,15 @@ RunData PdcSolverInterface::solve(
           disjCuts.get(), info, primalBound);
     }
   } else if (mipSolver == "SYMPHONY") {
-    if (disjunctive_warm_start) {
-      // provide warm-start here
-      std::shared_ptr<CoinWarmStart> curr_ws = doBranchAndBoundWithSymphony(
-          params, params.get(VPCParametersNamespace::BB_STRATEGY),
-          si, info, disjCuts.get(), ws.get(), warmSolver.get());
-      // save it for next time if this is the first solve
-      if (!ws.get()){
-        ws = curr_ws;
-        warmSolver = std::make_shared<OsiClpSolverInterface>(*dynamic_cast<OsiClpSolverInterface*>(si->clone()));
-      }
+    if (disjunctive_warm_start){
+      // use the parametric model with its warm start to solve
+      doBranchAndBoundWithSymphony(params, params.get(VPCParametersNamespace::BB_STRATEGY),
+                                   si, info, disjCuts.get(), parametric_model);
     } else {
-      std::shared_ptr<CoinWarmStart> curr_ws = doBranchAndBoundWithSymphony(
-          params, params.get(VPCParametersNamespace::BB_STRATEGY),
-          si, info, disjCuts.get());
+      // otherwise just give a blank model we'll throw away
+      std::shared_ptr<OsiSymSolverInterface> dummy_model = std::shared_ptr<OsiSymSolverInterface>();
+      doBranchAndBoundWithSymphony(params, params.get(VPCParametersNamespace::BB_STRATEGY),
+                                   si, info, disjCuts.get(), dummy_model);
     }
   } else {
     if (vpcGenerator == "None") {
@@ -163,7 +159,8 @@ RunData PdcSolverInterface::solve(
     si->resolve();
   }
   data.lpBoundPostVpc = si->getObjValue();
-  data.rootDualBound = info.last_cut_pass > 1e99 ? si->getObjValue() : info.last_cut_pass;
+  data.rootDualBound = info.last_cut_pass > 1e99 || vpcGenerator == "DisjWarmStart" ?
+      si->getObjValue() : info.last_cut_pass;
   data.dualBound = info.bound;
   data.primalBound = min(info.obj, primalBound);
 
