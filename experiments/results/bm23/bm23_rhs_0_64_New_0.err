@@ -1,10 +1,1 @@
-*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 33 was found prior while getting disjunction.
-*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 30 was found prior while getting disjunction.
-*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 33 was found prior while getting disjunction.
-*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 31 was found prior while getting disjunction.
-*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 30 was found prior while getting disjunction.
-*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 33 was found prior while getting disjunction.
-*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 34 was found prior while getting disjunction.
-*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 30 was found prior while getting disjunction.
-*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 34 was found prior while getting disjunction.
-*** WARNING (version #81e4a30): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 30 was found prior while getting disjunction.
+*** WARNING (version #7ef97f9): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 31 was found prior while getting disjunction.
