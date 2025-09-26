@@ -1,5 +1,5 @@
 # Solution for model BM23_pre_copy
-# Objective value = 34
+# Objective value = 31
 C101 0
 C102 0
 C103 1

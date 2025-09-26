@@ -530,26 +530,26 @@ COLUMNS
     C127      R120      1
     MARKER    'MARKER'                 'INTEND'
 RHS
-    RHS1      R101      81
-    RHS1      R102      -27
-    RHS1      R103      -24
-    RHS1      R104      26
-    RHS1      R105      34
-    RHS1      R106      13
-    RHS1      R107      -1
-    RHS1      R108      15
-    RHS1      R109      20
-    RHS1      R110      1
-    RHS1      R111      15
-    RHS1      R112      -21
-    RHS1      R113      -4
-    RHS1      R114      10
-    RHS1      R115      38
-    RHS1      R116      -20
-    RHS1      R117      41
-    RHS1      R118      -8
-    RHS1      R119      -4
-    RHS1      R120      24
+    RHS1      R101      49
+    RHS1      R102      -5
+    RHS1      R103      -12
+    RHS1      R104      19
+    RHS1      R105      18
+    RHS1      R106      41
+    RHS1      R107      4
+    RHS1      R108      7
+    RHS1      R109      7
+    RHS1      R110      24
+    RHS1      R111      -4
+    RHS1      R112      -16
+    RHS1      R113      8
+    RHS1      R114      -1
+    RHS1      R115      43
+    RHS1      R116      -8
+    RHS1      R117      27
+    RHS1      R118      1
+    RHS1      R119      -28
+    RHS1      R120      -14
 BOUNDS
  BV BND1      C101    
  BV BND1      C102    

@@ -1,6 +1,6 @@
 # Solution for model BM23_pre_copy
-# Objective value = 59
-C101 0
+# Objective value = 72
+C101 1
 C102 1
 C103 1
 C104 1
@@ -9,21 +9,21 @@ C106 0
 C107 1
 C108 0
 C109 1
-C110 0
-C111 1
-C112 1
-C113 1
+C110 1
+C111 0
+C112 0
+C113 0
 C114 0
 C115 1
-C116 0
+C116 1
 C117 1
-C118 0
-C119 1
+C118 1
+C119 0
 C120 1
 C121 0
-C122 0
+C122 1
 C123 0
 C124 0
 C125 0
 C126 0
-C127 0
+C127 1
