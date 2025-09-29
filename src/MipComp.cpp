@@ -119,6 +119,7 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
   
   // set parameters
   VPCParameters params;
+  params.set(VPCParametersNamespace::CUTLIMIT, -100); // how many cuts to make
   params.set(RANDOM_SEED, randomNum); // how many active leaves in the disjunction
   params.set(DISJ_TERMS, terms); // how many active leaves in the disjunction
   params.set(TIMELIMIT, maxRunTime); // max time for vpc generation
