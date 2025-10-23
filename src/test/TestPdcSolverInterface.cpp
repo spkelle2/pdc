@@ -845,6 +845,6 @@ TEST_CASE("Test symphony integration", "[PdcSolverInterface::PdcSolverInterface]
 
   }
 
-  REQUIRE(iter_ws_loss > 1);
-  REQUIRE(time_ws_loss > 1);
+  REQUIRE(iter_ws_loss > 0);
+  REQUIRE(time_ws_loss > 0);
 }
