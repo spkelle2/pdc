@@ -94,7 +94,6 @@ RunData PdcSolverInterface::solve(
   } else if (vpcGenerator == "Old") {
     disjCuts = createVpcsFromOldDisjunctionPRLP(si, data, tighten_disjunction);
   } else if (vpcGenerator == "None" || vpcGenerator == "DisjWarmStart") {
-    // todo fix this for DisjWarmStart later
     data.disjunctiveDualBound = si->getObjValue();
   } else {
     // assume we are using the Farkas multipliers
@@ -159,8 +158,10 @@ RunData PdcSolverInterface::solve(
     si->resolve();
   }
   data.lpBoundPostVpc = si->getObjValue();
-  data.rootDualBound = info.last_cut_pass > 1e99 || vpcGenerator == "DisjWarmStart" ?
-      si->getObjValue() : info.last_cut_pass;
+  data.rootDualBound = info.last_cut_pass > 1e99 ? si->getObjValue() : info.last_cut_pass;
+  if (vpcGenerator == "DisjWarmStart"){
+    data.disjunctiveDualBound = data.rootDualBound;  // update if available
+  }
   data.dualBound = info.bound;
   data.primalBound = min(info.obj, primalBound);
 
@@ -173,6 +174,8 @@ RunData PdcSolverInterface::solve(
   // get remaining performance stats
   data.nodes = info.nodes;
   data.iterations = info.iters;
+  data.rootIterations = info.root_iters;
+  data.rootNodes = info.root_passes;
 
   // get remaining misc statistics
   data.maxTime = params.get(VPCParametersNamespace::TIMELIMIT);
