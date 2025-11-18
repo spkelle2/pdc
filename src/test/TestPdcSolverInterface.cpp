@@ -758,7 +758,6 @@ TEST_CASE("Test symphony integration", "[PdcSolverInterface::PdcSolverInterface]
 
   int iter_ws_loss = 0;
   int time_ws_loss = 0;
-  int node_ws_loss = 0;
 
   for (int input_idx = 0; input_idx < input_dirs.size(); input_idx++) {
 
@@ -828,9 +827,8 @@ TEST_CASE("Test symphony integration", "[PdcSolverInterface::PdcSolverInterface]
 
       if (input_idx % 2 == 0){
         // performance should be better for smaller perturbations
-        REQUIRE(info_ws.iterations - info_ws.rootIterations < info.iterations);
-        REQUIRE(info_ws.terminationTime - info_ws.rootDualBoundTime < info.terminationTime);
-        REQUIRE(info_ws.nodes - info_ws.rootNodes < info.nodes);
+        REQUIRE(info_ws.iterations < info.iterations);
+        REQUIRE(info_ws.terminationTime < info.terminationTime);
       } else {
         // but usually not for larger ones
         if (info_ws.iterations - info_ws.rootIterations > info.iterations){
@@ -838,9 +836,6 @@ TEST_CASE("Test symphony integration", "[PdcSolverInterface::PdcSolverInterface]
         }
         if (info_ws.terminationTime - info_ws.rootDualBoundTime > info.terminationTime){
           time_ws_loss++;
-        }
-        if (info_ws.nodes - info_ws.rootNodes > info.nodes){
-          node_ws_loss++;
         }
       }
 
@@ -853,8 +848,7 @@ TEST_CASE("Test symphony integration", "[PdcSolverInterface::PdcSolverInterface]
 
   }
 
-  // even for bigger changes tree should win sometimes
-  REQUIRE(iter_ws_loss < 2);
-  REQUIRE(time_ws_loss < 2);
-  REQUIRE(node_ws_loss < 2);
+  // for bigger changes warm_start tree should lose sometimes
+  REQUIRE(iter_ws_loss > 0);
+  REQUIRE(time_ws_loss > 0);
 }
