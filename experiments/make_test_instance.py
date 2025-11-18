@@ -144,7 +144,7 @@ def presolve_instance(base_mdl: gp.Model, instance_name: str, max_vars: int, max
             print(warn_str)
         else:
             print(warn_str, file=sys.stderr)
-        return
+        return  # returning nothing leads to skipping this instance
     else:
         return presolved_base_mdl
 
@@ -216,7 +216,7 @@ def make_instance_set(instance_file, instances_fldr: str, p: int, samples: int =
     start_time = time.time()
     max_duration = 23 * 60 * 60  # 23 hours in seconds
     max_tries = 100
-    count = {"objective": 1, "rhs": 1, "matrix": 1}
+    count = {"objective": 1, "rhs": 1, "matrix": samples}  # skip matrix perturbations
     for kind in count:
         # create a directory for each kind of perturbation of this instance
         series_fldr = os.path.join(perturbed_instance_dir, f"{kind}_{p}")

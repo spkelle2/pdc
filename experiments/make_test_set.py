@@ -36,7 +36,7 @@ def main(instances_fldr, remote: bool = False, samples=3):
         # get the memory required for this instance
         mem = int(mem_df.loc[instance_file, 'memory']) if instance_file in mem_df.index else 4
 
-        for p in [-1, 0, 1, 2, 3, 4, 5]:
+        for p in [-1, 1]:
 
             jobs_submitted += 1
             if remote:
