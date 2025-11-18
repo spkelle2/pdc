@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import subprocess
 import sys
+import time
 
 
 def main(instances_fldr, remote: bool = True, samples=3):
@@ -37,6 +38,8 @@ def main(instances_fldr, remote: bool = True, samples=3):
         mem = int(mem_df.loc[instance_file, 'memory']) if instance_file in mem_df.index else 4
 
         for p in [-1, 1]:
+
+            time.sleep(1)  # to avoid overloading the scheduler
 
             jobs_submitted += 1
             if remote:
