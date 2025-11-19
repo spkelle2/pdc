@@ -38,7 +38,10 @@ PdcSolverInterface::PdcSolverInterface(VPCParametersNamespace::VPCParameters par
                                        std::string mipSolver):
   params(params), mipSolver(mipSolver){
 
-  verify(mipSolver == "CBC" || mipSolver == "GUROBI", "mipSolver must be CBC or GUROBI");
+  verify(mipSolver == "CBC" || mipSolver == "GUROBI" || mipSolver == "SYMPHONY",
+         "mipSolver must be CBC, GUROBI, or SYMPHONY");
+
+  std::shared_ptr<OsiSymSolverInterface> parametric_model = std::shared_ptr<OsiSymSolverInterface>();
 
 } /* constructor */
 
@@ -46,11 +49,15 @@ PdcSolverInterface::PdcSolverInterface(VPCParametersNamespace::VPCParameters par
 RunData PdcSolverInterface::solve(
     const OsiClpSolverInterface& instanceSolver, const std::string vpcGenerator,
     double primalBound, bool tighten_disjunction, bool tighten_matrix_perturbation,
-    bool tighten_infeasible_to_feasible_term, bool tighten_feasible_to_infeasible_basis){
+    bool tighten_infeasible_to_feasible_term, bool tighten_feasible_to_infeasible_basis,
+    bool disjunctive_warm_start){
 
   verify(solvers.size() == 0 || (solvers[0]->getNumCols() == instanceSolver.getNumCols() &&
                                  solvers[0]->getNumRows() == instanceSolver.getNumRows()),
          "PdcSolverInterface::solve: problem dimension must stay fixed");
+
+  verify(!disjunctive_warm_start || mipSolver == "SYMPHONY",
+         "Disjunctive warm starts only supported for SYMPHONY");
 
   // create a container to track run stats
   RunData data;
@@ -86,7 +93,7 @@ RunData PdcSolverInterface::solve(
                     -1 * params.get(VPCParametersNamespace::CUTLIMIT) * fractional_int_vars;
   } else if (vpcGenerator == "Old") {
     disjCuts = createVpcsFromOldDisjunctionPRLP(si, data, tighten_disjunction);
-  } else if (vpcGenerator == "None") {
+  } else if (vpcGenerator == "None" || vpcGenerator == "DisjWarmStart") {
     data.disjunctiveDualBound = si->getObjValue();
   } else {
     // assume we are using the Farkas multipliers
@@ -112,6 +119,17 @@ RunData PdcSolverInterface::solve(
       doBranchAndBoundWithUserCutsCbc(
           params, params.get(VPCParametersNamespace::BB_STRATEGY), si,
           disjCuts.get(), info, primalBound);
+    }
+  } else if (mipSolver == "SYMPHONY") {
+    if (disjunctive_warm_start){
+      // use the parametric model with its warm start to solve
+      doBranchAndBoundWithSymphony(params, params.get(VPCParametersNamespace::BB_STRATEGY),
+                                   si, info, disjCuts.get(), parametric_model);
+    } else {
+      // otherwise just give a blank model we'll throw away
+      std::shared_ptr<OsiSymSolverInterface> dummy_model = std::shared_ptr<OsiSymSolverInterface>();
+      doBranchAndBoundWithSymphony(params, params.get(VPCParametersNamespace::BB_STRATEGY),
+                                   si, info, disjCuts.get(), dummy_model);
     }
   } else {
     if (vpcGenerator == "None") {
@@ -141,6 +159,9 @@ RunData PdcSolverInterface::solve(
   }
   data.lpBoundPostVpc = si->getObjValue();
   data.rootDualBound = info.last_cut_pass > 1e99 ? si->getObjValue() : info.last_cut_pass;
+  if (vpcGenerator == "DisjWarmStart"){
+    data.disjunctiveDualBound = data.rootDualBound;  // update if available
+  }
   data.dualBound = info.bound;
   data.primalBound = min(info.obj, primalBound);
 
@@ -153,6 +174,8 @@ RunData PdcSolverInterface::solve(
   // get remaining performance stats
   data.nodes = info.nodes;
   data.iterations = info.iters;
+  data.rootIterations = info.root_iters;
+  data.rootNodes = info.root_passes;
 
   // get remaining misc statistics
   data.maxTime = params.get(VPCParametersNamespace::TIMELIMIT);

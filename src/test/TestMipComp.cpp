@@ -80,7 +80,7 @@ TEST_CASE( "Test Simple") {
                   "([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),"
                   "([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([a-zA-Z ]+),"
                   "([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),"
-                  "([0-9\\.]+),([0-9\\.]+),([0-1]),([0-1]),([0-1]),([0-1])");
+                  "([0-9\\.]+),([0-9\\.]+),([0-1]),([0-1]),([0-1]),([0-1]),([0-9\\.]+),([0-9\\.]+)");
     std::smatch match;
 
     // the file should exist
@@ -155,6 +155,10 @@ TEST_CASE( "Test Simple") {
         REQUIRE(std::stoi(match[31].str()) == 0);
         // tighten_feasible_to_infeasible_basis
         REQUIRE(std::stoi(match[32].str()) == 0);
+        // rootIterations
+        REQUIRE(std::stoi(match[33].str()) > 0);
+        // rootNodes -- this is garbage for CBC/gurobi so just check it's positive
+        REQUIRE(std::stoi(match[34].str()) > 0);
       }
       lineIndex++;
     }

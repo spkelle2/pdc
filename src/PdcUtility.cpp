@@ -663,69 +663,6 @@ double findPrimalBound(
   return primal_bound;
 }
 
-/** check if two solvers have the same coefficient matrix, considering only rows
- * with nonzero multipliers if provided */
-bool sameCoefficientMatrix(const OsiClpSolverInterface* solver1, const OsiClpSolverInterface* solver2,
-                           const std::vector<double>* multipliers) {
-  // Check for null pointers
-  if (!solver1 || !solver2) {
-    std::cerr << "Error: One or both solver pointers are null." << std::endl;
-    return false;
-  }
-
-  // Get the row-wise constraint matrices
-  const CoinPackedMatrix* matrix1 = solver1->getMatrixByRow();
-  const CoinPackedMatrix* matrix2 = solver2->getMatrixByRow();
-
-  // Check if both matrices exist
-  if (!matrix1 || !matrix2) {
-    std::cerr << "Error: One or both solvers have no constraint matrix." << std::endl;
-    return false;
-  }
-
-  // Compare dimensions
-  if (matrix1->getNumRows() != matrix2->getNumRows() ||
-      matrix1->getNumCols() != matrix2->getNumCols()) {
-    return false;
-  }
-
-  // if we match dimensions and supplied multipliers, make sure multipliers are good too
-  // intended usage here is for the two base instances but multipliers are for each disjunctive term
-  // which should have more constraints than the base instances
-  verify(!multipliers || (matrix1->getNumRows() + matrix1->getNumCols() <= multipliers->size()),
-         "The number of multipliers should be at least the number of rows and columns in each matrix.");
-
-  // Compare individual nonzero entries
-  const int* rowStart1 = matrix1->getVectorStarts();
-  const int* rowStart2 = matrix2->getVectorStarts();
-  const int* rowLength1 = matrix1->getVectorLengths();
-  const int* rowLength2 = matrix2->getVectorLengths();
-  const int* indices1 = matrix1->getIndices();
-  const int* indices2 = matrix2->getIndices();
-  const double* elements1 = matrix1->getElements();
-  const double* elements2 = matrix2->getElements();
-
-  for (int row = 0; row < matrix1->getNumRows(); ++row) {
-
-    // skip rows that don't have an effect on parameterizing the cut
-    if (multipliers && isZero(multipliers->at(row))) {
-      continue;
-    }
-
-    if (rowLength1[row] != rowLength2[row]) {
-      return false; // Different number of nonzeros in a row
-    }
-
-    for (int i = rowStart1[row], j = rowStart2[row]; i < rowStart1[row] + rowLength1[row]; ++i, ++j) {
-      if (indices1[i] != indices2[j] || !isVal(elements1[i], elements2[j])) {
-        return false; // Different column index or coefficient value
-      }
-    }
-  }
-
-  return true; // Matrices are identical
-}
-
 /** check if a basis is feasible for a given solver */
 bool isFeasible(const OsiSolverInterface* solver, const CoinWarmStartBasis* basis) {
 

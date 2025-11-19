@@ -25,7 +25,7 @@ RM = rm -f
 BUILD_CONFIG = unit_test
 BUILD_CONFIG = release
 BUILD_CONFIG = debug
-UNIT_TEST_FILE = TestMipComp.cpp
+UNIT_TEST_FILE = TestPdcSolverInterface.cpp
 
 ## these variables should stay the same and rely on defaults ##
 REPOS_DIR=${PWD}/..
@@ -53,6 +53,7 @@ USE_CLP    = 1
 USE_EIGEN  = 1
 USE_CBC    = 1
 USE_GUROBI = 1
+USE_SYMPHONY = 1
 USE_CPLEX  = 0
 USE_CLP_SOLVER = 1
 USE_CPLEX_SOLVER = 0
@@ -161,6 +162,10 @@ ifeq ($(USE_GUROBI),1)
   GUROBI_INC="${GUROBI_DIR}/include"
   GUROBI_LIB="${GUROBI_DIR}/lib"
 endif
+ifeq ($(USE_SYMPHONY),1)
+	DEFS += -DUSE_SYMPHONY -D__OSI_CLP__ -DSENSITIVITY_ANALYSIS -DUSE_CGL_CUTS -DSIGHANDLER -DHAS_RANDOM -DHAS_SRANDOM -D__NONE__ -D__DARWIN -DSYM_COMPILE_IN_CG -DSYM_COMPILE_IN_CP -DSYM_COMPILE_IN_LP -DSYM_COMPILE_IN_TM
+	VPC_SOURCES += test/SymphonyHelper.cpp
+endif
 ifeq ($(USE_CPLEX),1)
   DEFS += -DIL_STD -DUSE_CPLEX
   SOURCES += test/CplexHelper.cpp
@@ -201,6 +206,9 @@ APPLINCLS += -I${VPC_DIR}/include -I${VPC_DIR}/include/common -I${VPC_DIR}/inclu
 APPLLIB = -lm -lz -lbz2 -lreadline
 ifeq ($(USER),akazachkov)
 	APPLLIB += -L${CONDA_LIB}
+endif
+ifeq ($(USER),sek519)
+  APPLLIB += -lncurses
 endif
 
 # Linker
@@ -249,6 +257,12 @@ ifeq ($(USE_COIN),1)
 	endif
   ifeq ($(USE_CLP),1)
     APPLLIB += -lOsiClp
+  endif
+  ifeq ($(USE_SYMPHONY),1)
+    # pick up C headers left in the old location
+		SYMPHONY_SRC_INC = $(COIN_OR)/SYMPHONY/include
+    APPLINCLS += -isystem $(SYMPHONY_SRC_INC)
+    APPLLIB += -lOsiSym -lSym
   endif
   APPLLIB += -lCgl
   APPLLIB += -lOsi
@@ -411,6 +425,7 @@ print: FORCE
 	$(info USE_CLP: ${USE_CLP})
 	$(info USE_CBC: ${USE_CBC})
 	$(info USE_GUROBI: ${USE_GUROBI})
+	$(info USE_SYMPHONY: ${USE_SYMPHONY})
 	$(info USE_CPLEX: ${USE_CPLEX})
 	$(info OUT_DIR: ${OUT_DIR})
 	$(info DEBUG_FLAG: ${DEBUG_FLAG})

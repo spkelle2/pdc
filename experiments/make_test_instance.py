@@ -144,7 +144,7 @@ def presolve_instance(base_mdl: gp.Model, instance_name: str, max_vars: int, max
             print(warn_str)
         else:
             print(warn_str, file=sys.stderr)
-        return
+        return  # returning nothing leads to skipping this instance
     else:
         return presolved_base_mdl
 
@@ -160,6 +160,7 @@ def try_solving(presolved_tmp_mdl, perturbation, p, perturbed_instance_dir, inst
                             f"{instance_name}_{count[perturbation]}")
         presolved_tmp_mdl.write(f"{stem}{extension}")
         write_objective(stem, presolved_tmp_mdl.objVal)
+        presolved_tmp_mdl.write(f"{stem}.sol")
         count[perturbation] += 1
     else:
         print(f"Warning: {instance_name} could not be solved for {perturbation} perturbation and degree {p}")
@@ -215,7 +216,7 @@ def make_instance_set(instance_file, instances_fldr: str, p: int, samples: int =
     start_time = time.time()
     max_duration = 23 * 60 * 60  # 23 hours in seconds
     max_tries = 100
-    count = {"objective": 1, "rhs": 1, "matrix": 1}
+    count = {"objective": 1, "rhs": 1, "matrix": samples}  # skip matrix perturbations
     for kind in count:
         # create a directory for each kind of perturbation of this instance
         series_fldr = os.path.join(perturbed_instance_dir, f"{kind}_{p}")
@@ -229,6 +230,7 @@ def make_instance_set(instance_file, instances_fldr: str, p: int, samples: int =
         # Copy and rename the presolved base instance as the first instance - should help with reducing tree size in VPC
         stem = os.path.join(series_fldr, f"{instance_name}_0")
         presolved_base_mdl.write(f"{stem}{extension}")
+        presolved_base_mdl.write(f"{stem}.sol")
         # save its objective value
         write_objective(stem, objective_value)
 

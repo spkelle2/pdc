@@ -1,4 +1,4 @@
-cd /home/sek519/warm_starting/Pdc/experiments
+cd /home/sek519/warm_starting/pdc/experiments
 source /home/sek519/miniconda/bin/activate
-conda activate Pdc
+conda activate pdc
 python make_test_instance.py ${INSTANCE_FILE} ${INSTANCES_FLDR} ${P} ${SAMPLES}

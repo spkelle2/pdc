@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
   // primal bound, seed index,
   // tighten disjunction, tighten matrix perturbation,
   // tighten infeasible to feasible term, tighten feasible to infeasible basis
-  assert(argc == 13);
+  assert(argc == 14);
 
   // create the test runner and solve the provided series
   std::string inputFolderStr(argv[1]);
@@ -33,7 +33,8 @@ int main(int argc, char** argv) {
                      std::string(argv[4]), std::stoi(argv[5]), mipSolver,
                      std::stoi(argv[7]), std::stoi(argv[8]),
                      std::stoi(argv[9]), std::stoi(argv[10]),
-                     std::stoi(argv[11]), std::stoi(argv[12]));
+                     std::stoi(argv[11]), std::stoi(argv[12]),
+                     std::stoi(argv[13]));
   testRunner.solveSeries();
 
 } /* main */

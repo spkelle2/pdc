@@ -41,7 +41,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
     assert machine in ["coral", "local", "sol"], "machine must be coral, local, or sol"
 
     # make sure we have a valid mip solver
-    assert mip_solver in ["CBC", "GUROBI"], "mip_solver must be either CBC or GUROBI"
+    assert mip_solver in ["CBC", "GUROBI", "SYMPHONY"], "mip_solver must be either CBC, GUROBI, or SYMPHONY"
 
     # make sure repeats is positive integer
     assert repeats > 0, "repeats must be a positive integer"
@@ -77,8 +77,8 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                 if not os.path.isdir(os.path.join(input_fldr, instance, perturbation)) or "bound" in perturbation:
                     continue
 
-                for terms in [4, 64]:
-                    for generator in ["None", "New", "Farkas", "All", "Disjunction", "NoDisjunction"]:  #  "Matrix", "Term", "Basis", "NoTerm", "NoMatrix", "NoBasis"]:
+                for terms in [4, 64, 80]:
+                    for generator in ["None", "New", "NoDisjunction", "DisjWarmStart"]:  #  "Matrix", "Term", "Basis", "NoTerm", "NoMatrix", "NoBasis"]:
 
                         # increment the total number of jobs
                         total_jobs += 1
@@ -113,7 +113,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                             f'MIP_SOLVER={mip_solver},PROVIDE_PRIMAL_BOUND={int(provide_primal_bound)},' \
                             f'SEED_INDEX={seed_index},TIGHTEN_DISJUNCTION={td},' \
                             f'TIGHTEN_MATRIX_PERTURBATION={tm},TIGHTEN_INFEASIBLE_TERM={tt},' \
-                            f'TIGHTEN_INFEASIBLE_BASIS={tb}'
+                            f'TIGHTEN_INFEASIBLE_BASIS={tb},DISJUNCTIVE_WARM_START={int(generator == "DisjWarmStart")}'
                         if machine == "coral":
                             # submit the job to the cluster
                             print(f"submitting to queue {queue}")
@@ -156,4 +156,4 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
 if __name__ == '__main__':
     # repeats = 1 if len(sys.argv) < 3 else int(sys.argv[2])
     max_time = 3600 if len(sys.argv) < 3 else int(sys.argv[2])
-    run_batch(sys.argv[1], max_time=max_time, mip_solver="GUROBI", machine="coral")
+    run_batch(sys.argv[1], max_time=max_time, mip_solver="SYMPHONY", machine="coral")

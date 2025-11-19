@@ -128,6 +128,12 @@ public:
   /** whether to tighten parametric disjunctive cuts for feasible to infeasible bases */
   bool tighten_feasible_to_infeasible_basis;
 
+  /** count of LP iterations in the root node */
+  int rootIterations;
+
+  /** number of nodes in initial branch-and-cut node queue */
+  int rootNodes;
+
   /** constructor (default) */
   RunData();
 
