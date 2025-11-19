@@ -33,7 +33,7 @@ vpcs_*
 CMakeLists.txt
 cmake-build-debug/
 experiments/old
-experiments/test_sets/miplib*
+experiments/test_sets/miplib_*
 experiments/outputs
 experiments/results/bm23_paper2
 tmpvpc*

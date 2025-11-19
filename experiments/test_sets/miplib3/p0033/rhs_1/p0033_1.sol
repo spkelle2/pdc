@@ -1,0 +1,21 @@
+# Solution for model P0033_pre_copy
+# Objective value = 2568
+C157 1
+C158 1
+C159 1
+C160 0
+C161 0
+C162 0
+C164 1
+C165 1
+C167 0
+C168 0
+C169 0
+C170 1
+C178 1
+C179 1
+C180 1
+C182 2
+C184 2
+C186 0
+C187 0
