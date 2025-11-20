@@ -70,7 +70,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
 
             # get the memory required for this instance
             instance_file = instance + ".mps"
-            mem = int(mem_df.loc[instance_file, 'memory']) if False else 4  # instance_file in mem_df.index
+            mem = int(mem_df.loc[instance_file, 'memory']) if False else 2  # instance_file in mem_df.index
             print(f"instance {instance} requires {mem}gb")
 
             for perturbation in os.listdir(os.path.join(input_fldr, instance)):
@@ -119,7 +119,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                             print(f"submitting to queue {queue}")
                             if queue == "mediumlong":
                                 mediumlong_submissions += 1
-                            resources = f'mem={mem}gb,vmem={mem}gb,pmem={mem}gb,walltime={total_time_limit}:00:00'
+                            resources = f'nodes=1:ppn=1,mem={mem}gb,vmem={mem}gb,pmem={mem}gb,walltime={total_time_limit}:00:00'
                             subprocess.call(
                                 ['qsub', '-V', '-q', queue, '-l', resources,
                                  '-v', remote_args, '-e', f'{stem}.err', '-o', f'{stem}.out',
