@@ -1,1 +1,2 @@
-/var/spool/torque/mom_priv/jobs/1912240.polyp1.ie.lehigh.edu.SC: line 4: ../Release/pdc: No such file or directory
+*** WARNING (version #e0e090e): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:335: An integer (optimal) solution with value 568.101 was found prior while getting disjunction.
+No vpcs were made from a new disjunction in first iteration. Stopping series.

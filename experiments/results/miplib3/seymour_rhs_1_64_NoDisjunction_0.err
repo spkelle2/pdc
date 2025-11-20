@@ -1,1 +1,2 @@
-/var/spool/torque/mom_priv/jobs/1912113.polyp1.ie.lehigh.edu.SC: line 4: ../Release/pdc: No such file or directory
+*** WARNING (version #e0e090e): /home/sek519/warm_starting/pdc/../vpc/src/cut/PRLP.cpp:392: PRLP took too long to solve (61.194132 sec, with limit of 60.000000 sec); giving up on this point-ray collection.
+No vpcs were made from a new disjunction in first iteration. Stopping series.
