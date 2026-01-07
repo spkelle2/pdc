@@ -20,9 +20,9 @@ int main(int argc, char** argv) {
 
   // executable, input folder, output file, max run time,
   // cut generator, disjunctive terms, solver,
-  // primal bound, seed index,
-  // tighten disjunction, tighten matrix perturbation,
-  // tighten infeasible to feasible term, tighten feasible to infeasible basis
+  // primal bound, seed index, tighten disjunction, tighten matrix perturbation,
+  // tighten infeasible to feasible term, tighten feasible to infeasible basis,
+  // reuse disjunction
   assert(argc == 14);
 
   // create the test runner and solve the provided series
