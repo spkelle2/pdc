@@ -3,7 +3,7 @@ import os
 
 
 csv_file = "redos.csv"
-results_fldr = "results/miplib_2017_5000"
+results_fldr = "results/miplib3"
 
 # Read the CSV file into a pandas DataFrame
 df = pd.read_csv(csv_file, index_col=0)
