@@ -1,2 +1,1 @@
-*** WARNING (version #e0e090e): /home/sek519/warm_starting/pdc/../vpc/src/cut/PRLP.cpp:387: PRLP is primal infeasible; giving up on this point-ray collection.
-=>> PBS: job killed: walltime 18015 exceeded limit 18000
+*** WARNING (version #b232b53): /home/sek519/warm_starting/pdc/../vpc/src/cut/PRLP.cpp:387: PRLP is primal infeasible; giving up on this point-ray collection.
