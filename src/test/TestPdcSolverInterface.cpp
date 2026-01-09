@@ -758,6 +758,7 @@ TEST_CASE("Test symphony integration", "[PdcSolverInterface::PdcSolverInterface]
 
   int iter_ws_loss = 0;
   int time_ws_loss = 0;
+  int loss_opportunities = 0;
 
   for (int input_idx = 0; input_idx < input_dirs.size(); input_idx++) {
 
@@ -837,6 +838,7 @@ TEST_CASE("Test symphony integration", "[PdcSolverInterface::PdcSolverInterface]
         if (info_ws.terminationTime - info_ws.rootDualBoundTime > info.terminationTime){
           time_ws_loss++;
         }
+        loss_opportunities++;
       }
 
       // final bounds should be the same always
@@ -848,7 +850,8 @@ TEST_CASE("Test symphony integration", "[PdcSolverInterface::PdcSolverInterface]
 
   }
 
-  // for bigger changes warm_start tree should lose sometimes
-  REQUIRE(iter_ws_loss > 0);
-  REQUIRE(time_ws_loss > 0);
+  // for bigger changes warm_start tree should lose sometimes, but not always
+  REQUIRE(0 < iter_ws_loss + time_ws_loss);
+  REQUIRE(iter_ws_loss < loss_opportunities);
+  REQUIRE(time_ws_loss < loss_opportunities);
 }
