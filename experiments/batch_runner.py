@@ -77,7 +77,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                 if not os.path.isdir(os.path.join(input_fldr, instance, perturbation)) or "bound" in perturbation:
                     continue
 
-                for terms in [64]:
+                for terms in [16]:
                     for generator in ["None", "Farkas", "NoDisjunction", "DisjWarmStart"]:  #  "Matrix", "Term", "Basis", "NoTerm", "NoMatrix", "NoBasis"]:
 
                         # increment the total number of jobs
@@ -156,4 +156,5 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
 if __name__ == '__main__':
     # repeats = 1 if len(sys.argv) < 3 else int(sys.argv[2])
     max_time = 3600 if len(sys.argv) < 3 else int(sys.argv[2])
-    run_batch(sys.argv[1], max_time=max_time, mip_solver="SYMPHONY", machine="coral")
+    run_batch(sys.argv[1], max_time=max_time, mip_solver="SYMPHONY",
+              machine="coral", provide_primal_bound=False)
