@@ -136,7 +136,8 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
         mipSolver == "GUROBI" ? BB_Strategy_Options::presolve_on : BB_Strategy_Options::presolve_off,
         BB_Strategy_Options::heuristics_off,
         BB_Strategy_Options::use_best_bound,
-        mipSolver == "SYMPHONY" && boundChanged ? BB_Strategy_Options::all_cuts_off : BB_Strategy_Options::all_cuts_on
+        mipSolver == "SYMPHONY" && boundChanged ? BB_Strategy_Options::all_cuts_off : BB_Strategy_Options::all_cuts_on,
+        mipSolver == "SYMPHONY" && objectiveChanged ? BB_Strategy_Options::reduced_cost_fixing_off : BB_Strategy_Options::reduced_cost_fixing_on
     }));
   } else {
     // set parameters to use heuristics and ignore bound files
@@ -144,7 +145,8 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
         BB_Strategy_Options::user_cuts, // to allow VPCs and data collection
         mipSolver == "GUROBI" ? BB_Strategy_Options::presolve_on : BB_Strategy_Options::presolve_off,
         BB_Strategy_Options::heuristics_on,
-        mipSolver == "SYMPHONY" && boundChanged ? BB_Strategy_Options::all_cuts_off : BB_Strategy_Options::all_cuts_on
+        mipSolver == "SYMPHONY" && boundChanged ? BB_Strategy_Options::all_cuts_off : BB_Strategy_Options::all_cuts_on,
+        mipSolver == "SYMPHONY" && objectiveChanged ? BB_Strategy_Options::reduced_cost_fixing_off : BB_Strategy_Options::reduced_cost_fixing_on
     }));
   }
 
