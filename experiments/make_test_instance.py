@@ -205,7 +205,7 @@ def make_instance_set(instance_file, instances_fldr: str, p: int, samples: int =
     if not presolved_base_mdl:
         return
 
-    # get the optimal presolved primal bound, and skip if it is solved to optimality
+    # get the optimal presolved primal bound, and skip if it isnt solved to optimality
     presolved_base_mdl.optimize()
     if presolved_base_mdl.status != gp.GRB.OPTIMAL:
         print(f"{instance_name} could not be solved in 3600 seconds. skipping.",
@@ -286,7 +286,7 @@ def make_instance_set(instance_file, instances_fldr: str, p: int, samples: int =
             tmp_mdl = presolved_base_mdl.copy()
             for i, j in zip(*A.nonzero()):
                 tmp_mdl.chgCoeff(tmp_mdl.getConstrs()[i], tmp_mdl.getVars()[j], A[i, j])
-            try_solving(tmp_mdl, "matrix", p, perturbed_instance_dir, instance_name, count, extension)
+            # try_solving(tmp_mdl, "matrix", p, perturbed_instance_dir, instance_name, count, extension)
 
         if iterations % 50 == 0:
             print(f"after {iterations} iterations, {instance_name} has {count} samples for p = {p}")
