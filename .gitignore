@@ -33,7 +33,7 @@ vpcs_*
 CMakeLists.txt
 cmake-build-debug/
 experiments/old
-experiments/test_sets/miplib_*
+experiments/test_sets/miplib*
 experiments/outputs
 experiments/results/bm23_paper2
 tmpvpc*
@@ -43,3 +43,4 @@ core
 outfiles/
 outfiles_generation/
 *.tar.gz
+*.nfs*

@@ -1,0 +1,6 @@
+*** WARNING (version #43016fc): /home/sek519/warm_starting/pdc/../vpc/src/cut/CglVPC.cpp:683: Nonbasic reduced cost should be >= 0 in the complemented nonbasic space. However, for nb var 526 (real var 636), it is -6.826284e-07. Small enough error that we only send warning.
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+provided solution objective value does not match computed objective value
+Assertion failed
+No vpcs were made from a new disjunction in first iteration. Stopping series.
