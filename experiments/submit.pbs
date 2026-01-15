@@ -1,4 +1,30 @@
+#!/bin/bash
+#PBS -j oe
+
+set -uo pipefail
+
 cd /home/sek519/warm_starting/pdc/experiments
+
 source /home/sek519/miniconda/bin/activate
 conda activate pdc
-../Release/pdc ${INPUT_FOLDER} ${OUTPUT_FILE} ${MAX_TIME} ${GENERATOR} ${TERMS} ${MIP_SOLVER} ${PROVIDE_PRIMAL_BOUND} ${SEED_INDEX} ${TIGHTEN_DISJUNCTION} ${TIGHTEN_MATRIX_PERTURBATION} ${TIGHTEN_INFEASIBLE_TERM} ${TIGHTEN_INFEASIBLE_BASIS} ${DISJUNCTIVE_WARM_START}
+
+# Run and capture signal info
+/usr/bin/time -v ../Release/pdc \
+  "${INPUT_FOLDER}" \
+  "${STEM}.csv" \
+  "${MAX_TIME}" \
+  "${GENERATOR}" \
+  "${TERMS}" \
+  "${MIP_SOLVER}" \
+  "${PROVIDE_PRIMAL_BOUND}" \
+  "${SEED_INDEX}" \
+  "${TIGHTEN_DISJUNCTION}" \
+  "${TIGHTEN_MATRIX_PERTURBATION}" \
+  "${TIGHTEN_INFEASIBLE_TERM}" \
+  "${TIGHTEN_INFEASIBLE_BASIS}" \
+  "${DISJUNCTIVE_WARM_START}" \
+  2>&1 | tee "${STEM}.log"
+
+rc=${PIPESTATUS[0]}
+echo "EXIT_CODE=$rc"
+

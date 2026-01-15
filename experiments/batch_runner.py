@@ -23,7 +23,7 @@ def get_queue(time_limit):
 
 
 def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
-              mip_solver: str = "CBC", provide_primal_bound: bool = True,
+              mip_solver: str = "CBC", provide_primal_bound: bool = False,
               cumulative_queue_limit: int = 8000, repeats: int = 1):
     """ For all problems and perturbations, run the .mps associated with each series
 
@@ -108,7 +108,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                         tt = int(generator in ["All", "NoDisjunction", "NoMatrix", "NoBasis", "Term"])
                         tb = int(generator in ["All", "NoDisjunction", "NoMatrix", "NoTerm", "Basis"])
 
-                        remote_args = f'INPUT_FOLDER={series_input_fldr},OUTPUT_FILE={stem + ".csv"},' \
+                        remote_args = f'INPUT_FOLDER={series_input_fldr},STEM={stem},' \
                             f'MAX_TIME={max_time},GENERATOR={generator},TERMS={terms},' \
                             f'MIP_SOLVER={mip_solver},PROVIDE_PRIMAL_BOUND={int(provide_primal_bound)},' \
                             f'SEED_INDEX={seed_index},TIGHTEN_DISJUNCTION={td},' \
