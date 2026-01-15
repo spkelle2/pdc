@@ -2,13 +2,27 @@
 #PBS -j n   # keep stdout (.out) and stderr (.err) separate
 
 set -u
+set -o pipefail
 
 cd /home/sek519/warm_starting/pdc/experiments
 
 source /home/sek519/miniconda/bin/activate
 conda activate pdc
 
-../Release/pdc \
+# Make last lines of output more likely to appear before an abort
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+# Keep any core dump strictly under 10 MB (Linux bash uses KB)
+ulimit -c 10240
+
+# Try to keep the core focused (stack/heap) and small
+if [ -w /proc/$$/coredump_filter ]; then
+  echo 0x3 > /proc/$$/coredump_filter
+fi
+
+# Run with line-buffered stdout/stderr so assertion messages flush
+stdbuf -oL -eL ../Debug/pdc \
   "${INPUT_FOLDER}" \
   "${OUTPUT_FILE}" \
   "${MAX_TIME}" \
@@ -27,27 +41,30 @@ rc=$?
 
 # Only report failures to stderr
 if [ "$rc" -ne 0 ]; then
+  # If a core exists (<=10MB), print a tiny backtrace and delete it
+  corefile="$(ls -1 core* 2>/dev/null | head -n 1 || true)"
+  if [ -n "$corefile" ]; then
+    echo "CORE_CAPTURED=$corefile (<=10MB cap)" >&2
+    gdb -q ../Release/pdc "$corefile" \
+      -ex "set pagination off" \
+      -ex "bt 5" \
+      -ex "quit" >&2 || true
+    rm -f "$corefile"
+  fi
+
   if [ "$rc" -ge 128 ]; then
     sig=$((rc - 128))
     case "$sig" in
-      6)
-        echo "FAILED: SIGABRT (6)" >&2
-        ;;
-      9)
-        echo "FAILED: SIGKILL (9)" >&2
-        ;;
-      11)
-        echo "FAILED: SIGSEGV (11)" >&2
-        ;;
-      15)
-        echo "FAILED: SIGTERM (15)" >&2
-        ;;
-      *)
-        echo "FAILED: SIGNAL=$sig" >&2
-        ;;
+      6)  echo "FAILED: SIGABRT (6)" >&2 ;;
+      9)  echo "FAILED: SIGKILL (9)" >&2 ;;
+      11) echo "FAILED: SIGSEGV (11)" >&2 ;;
+      15) echo "FAILED: SIGTERM (15)" >&2 ;;
+      *)  echo "FAILED: SIGNAL=$sig" >&2 ;;
     esac
   else
     echo "FAILED: EXIT_CODE=$rc" >&2
   fi
 fi
+
+exit "$rc"
 
