@@ -1,1 +1,2 @@
-=>> PBS: job killed: walltime 18036 exceeded limit 18000
+/var/spool/torque/mom_priv/jobs/1925714.polyp1.ie.lehigh.edu.SC: line 24: 736319 Segmentation fault      ../Release/pdc "${INPUT_FOLDER}" "${OUTPUT_FILE}" "${MAX_TIME}" "${GENERATOR}" "${TERMS}" "${MIP_SOLVER}" "${PROVIDE_PRIMAL_BOUND}" "${SEED_INDEX}" "${TIGHTEN_DISJUNCTION}" "${TIGHTEN_MATRIX_PERTURBATION}" "${TIGHTEN_INFEASIBLE_TERM}" "${TIGHTEN_INFEASIBLE_BASIS}" "${DISJUNCTIVE_WARM_START}"
+FAILED: SIGSEGV (11)

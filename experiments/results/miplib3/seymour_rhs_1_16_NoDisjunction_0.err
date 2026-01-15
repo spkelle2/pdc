@@ -1,5 +1,4 @@
 messed up a farkas cofficient
 setting all farkas coefficients to 0
-provided solution objective value does not match computed objective value
-Assertion failed
-No vpcs were made from a new disjunction in first iteration. Stopping series.
+messed up a farkas cofficient
+setting all farkas coefficients to 0

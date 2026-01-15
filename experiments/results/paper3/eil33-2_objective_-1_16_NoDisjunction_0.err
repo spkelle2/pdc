@@ -1,1 +1,0 @@
-*** ERROR (version #43016fc): /home/sek519/warm_starting/pdc/../vpc/src/disjunction/Disjunction.cpp:251: Objective at disjunctive term 2731/2732 is incorrect. Before, it was 'inf', now it is 1893.171.

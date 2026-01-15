@@ -1,4 +1,2 @@
-provided solution objective value does not match computed objective value
-Assertion failed
-provided solution objective value does not match computed objective value
-Assertion failed
+/var/spool/torque/mom_priv/jobs/1925673.polyp1.ie.lehigh.edu.SC: line 24: 2722352 Aborted                 ../Release/pdc "${INPUT_FOLDER}" "${OUTPUT_FILE}" "${MAX_TIME}" "${GENERATOR}" "${TERMS}" "${MIP_SOLVER}" "${PROVIDE_PRIMAL_BOUND}" "${SEED_INDEX}" "${TIGHTEN_DISJUNCTION}" "${TIGHTEN_MATRIX_PERTURBATION}" "${TIGHTEN_INFEASIBLE_TERM}" "${TIGHTEN_INFEASIBLE_BASIS}" "${DISJUNCTIVE_WARM_START}"
+FAILED: SIGABRT (6)

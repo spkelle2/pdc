@@ -1,2 +1,0 @@
-*** WARNING (version #43016fc): /home/sek519/warm_starting/pdc/../vpc/src/cut/PRLP.cpp:387: PRLP is primal infeasible; giving up on this point-ray collection.
-/var/spool/torque/mom_priv/jobs/1918755.polyp1.ie.lehigh.edu.SC: line 4: 551283 Aborted                 (core dumped) ../Release/pdc ${INPUT_FOLDER} ${OUTPUT_FILE} ${MAX_TIME} ${GENERATOR} ${TERMS} ${MIP_SOLVER} ${PROVIDE_PRIMAL_BOUND} ${SEED_INDEX} ${TIGHTEN_DISJUNCTION} ${TIGHTEN_MATRIX_PERTURBATION} ${TIGHTEN_INFEASIBLE_TERM} ${TIGHTEN_INFEASIBLE_BASIS} ${DISJUNCTIVE_WARM_START}
