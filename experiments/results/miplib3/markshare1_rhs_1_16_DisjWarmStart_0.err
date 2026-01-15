@@ -1,2 +1,9 @@
-/var/spool/torque/mom_priv/jobs/1925510.polyp1.ie.lehigh.edu.SC: line 24: 604701 Aborted                 ../Release/pdc "${INPUT_FOLDER}" "${OUTPUT_FILE}" "${MAX_TIME}" "${GENERATOR}" "${TERMS}" "${MIP_SOLVER}" "${PROVIDE_PRIMAL_BOUND}" "${SEED_INDEX}" "${TIGHTEN_DISJUNCTION}" "${TIGHTEN_MATRIX_PERTURBATION}" "${TIGHTEN_INFEASIBLE_TERM}" "${TIGHTEN_INFEASIBLE_BASIS}" "${DISJUNCTIVE_WARM_START}"
+/var/spool/torque/mom_priv/jobs/1926006.polyp1.ie.lehigh.edu.SC: line 38: 750182 Aborted                 (core dumped) stdbuf -oL -eL ../Debug/pdc "${INPUT_FOLDER}" "${OUTPUT_FILE}" "${MAX_TIME}" "${GENERATOR}" "${TERMS}" "${MIP_SOLVER}" "${PROVIDE_PRIMAL_BOUND}" "${SEED_INDEX}" "${TIGHTEN_DISJUNCTION}" "${TIGHTEN_MATRIX_PERTURBATION}" "${TIGHTEN_INFEASIBLE_TERM}" "${TIGHTEN_INFEASIBLE_BASIS}" "${DISJUNCTIVE_WARM_START}"
+CORE_CAPTURED=core (<=10MB cap)
+gdb: /home/sek519/miniconda/envs/pdc/lib/libstdc++.so.6: version `GLIBCXX_3.4.30' not found (required by gdb)
+gdb: /home/sek519/miniconda/envs/pdc/lib/libtinfo.so.6: no version information available (required by gdb)
+gdb: /home/sek519/miniconda/envs/pdc/lib/libncursesw.so.6: no version information available (required by gdb)
+gdb: /home/sek519/miniconda/envs/pdc/lib/libncursesw.so.6: no version information available (required by gdb)
+gdb: /home/sek519/miniconda/envs/pdc/lib/libncursesw.so.6: no version information available (required by gdb)
+gdb: /home/sek519/miniconda/envs/pdc/lib/libstdc++.so.6: version `GLIBCXX_3.4.30' not found (required by /lib/x86_64-linux-gnu/libicuuc.so.72)
 FAILED: SIGABRT (6)
