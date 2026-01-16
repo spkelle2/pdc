@@ -80,7 +80,8 @@ TEST_CASE( "Test Simple") {
                   "([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),"
                   "([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([a-zA-Z ]+),"
                   "([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),"
-                  "([0-9\\.]+),([0-9\\.]+),([0-1]),([0-1]),([0-1]),([0-1]),([0-9\\.]+),([0-9\\.]+)");
+                  "([0-9\\.]+),([0-9\\.]+),([0-1]),([0-1]),([0-1]),([0-1]),"
+                  "([0-9\\.]+),([0-9\\.]+),(-?[0-9]+)");
     std::smatch match;
 
     // the file should exist
@@ -159,6 +160,8 @@ TEST_CASE( "Test Simple") {
         REQUIRE(std::stoi(match[33].str()) > 0);
         // rootNodes -- this is garbage for CBC/gurobi so just check it's positive
         REQUIRE(std::stoi(match[34].str()) > 0);
+        // warmStartNodeLimit -- this is garbage for CBC/gurobi so just check it's -1
+        REQUIRE(std::stoi(match[35].str()) == -1);
       }
       lineIndex++;
     }
@@ -186,6 +189,21 @@ TEST_CASE( "Test Simple") {
           testRunnerFarkas.instanceSolvers[i], "None", 1e10);
       REQUIRE(isZero((runDataFarkas.dualBound - runDataNone.dualBound)/runDataNone.dualBound, 1e-3));
     }
+  }
+
+  SECTION("Test symphony integration", "[MipComp::solveSeries][symphony]"){
+
+    // solve a series with symphony using a 64 node disjunctive warm start
+    MipComp testRunner(inputFolder.string(), csvPath.string(), 60, "DisjWarmStart", 64, "SYMPHONY", false, 0, 0, 0, 0, 1, 1, 64);
+    testRunner.instanceSolvers.resize(2);
+    testRunner.solveSeries();
+
+    // get the data from the warm solve
+    RunData rd = testRunner.runData[1];
+
+    // create test runners
+    REQUIRE(rd.warmStartNodeLimit == 64);
+    REQUIRE((27 < rd.rootDualBound && rd.rootDualBound < 28));
   }
 
   // clear out any test files

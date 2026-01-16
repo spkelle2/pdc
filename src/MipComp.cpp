@@ -36,13 +36,15 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
                  std::string vpcGenerator, int terms, std::string mipSolver,
                  bool providePrimalBound, int seedIndex, bool tighten_disjunction,
                  bool tighten_matrix_perturbation, bool tighten_infeasible_to_feasible_term,
-                 bool tighten_feasible_to_infeasible_basis, bool disjunctive_warm_start) :
+                 bool tighten_feasible_to_infeasible_basis, bool disjunctive_warm_start,
+                 int warm_start_node_limit) :
   csvPath(csvPathStr), vpcGenerator(vpcGenerator), mipSolver(mipSolver),
   seedIndex(seedIndex), tighten_disjunction(tighten_disjunction),
   tighten_matrix_perturbation(tighten_matrix_perturbation),
   tighten_infeasible_to_feasible_term(tighten_infeasible_to_feasible_term),
   tighten_feasible_to_infeasible_basis(tighten_feasible_to_infeasible_basis),
-  disjunctive_warm_start(disjunctive_warm_start){
+  disjunctive_warm_start(disjunctive_warm_start),
+  warm_start_node_limit(warm_start_node_limit) {
 
   // containers for sorting input files and bounds
   std::vector<fs::path> inputFiles;
@@ -176,6 +178,12 @@ void MipComp::solveSeries() {
     // symphony expects this .sol file to exist, others will ignore
     seriesSolver.params.set(VPCParametersNamespace::SOLFILE, solutionFiles[instanceNames[i]]);
     RunData data;
+
+    // cap the first problem's branch-and-bound nodes if requested
+    if (warm_start_node_limit > 0 && i == 0) {
+      seriesSolver.params.set(VPCParametersNamespace::BB_NODE_LIMIT, warm_start_node_limit);
+    }
+
     try {
        data = seriesSolver.solve(
            instanceSolver, genType, primalBound, tighten_disjunction,
@@ -202,10 +210,16 @@ void MipComp::solveSeries() {
       }
     }
 
+    // reset the node limit if limited for first problem
+    if (warm_start_node_limit > 0 && i == 0) {
+      seriesSolver.params.set(VPCParametersNamespace::BB_NODE_LIMIT, -1);
+    }
+
     // stop the series if we sought vpcs on the first iteration but didn't get any.
     // Need to generate cuts so we have a disjunction/multipliers to reuse and an ideal bound to compare
     data.instanceIndex = instanceIndices[i];
     data.seedIndex = seedIndex;
+    data.warmStartNodeLimit = warm_start_node_limit;
     if (vpcGenerator != "None" and vpcGenerator != "DisjWarmStart" and i == 0 and data.numCuts == 0){
       std::cerr << "No vpcs were made from a new disjunction in first iteration. Stopping series." << std::endl;
       break;

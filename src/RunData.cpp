@@ -74,6 +74,7 @@ void RunData::initialize(const RunData* const rhs) {
     this->tighten_feasible_to_infeasible_basis = rhs->tighten_feasible_to_infeasible_basis;
     this->rootIterations = rhs->rootIterations;
     this->rootNodes = rhs->rootNodes;
+    this->warmStartNodeLimit = rhs->warmStartNodeLimit;
   } else {
     this->instanceIndex = 0;
     this->seedIndex = 0;
@@ -109,6 +110,7 @@ void RunData::initialize(const RunData* const rhs) {
     this->tighten_feasible_to_infeasible_basis = false;
     this->rootIterations = 0;
     this->rootNodes = 0;
+    this->warmStartNodeLimit = -1;
   }
 }
 
@@ -122,7 +124,7 @@ std::string RunData::getHeader(){
          "termRemainsFeasibleBasisInfeasible,cutsChangedCoefficients,"
          "feasibleTermsPrunedByBound,tighten_disjunction,tighten_matrix_perturbation,"
          "tighten_infeasible_to_feasible_term,tighten_feasible_to_infeasible_basis,"
-         "rootIterations,rootNodes";
+         "rootIterations,rootNodes,warmStartNodeLimit";
 }
 
 /** Get a comma-separated string of the values of RunData's attributes */
@@ -142,7 +144,8 @@ std::string RunData::getValues(){
     std::to_string(cutsChangedCoefficients) + "," + std::to_string(feasibleTermsPrunedByBound) + "," +
     std::to_string(tighten_disjunction) + "," + std::to_string(tighten_matrix_perturbation) + "," +
     std::to_string(tighten_infeasible_to_feasible_term) + "," + std::to_string(tighten_feasible_to_infeasible_basis) + "," +
-    std::to_string(rootIterations) + "," + std::to_string(rootNodes);
+    std::to_string(rootIterations) + "," + std::to_string(rootNodes) + "," +
+    std::to_string(warmStartNodeLimit);
 }
 
 /** writes this struct's attributes to the given csv file */

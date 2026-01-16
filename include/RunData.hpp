@@ -134,6 +134,9 @@ public:
   /** number of nodes in initial branch-and-cut node queue */
   int rootNodes;
 
+  /** number of nodes in initial branch-and-cut node queue */
+  int warmStartNodeLimit;
+
   /** constructor (default) */
   RunData();
 

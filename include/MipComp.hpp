@@ -77,12 +77,16 @@ public:
   /** whether to use disjunctive warm-starts if available */
   bool disjunctive_warm_start;
 
+  /** max number of branch and bound nodes to terminate first problem in series */
+  int warm_start_node_limit;
+
   /** Constructor. Initializes attributes based on provided file. */
   MipComp(std::string inputFolderStr, std::string csvPathStr, double maxRunTime,
           std::string vpcGenerator, int terms, std::string mipSolver,
           bool providePrimalBound, int seedIndex, bool tighten_disjunction=false,
           bool tighten_matrix_perturbation=false, bool tighten_infeasible_to_feasible_term=false,
-          bool tighten_feasible_to_infeasible_basis=false, bool disjunctive_warm_start=false);
+          bool tighten_feasible_to_infeasible_basis=false, bool disjunctive_warm_start=false,
+          int warm_start_node_limit=-1);
 
   /** Solve series of MIP models provided at construction. */
   void solveSeries();
