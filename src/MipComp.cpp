@@ -44,7 +44,7 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
   tighten_infeasible_to_feasible_term(tighten_infeasible_to_feasible_term),
   tighten_feasible_to_infeasible_basis(tighten_feasible_to_infeasible_basis),
   disjunctive_warm_start(disjunctive_warm_start),
-  warm_start_node_limit(warm_start_node_limit) {
+  warm_start_node_limit(mipSolver == "SYMPHONY" ? terms : -1) {
 
   // containers for sorting input files and bounds
   std::vector<fs::path> inputFiles;

@@ -194,16 +194,27 @@ TEST_CASE( "Test Simple") {
   SECTION("Test symphony integration", "[MipComp::solveSeries][symphony]"){
 
     // solve a series with symphony using a 64 node disjunctive warm start
-    MipComp testRunner(inputFolder.string(), csvPath.string(), 60, "DisjWarmStart", 64, "SYMPHONY", false, 0, 0, 0, 0, 1, 1, 64);
-    testRunner.instanceSolvers.resize(2);
-    testRunner.solveSeries();
+    MipComp dws(inputFolder.string(), csvPath.string(), 60, "DisjWarmStart", 64, "SYMPHONY", false, 0, 0, 0, 0, 0, 1);
+    dws.instanceSolvers.resize(2);
+    dws.solveSeries();
+
+    // solve a series with symphony using a 64 term parametric disjunctive cuts
+    MipComp pdc(inputFolder.string(), csvPath2.string(), 60, "Farkas", 64, "SYMPHONY", false, 0, 0, 1, 1, 1, 0);
+    pdc.instanceSolvers.resize(2);
+    pdc.solveSeries();
 
     // get the data from the warm solve
-    RunData rd = testRunner.runData[1];
+    RunData rd_dws = dws.runData[1];
+    RunData rd_pdc = pdc.runData[1];
 
     // create test runners
-    REQUIRE(rd.warmStartNodeLimit == 64);
-    REQUIRE((27 < rd.rootDualBound && rd.rootDualBound < 28));
+    REQUIRE(rd_dws.terms == rd_pdc.terms);
+    REQUIRE((27 < rd_dws.disjunctiveDualBound && rd_dws.disjunctiveDualBound < 28));
+    REQUIRE(isVal(rd_dws.disjunctiveDualBound, rd_pdc.disjunctiveDualBound));
+    REQUIRE((27 < rd_dws.rootDualBound && rd_dws.rootDualBound < 28));
+    REQUIRE((27 < rd_pdc.rootDualBound && rd_pdc.rootDualBound < 28));
+    REQUIRE(rd_dws.warmStartNodeLimit == 64);
+    REQUIRE(rd_pdc.warmStartNodeLimit == 64);
   }
 
   // clear out any test files

@@ -84,8 +84,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                         total_jobs += 1
 
                         # get the path to folder with the series to run and where to save the output
-                        warm_start_node_limit = terms
-                        test_name = f"{instance}_{perturbation}_{terms}_{generator}_{seed_index}_{warm_start_node_limit}"
+                        test_name = f"{instance}_{perturbation}_{terms}_{generator}_{seed_index}"
                         stem = os.path.join(output_fldr, test_name)
                         series_input_fldr = os.path.join(input_fldr, instance, perturbation)
                         num_mips = len([f for f in os.listdir(series_input_fldr) if f.endswith(".mps")])
@@ -114,8 +113,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                             f'MIP_SOLVER={mip_solver},PROVIDE_PRIMAL_BOUND={int(provide_primal_bound)},' \
                             f'SEED_INDEX={seed_index},TIGHTEN_DISJUNCTION={td},' \
                             f'TIGHTEN_MATRIX_PERTURBATION={tm},TIGHTEN_INFEASIBLE_TERM={tt},' \
-                            f'TIGHTEN_INFEASIBLE_BASIS={tb},DISJUNCTIVE_WARM_START={int(generator == "DisjWarmStart")},' \
-                            f'WARM_START_NODE_LIMIT={warm_start_node_limit}'
+                            f'TIGHTEN_INFEASIBLE_BASIS={tb},DISJUNCTIVE_WARM_START={int(generator == "DisjWarmStart")}'
                         if machine == "coral":
                             # submit the job to the cluster
                             print(f"submitting to queue {queue}")

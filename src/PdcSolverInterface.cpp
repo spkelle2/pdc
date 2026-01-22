@@ -27,6 +27,10 @@
 #include "PdcSolverInterface.hpp"
 #include "PdcUtility.hpp" // findNonZero
 
+// Symphony
+#include "symphony.h"
+#include "sym_types.h"
+
 
 /** Default constructor */
 PdcSolverInterface::PdcSolverInterface(){
@@ -93,7 +97,17 @@ RunData PdcSolverInterface::solve(
                     -1 * params.get(VPCParametersNamespace::CUTLIMIT) * fractional_int_vars;
   } else if (vpcGenerator == "Old") {
     disjCuts = createVpcsFromOldDisjunctionPRLP(si, data, tighten_disjunction);
-  } else if (vpcGenerator == "None" || vpcGenerator == "DisjWarmStart") {
+  } else if (vpcGenerator == "DisjWarmStart") {
+    if (parametric_model.get()) {
+      PartialBBDisjunction disj(params);
+      bc_node* root = sym_get_warm_start(parametric_model->getSymphonyEnvironment(), true)->rootnode;
+      generatePartialBBTreeSymphony(&disj, si, root);
+      data.disjunctiveDualBound = disj.best_obj;
+    } else {
+      data.disjunctiveDualBound = si->getObjValue();
+    }
+  } else if (vpcGenerator == "None") {
+    // todo create disjunction here from warm start if available to get bound
     data.disjunctiveDualBound = si->getObjValue();
   } else {
     // assume we are using the Farkas multipliers
@@ -159,14 +173,12 @@ RunData PdcSolverInterface::solve(
   }
   data.lpBoundPostVpc = si->getObjValue();
   data.rootDualBound = info.last_cut_pass > 1e99 ? si->getObjValue() : info.last_cut_pass;
-  if (vpcGenerator == "DisjWarmStart"){
-    data.disjunctiveDualBound = data.rootDualBound;  // update if available
-  }
   data.dualBound = info.bound;
   data.primalBound = min(info.obj, primalBound);
 
   // get remaining time stats
-  data.vpcGenerationTime = timer.get_time("vpcGenerationTime");
+  data.vpcGenerationTime = vpcGenerator == "DisjWarmStart" || vpcGenerator == "None" ?
+      0.0 : timer.get_time("vpcGenerationTime");
   data.rootDualBoundTime = info.root_time + data.vpcGenerationTime;
   data.bestSolutionTime = info.last_sol_time + data.vpcGenerationTime;
   data.terminationTime = info.time + data.vpcGenerationTime;
@@ -490,7 +502,7 @@ std::shared_ptr<OsiCuts> PdcSolverInterface::createVpcsFromFarkasMultipliers(
     }
 
     // update the event handler with the disjunctive lower bound
-    if (probIdx == 0 || data.disjunctiveDualBound < param_disj.best_obj){
+    if (probIdx == 0 || param_disj.best_obj < data.disjunctiveDualBound){
       data.disjunctiveDualBound = param_disj.best_obj;
       data.actualTerms = param_disj.num_terms;
     }
