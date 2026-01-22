@@ -115,13 +115,9 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
     primalBounds.push_back(std::stod(line));
   }
 
-  // Seed the random number generator with the current time and generate a random number
-  srand(time(0));
-  int randomNum = rand() % 100 + 1;
-  
   // set parameters
   VPCParameters params;
-  params.set(RANDOM_SEED, randomNum); // how many active leaves in the disjunction
+  params.set(RANDOM_SEED, seedIndex);
   params.set(DISJ_TERMS, terms); // how many active leaves in the disjunction
   params.set(TIMELIMIT, maxRunTime); // max time for vpc generation
   params.set(PARTIAL_BB_TIMELIMIT, maxRunTime); // max time for creating partial bb tree
@@ -130,6 +126,9 @@ MipComp::MipComp(std::string inputFolderStr, std::string csvPathStr, double maxR
   params.set(VPCParametersNamespace::BB_TIMELIMIT, maxRunTime); // max time for branch and cut
   params.set(intParam::VERBOSITY, 1); // light output
   params.set(stringParam::TMPFOLDER, "."); // save tmp files in current directory
+  if (mipSolver == "SYMPHONY") {
+    params.set(DISJUNCTION_SOLVER, "SYMPHONY");
+  }
   // turn off presolve if not using gurobi since other solvers can't pass cuts through (to my knowledge)
   if (providePrimalBound) {
     // set parameters to use provided bound and skip heuristics
