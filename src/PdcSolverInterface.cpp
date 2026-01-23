@@ -63,8 +63,9 @@ RunData PdcSolverInterface::solve(
   verify(!disjunctive_warm_start || mipSolver == "SYMPHONY",
          "Disjunctive warm starts only supported for SYMPHONY");
 
-  // create a container to track run stats
+  // create containers to track run stats
   RunData data;
+  node_times times;
 
   // set up the solver - make sure we minimize and that we have a solution
   OsiClpSolverInterface * si = dynamic_cast<OsiClpSolverInterface*>(instanceSolver.clone());
@@ -138,12 +139,12 @@ RunData PdcSolverInterface::solve(
     if (disjunctive_warm_start){
       // use the parametric model with its warm start to solve
       doBranchAndBoundWithSymphony(params, params.get(VPCParametersNamespace::BB_STRATEGY),
-                                   si, info, disjCuts.get(), parametric_model);
+                                   si, info, disjCuts.get(), parametric_model, &times);
     } else {
       // otherwise just give a blank model we'll throw away
       std::shared_ptr<OsiSymSolverInterface> dummy_model = std::shared_ptr<OsiSymSolverInterface>();
       doBranchAndBoundWithSymphony(params, params.get(VPCParametersNamespace::BB_STRATEGY),
-                                   si, info, disjCuts.get(), dummy_model);
+                                   si, info, disjCuts.get(), dummy_model, &times);
     }
   } else {
     if (vpcGenerator == "None") {
@@ -172,7 +173,11 @@ RunData PdcSolverInterface::solve(
     si->resolve();
   }
   data.lpBoundPostVpc = si->getObjValue();
-  data.rootDualBound = info.last_cut_pass > 1e99 ? si->getObjValue() : info.last_cut_pass;
+  if (mipSolver == "SYMPHONY"){
+    data.rootDualBound = vpcGenerator == "DisjWarmStart" ? data.disjunctiveDualBound : data.lpBoundPostVpc;
+  } else {
+    data.rootDualBound = info.last_cut_pass > 1e99 ? si->getObjValue() : info.last_cut_pass;
+  }
   data.dualBound = info.bound;
   data.primalBound = min(info.obj, primalBound);
 
@@ -182,6 +187,18 @@ RunData PdcSolverInterface::solve(
   data.rootDualBoundTime = info.root_time + data.vpcGenerationTime;
   data.bestSolutionTime = info.last_sol_time + data.vpcGenerationTime;
   data.terminationTime = info.time + data.vpcGenerationTime;
+
+  if (mipSolver == "SYMPHONY"){
+    data.cutPooltime = times.cut_pool;
+    data.lpSolutionTime = times.lp;
+    data.lpSetupTime = times.lp_setup;
+    data.variableFixingTime = times.fixing;
+    data.pricingTime = times.pricing;
+    data.strongBranchingTime = times.strong_branching;
+    data.separationTime = times.separation;
+    data.primalHeuristicsTime = times.primal_heur;
+    data.communicationTime = times.communication;
+  }
 
   // get remaining performance stats
   data.nodes = info.nodes;

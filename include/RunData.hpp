@@ -137,6 +137,17 @@ public:
   /** number of nodes in initial branch-and-cut node queue */
   int warmStartNodeLimit;
 
+  // Symphony timing details
+  double cutPooltime;
+  double lpSolutionTime;
+  double lpSetupTime;
+  double variableFixingTime;
+  double pricingTime;
+  double strongBranchingTime;
+  double separationTime;
+  double primalHeuristicsTime;
+  double communicationTime;
+
   /** constructor (default) */
   RunData();
 

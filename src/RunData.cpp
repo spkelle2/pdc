@@ -75,6 +75,15 @@ void RunData::initialize(const RunData* const rhs) {
     this->rootIterations = rhs->rootIterations;
     this->rootNodes = rhs->rootNodes;
     this->warmStartNodeLimit = rhs->warmStartNodeLimit;
+    this->cutPooltime = rhs->cutPooltime;
+    this->lpSolutionTime = rhs->lpSolutionTime;
+    this->lpSetupTime = rhs->lpSetupTime;
+    this->variableFixingTime = rhs->variableFixingTime;
+    this->pricingTime = rhs->pricingTime;
+    this->strongBranchingTime = rhs->strongBranchingTime;
+    this->separationTime = rhs->separationTime;
+    this->primalHeuristicsTime = rhs->primalHeuristicsTime;
+    this->communicationTime = rhs->communicationTime;
   } else {
     this->instanceIndex = 0;
     this->seedIndex = 0;
@@ -111,6 +120,15 @@ void RunData::initialize(const RunData* const rhs) {
     this->rootIterations = 0;
     this->rootNodes = 0;
     this->warmStartNodeLimit = -1;
+    this->cutPooltime = 0.0;
+    this->lpSolutionTime = 0.0;
+    this->lpSetupTime = 0.0;
+    this->variableFixingTime = 0.0;
+    this->pricingTime = 0.0;
+    this->strongBranchingTime = 0.0;
+    this->separationTime = 0.0;
+    this->primalHeuristicsTime = 0.0;
+    this->communicationTime = 0.0;
   }
 }
 
@@ -124,7 +142,9 @@ std::string RunData::getHeader(){
          "termRemainsFeasibleBasisInfeasible,cutsChangedCoefficients,"
          "feasibleTermsPrunedByBound,tighten_disjunction,tighten_matrix_perturbation,"
          "tighten_infeasible_to_feasible_term,tighten_feasible_to_infeasible_basis,"
-         "rootIterations,rootNodes,warmStartNodeLimit";
+         "rootIterations,rootNodes,warmStartNodeLimit,cutPooltime,lpSolutionTime,lpSetupTime,"
+          "variableFixingTime,pricingTime,strongBranchingTime,separationTime,"
+          "primalHeuristicsTime,communicationTime";
 }
 
 /** Get a comma-separated string of the values of RunData's attributes */
@@ -145,7 +165,11 @@ std::string RunData::getValues(){
     std::to_string(tighten_disjunction) + "," + std::to_string(tighten_matrix_perturbation) + "," +
     std::to_string(tighten_infeasible_to_feasible_term) + "," + std::to_string(tighten_feasible_to_infeasible_basis) + "," +
     std::to_string(rootIterations) + "," + std::to_string(rootNodes) + "," +
-    std::to_string(warmStartNodeLimit);
+    std::to_string(warmStartNodeLimit) + "," + std::to_string(cutPooltime) + "," +
+    std::to_string(lpSolutionTime) + "," + std::to_string(lpSetupTime) + "," +
+    std::to_string(variableFixingTime) + "," + std::to_string(pricingTime) + "," +
+    std::to_string(strongBranchingTime) + "," + std::to_string(separationTime) + "," +
+    std::to_string(primalHeuristicsTime) + "," + std::to_string(communicationTime);
 }
 
 /** writes this struct's attributes to the given csv file */

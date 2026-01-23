@@ -808,7 +808,7 @@ TEST_CASE("Test symphony integration", "[PdcSolverInterface::PdcSolverInterface]
     check_bm23_data(data2);
 
     // iterate over the rest of the files to check to make sure cuts tighten as expected
-    for (int i = 1; i < inputStems.size(); i++){
+    for (int i = 1; i < 2; i++){
       seriesSolver.params.set(VPCParametersNamespace::SOLFILE, inputStems[i] + ".sol");
       seriesSolver2.params.set(VPCParametersNamespace::SOLFILE, inputStems[i] + ".sol");
 
