@@ -1,2 +1,2 @@
-*** WARNING (version #2b6922a): /home/sek519/warm_starting/pdc/../vpc/src/cut/PRLP.cpp:392: PRLP took too long to solve (197.570297 sec, with limit of 60.000000 sec); giving up on this point-ray collection.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/cut/PRLP.cpp:392: PRLP took too long to solve (192.253948 sec, with limit of 60.000000 sec); giving up on this point-ray collection.
 No vpcs were made from a new disjunction in first iteration. Stopping series.
