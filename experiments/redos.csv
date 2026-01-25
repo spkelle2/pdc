@@ -1,4 +1,10 @@
 experiment
+bell5_rhs_-1_4_None_0
+bell5_rhs_-1_4_NoDisjunction_0
+bell5_rhs_-1_4_DisjWarmStart_0
+bell5_rhs_-1_64_None_0
+bell5_rhs_-1_64_NoDisjunction_0
+bell5_rhs_-1_64_DisjWarmStart_0
 markshare1_rhs_1_4_None_0
 markshare1_rhs_1_4_DisjWarmStart_0
 markshare1_rhs_1_64_None_0
@@ -7,13 +13,11 @@ markshare1_rhs_-1_4_None_0
 markshare1_rhs_-1_4_DisjWarmStart_0
 markshare1_rhs_-1_64_None_0
 markshare1_rhs_-1_64_DisjWarmStart_0
+bell3a_rhs_1_4_DisjWarmStart_0
+bell3a_rhs_-1_64_NoDisjunction_0
 gt2_rhs_1_4_None_0
 gt2_rhs_1_4_DisjWarmStart_0
 gt2_rhs_1_64_None_0
 gt2_rhs_1_64_DisjWarmStart_0
-gt2_objective_1_4_None_0
-gt2_objective_1_64_None_0
-gt2_rhs_-1_4_None_0
-gt2_rhs_-1_64_None_0
 gt2_objective_-1_4_None_0
-gt2_objective_-1_64_None_0
+gt2_objective_-1_4_DisjWarmStart_0
