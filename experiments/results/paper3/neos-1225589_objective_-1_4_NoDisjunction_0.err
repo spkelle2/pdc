@@ -1,0 +1,1 @@
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 314165792.62195331. Calculated: 314165792.62195319.

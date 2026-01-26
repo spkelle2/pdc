@@ -1,0 +1,2 @@
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 63809842.16318400. Calculated: 63809842.16318412.
+No vpcs were made from a new disjunction in first iteration. Stopping series.

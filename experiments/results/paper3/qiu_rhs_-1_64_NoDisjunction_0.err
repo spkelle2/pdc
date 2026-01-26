@@ -1,0 +1,8 @@
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 221.11101699. Calculated: 221.11102518.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 238.52535445. Calculated: 238.52535536.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 323.84813018. Calculated: 323.84813655.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 363.69023829. Calculated: 363.69026184.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 386.47305819. Calculated: 386.47308174.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 521.92242008. Calculated: 521.92243185.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/cut/PRLP.cpp:392: PRLP took too long to solve (62.484469 sec, with limit of 60.000000 sec); giving up on this point-ray collection.
+No vpcs were made from a new disjunction in first iteration. Stopping series.
