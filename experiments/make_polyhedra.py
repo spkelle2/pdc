@@ -306,7 +306,7 @@ if False:
 #            linestyle='dashed', color='black')
 # f.show(wait_for_click=False, filename='P10.png')
 
-if True:
+if False:
 
     example = True
     poster = False
@@ -419,43 +419,43 @@ if True:
         if example:
             f.ax.legend(loc='upper right', fontsize=15)
         f.show(wait_for_click=False, filename=f"P9-10_paper{'_example' if example else ''}.png")
-#
-# # P9-10_simple
-# # simplify the above to just show the perturbation case
-# f = Figure()
-# f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='dotted')
-# f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='solid')
-# f.set_xlim([-.25, 3.25])
-# f.set_ylim([-.25, 1.85])
-#
-# # add disjunction and disjunctive cut
-# f.add_line(alpha_1, beta_1, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-#            linestyle=':', color='green')
-# f.add_line(alpha_2, beta_2, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
-#            linestyle='--', color='green')
-#
-# # shade in feasible regions
-# f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
-#           color='red', alpha=0.3)
-# f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
-#           color='red', alpha=0.2)
-# f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
-#           color='red', alpha=0.3)
-# f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
-#           color='red', alpha=0.2)
-#
-# # annotate
-# f.ax.annotate('', xy=(.6, 1), xytext=(.5, .75),
-#               arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-# f.ax.text(-.15, .75, "1) generate\ndisjunctive cut", ha='left', va='center', fontsize=12, color='black')
-# f.ax.annotate('', xy=(2.25, .875), xytext=(2.25, .7),
-#               arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-# f.ax.text(2.36, .75, "2) perturb\nmatrix coefficients", ha='left', va='center', fontsize=12, color='black')
-# f.ax.annotate('', xy=(2.13, 1.36), xytext=(2.25, 1),
-#               arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-# f.ax.text(2.6, 1.23, "3) parameterize", ha='center', va='center', fontsize=12, color='black')
-#
-# f.show(wait_for_click=False, filename='P9-10_simple.png')
+
+    # P9-10_simple
+    # simplify the above to just show the perturbation case
+    f = Figure()
+    f.add_polyhedron(op_1, color='red', show_int_points=False, linestyle='dotted')
+    f.add_polyhedron(op_2, color='red', show_int_points=False, linestyle='solid')
+    f.set_xlim([-.25, 3.25])
+    f.set_ylim([-.25, 1.85])
+
+    # add disjunction and disjunctive cut
+    f.add_line(alpha_1, beta_1, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle=':', color='green')
+    f.add_line(alpha_2, beta_2, op_1.xlim + [0, 0.8], op_1.ylim + [0.2, 1.8],
+               linestyle='--', color='green')
+
+    # shade in feasible regions
+    f.ax.fill(lc_1.hrep.generators[:, 0], lc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(lc_2.hrep.generators[:, 0], lc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
+    f.ax.fill(rc_1.hrep.generators[:, 0], rc_1.hrep.generators[:, 1],
+              color='red', alpha=0.3)
+    f.ax.fill(rc_2.hrep.generators[:, 0], rc_2.hrep.generators[:, 1],
+              color='red', alpha=0.2)
+
+    # annotate
+    f.ax.annotate('', xy=(.6, 1), xytext=(.5, .75),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+    f.ax.text(-.15, .75, "1) calculate\nFarkas certificate", ha='left', va='center', fontsize=12, color='black')
+    f.ax.annotate('', xy=(2.25, .875), xytext=(2.25, .7),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+    f.ax.text(2.36, .75, "2) perturb\nmatrix coefficients", ha='left', va='center', fontsize=12, color='black')
+    f.ax.annotate('', xy=(2.13, 1.36), xytext=(2.25, 1),
+                  arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
+    f.ax.text(2.6, 1.23, "3) generate PDI", ha='center', va='center', fontsize=12, color='black')
+
+    f.show(wait_for_click=False, filename='P9-10_simple.png')
 
 #
 # # P11
@@ -851,7 +851,7 @@ if False:
     # annotate
     f.ax.annotate('', xy=(.25, .75), xytext=(.25, .575),
                   arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-    f.ax.text(-.15, .5, "1) generate\ndisjunctive cut", ha='left', va='center', fontsize=12, color='black')
+    f.ax.text(-.15, .5, "1) calculate\nFarkas certificate", ha='left', va='center', fontsize=12, color='black')
     f.ax.annotate('', xy=(1, 1.25), xytext=(1, 1),
                   arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
     f.ax.annotate('', xy=(1.85, 1.4), xytext=(1.6, 1.4),
@@ -863,7 +863,7 @@ if False:
     f.ax.text(0, 1.65, "2) perturb", ha='left', va='center', fontsize=12, color='black')
     f.ax.annotate('', xy=(2.25, 1.675), xytext=(2.25, 1.4125),
                   arrowprops=dict(arrowstyle='-|>', color='black', lw=1))
-    f.ax.text(2.3, 1.375, "3) parameterize", ha='left', va='center', fontsize=12, color='black')
+    f.ax.text(2.3, 1.375, "3) generate PDI", ha='left', va='center', fontsize=12, color='black')
 
     f.show(wait_for_click=False, filename='P15-16_poster.png')
 
