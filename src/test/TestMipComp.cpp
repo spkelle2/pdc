@@ -36,41 +36,41 @@ TEST_CASE( "Test Simple") {
   // clear out any test files
   fs::remove_all(csvPath);
 
-  SECTION("MipComp::MipComp"){
+  SECTION("MipComp::MipComp") {
     MipComp testRunner(inputFolder.string(), csvPath.string(), 60, "Old", 69, "CBC", true, 0);
 
-    REQUIRE( testRunner.vpcGenerator == "Old" );
-    REQUIRE( testRunner.instanceSolvers.size() == 3 );
-    REQUIRE( testRunner.instanceNames[0] == "bm23_i01" );
-    REQUIRE( testRunner.instanceNames[1] == "bm23_i02" );
-    REQUIRE( testRunner.instanceNames[2] == "bm23_i03" );
-    REQUIRE( testRunner.primalBounds[0] == 34 );
-    REQUIRE( testRunner.primalBounds[1] == 34 );
-    REQUIRE( testRunner.primalBounds[2] == 34 );
-    REQUIRE( testRunner.seriesSolver.params.get(DISJ_TERMS) == 69 );
-    REQUIRE( testRunner.seriesSolver.params.get(TIMELIMIT) == 60 );
-    REQUIRE( testRunner.seriesSolver.params.get(PARTIAL_BB_KEEP_PRUNED_NODES) == 1 );
-    REQUIRE( testRunner.mipSolver == "CBC" );
-    REQUIRE( testRunner.seedIndex == 0 );
-    REQUIRE( testRunner.tighten_disjunction == false );
-    REQUIRE( testRunner.tighten_matrix_perturbation == false );
-    REQUIRE( testRunner.tighten_infeasible_to_feasible_term == false );
-    REQUIRE( testRunner.tighten_feasible_to_infeasible_basis == false );
+    REQUIRE(testRunner.vpcGenerator == "Old");
+    REQUIRE(testRunner.instanceSolvers.size() == 3);
+    REQUIRE(testRunner.instanceNames[0] == "bm23_i01");
+    REQUIRE(testRunner.instanceNames[1] == "bm23_i02");
+    REQUIRE(testRunner.instanceNames[2] == "bm23_i03");
+    REQUIRE(testRunner.primalBounds[0] == 34);
+    REQUIRE(testRunner.primalBounds[1] == 34);
+    REQUIRE(testRunner.primalBounds[2] == 34);
+    REQUIRE(testRunner.seriesSolver.params.get(DISJ_TERMS) == 69);
+    REQUIRE(testRunner.seriesSolver.params.get(TIMELIMIT) == 60);
+    REQUIRE(testRunner.seriesSolver.params.get(PARTIAL_BB_KEEP_PRUNED_NODES) == 1);
+    REQUIRE(testRunner.mipSolver == "CBC");
+    REQUIRE(testRunner.seedIndex == 0);
+    REQUIRE(testRunner.tighten_disjunction == false);
+    REQUIRE(testRunner.tighten_matrix_perturbation == false);
+    REQUIRE(testRunner.tighten_infeasible_to_feasible_term == false);
+    REQUIRE(testRunner.tighten_feasible_to_infeasible_basis == false);
   }
 
-  SECTION("MipComp::solveSeries quits if no cuts on first instance"){
+  SECTION("MipComp::solveSeries quits if no cuts on first instance") {
     // test that series cancels after first instance doesn't generate cuts
     MipComp testRunner(inputFolder.string(), csvPath.string(), 1, "Old", 128, "CBC", false, 0);
     testRunner.solveSeries();
     REQUIRE(testRunner.runData.size() == 0);
   }
 
-  SECTION("MipComp::solveSeries"){
+  SECTION("MipComp::solveSeries") {
     MipComp testRunner(inputFolder.string(), csvPath.string(), 60, "Old", 69, "CBC", true, 0);
     testRunner.solveSeries();
 
     // we should have one runData entry for each instance
-    REQUIRE( testRunner.runData.size() == 3 );
+    REQUIRE(testRunner.runData.size() == 3);
 
     // make sure we saved the run data correctly
     std::string str;
@@ -80,15 +80,18 @@ TEST_CASE( "Test Simple") {
                   "([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),"
                   "([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([a-zA-Z ]+),"
                   "([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),"
-                  "([0-9\\.]+),([0-9\\.]+),([0-1]),([0-1]),([0-1]),([0-1]),([0-9\\.]+),([0-9\\.]+)");
+                  "([0-9\\.]+),([0-9\\.]+),([0-1]),([0-1]),([0-1]),([0-1]),"
+                  "([0-9\\.]+),([0-9\\.]+),(-?[0-9]+),([0-9\\.]+),([0-9\\.]+),"
+                  "([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),"
+                  "([0-9\\.]+),([0-9\\.]+)");
     std::smatch match;
 
     // the file should exist
     REQUIRE(fs::exists(csvPath));
     std::ifstream file(csvPath.string());
 
-    while (std::getline(file, str)){
-      if (0 < lineIndex && lineIndex <= testRunner.instanceSolvers.size() + 1){
+    while (std::getline(file, str)) {
+      if (0 < lineIndex && lineIndex <= testRunner.instanceSolvers.size() + 1) {
         // all rows except the last should match the pattern
         REQUIRE(std::regex_search(str, match, re));
         // instanceIndex
@@ -142,7 +145,8 @@ TEST_CASE( "Test Simple") {
         // infeasibleToFeasibleTerms
         REQUIRE(isVal(std::stoi(match[25].str()), testRunner.runData[lineIndex - 1].infeasibleToFeasibleTerms, 1e-4));
         // termRemainsFeasibleBasisInfeasible
-        REQUIRE(isVal(std::stoi(match[26].str()), testRunner.runData[lineIndex - 1].termRemainsFeasibleBasisInfeasible, 1e-4));
+        REQUIRE(isVal(std::stoi(match[26].str()), testRunner.runData[lineIndex - 1].termRemainsFeasibleBasisInfeasible,
+                      1e-4));
         // cutsChangedCoefficients
         REQUIRE(isVal(std::stoi(match[27].str()), testRunner.runData[lineIndex - 1].cutsChangedCoefficients, 1e-4));
         // feasibleTermsPrunedByBound
@@ -159,13 +163,33 @@ TEST_CASE( "Test Simple") {
         REQUIRE(std::stoi(match[33].str()) > 0);
         // rootNodes -- this is garbage for CBC/gurobi so just check it's positive
         REQUIRE(std::stoi(match[34].str()) > 0);
+        // warmStartNodeLimit -- this is garbage for CBC/gurobi so just check it's -1
+        REQUIRE(std::stoi(match[35].str()) == -1);
+        // cutPooltime - CBC does not have this stat so should be zero
+        REQUIRE(std::stod(match[36].str()) == 0.0);
+        // lpSolutionTime - CBC does not have this stat so should be zero
+        REQUIRE(std::stod(match[37].str()) == 0.0);
+        // lpSetupTime - CBC does not have this stat so should be zero
+        REQUIRE(std::stod(match[38].str()) == 0.0);
+        // variableFixingTime - CBC does not have this stat so should be zero
+        REQUIRE(std::stod(match[39].str()) == 0.0);
+        // pricingTime - CBC does not have this stat so should be zero
+        REQUIRE(std::stod(match[40].str()) == 0.0);
+        // strongBranchingTime - CBC does not have this stat so should be zero
+        REQUIRE(std::stod(match[41].str()) == 0.0);
+        // separationTime - CBC does not have this stat so should be zero
+        REQUIRE(std::stod(match[42].str()) == 0.0);
+        // primalHeuristicsTime - CBC does not have this stat so should be zero
+        REQUIRE(std::stod(match[43].str()) == 0.0);
+        // communicationTime - CBC does not have this stat so should be zero
+        REQUIRE(std::stod(match[44].str()) == 0.0);
       }
       lineIndex++;
     }
     file.close();
   }
 
-  SECTION("PdcUtility::getCertificate"){
+  SECTION("PdcUtility::getCertificate") {
 
     // read in data
     fs::path inputFolder = "../src/test/test_instances/f2gap801600";
@@ -179,13 +203,62 @@ TEST_CASE( "Test Simple") {
     RunData runDataNone;
 
     // check to make sure we get the same dual bounds
-    for (int i = 0; i < testRunnerFarkas.instanceSolvers.size(); i++){
+    for (int i = 0; i < testRunnerFarkas.instanceSolvers.size(); i++) {
       RunData runDataFarkas = testRunnerFarkas.seriesSolver.solve(
           testRunnerFarkas.instanceSolvers[i], i < 1 ? "New" : "Farkas", 1e10);
       RunData runDataNone = testRunnerNone.seriesSolver.solve(
           testRunnerFarkas.instanceSolvers[i], "None", 1e10);
-      REQUIRE(isZero((runDataFarkas.dualBound - runDataNone.dualBound)/runDataNone.dualBound, 1e-3));
+      REQUIRE(isZero((runDataFarkas.dualBound - runDataNone.dualBound) / runDataNone.dualBound, 1e-3));
     }
+  }
+  // clear out any test files
+  fs::remove_all(csvPath);
+  fs::remove_all(csvPath2);
+}
+
+TEST_CASE( "Test symphony") {
+
+  // shared setup
+  fs::path inputFolder = "../src/test/test_instances/bm23";
+  fs::path csvPath = inputFolder.parent_path().parent_path() / "run_data.csv";
+  fs::path csvPath2 = inputFolder.parent_path().parent_path() / "run_data2.csv";
+
+  // clear out any test files
+  fs::remove_all(csvPath);
+  fs::remove_all(csvPath2);
+
+  SECTION("Test symphony integration", "[MipComp::solveSeries][symphony]"){
+
+    // solve a series with symphony using a 64 node disjunctive warm start
+    MipComp dws(inputFolder.string(), csvPath.string(), 60, "DisjWarmStart", 64, "SYMPHONY", false, 0, 0, 0, 0, 0, 1);
+    dws.instanceSolvers.resize(2);
+    dws.solveSeries();
+
+    // solve a series with symphony using 64 term parametric disjunctive cuts
+    MipComp pdc(inputFolder.string(), csvPath2.string(), 60, "Farkas", 64, "SYMPHONY", false, 0, 0, 1, 1, 1, 0);
+    pdc.instanceSolvers.resize(2);
+    pdc.solveSeries();
+
+    // get the data from the warm solve
+    RunData rd_dws = dws.runData[1];
+    RunData rd_pdc = pdc.runData[1];
+
+    // check bounds and terms
+    REQUIRE(rd_dws.terms == rd_pdc.terms);
+    REQUIRE((26 < rd_dws.disjunctiveDualBound && rd_dws.disjunctiveDualBound < 28));
+    REQUIRE(isVal(rd_dws.disjunctiveDualBound, rd_pdc.disjunctiveDualBound));
+    REQUIRE(rd_dws.disjunctiveDualBound == rd_dws.rootDualBound);
+    REQUIRE((26 < rd_pdc.rootDualBound && rd_pdc.rootDualBound < rd_pdc.disjunctiveDualBound));
+    REQUIRE(rd_dws.warmStartNodeLimit == 64);
+    REQUIRE(rd_pdc.warmStartNodeLimit == 64);
+
+    // check times that should be nonzero
+    REQUIRE(rd_dws.lpSolutionTime > .01);
+    REQUIRE(rd_dws.strongBranchingTime > .01);
+    REQUIRE(rd_dws.primalHeuristicsTime >= 0.0);  // sometimes it's fast enough to look like zero
+    REQUIRE(rd_pdc.lpSolutionTime > .01);
+    REQUIRE(rd_pdc.strongBranchingTime > .01);
+    REQUIRE(rd_pdc.primalHeuristicsTime > .01);
   }
 
   // clear out any test files

@@ -23,7 +23,7 @@ def get_queue(time_limit):
 
 
 def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
-              mip_solver: str = "CBC", provide_primal_bound: bool = True,
+              mip_solver: str = "CBC", provide_primal_bound: bool = False,
               cumulative_queue_limit: int = 8000, repeats: int = 1):
     """ For all problems and perturbations, run the .mps associated with each series
 
@@ -70,15 +70,15 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
 
             # get the memory required for this instance
             instance_file = instance + ".mps"
-            mem = int(mem_df.loc[instance_file, 'memory']) if instance_file in mem_df.index else 4
+            mem = 2  # int(mem_df.loc[instance_file, 'memory']) if False else 2  # instance_file in mem_df.index
             print(f"instance {instance} requires {mem}gb")
 
             for perturbation in os.listdir(os.path.join(input_fldr, instance)):
                 if not os.path.isdir(os.path.join(input_fldr, instance, perturbation)) or "bound" in perturbation:
                     continue
 
-                for terms in [4, 64, 80]:
-                    for generator in ["None", "New", "NoDisjunction", "DisjWarmStart"]:  #  "Matrix", "Term", "Basis", "NoTerm", "NoMatrix", "NoBasis"]:
+                for terms in [4, 64]:
+                    for generator in ["None", "NoDisjunction", "DisjWarmStart"]:  #  "Matrix", "Term", "Basis", "NoTerm", "NoMatrix", "NoBasis"]:
 
                         # increment the total number of jobs
                         total_jobs += 1
@@ -108,7 +108,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                         tt = int(generator in ["All", "NoDisjunction", "NoMatrix", "NoBasis", "Term"])
                         tb = int(generator in ["All", "NoDisjunction", "NoMatrix", "NoTerm", "Basis"])
 
-                        remote_args = f'INPUT_FOLDER={series_input_fldr},OUTPUT_FILE={stem + ".csv"},' \
+                        remote_args = f'INPUT_FOLDER={series_input_fldr},OUTPUT_FILE={stem}.csv,' \
                             f'MAX_TIME={max_time},GENERATOR={generator},TERMS={terms},' \
                             f'MIP_SOLVER={mip_solver},PROVIDE_PRIMAL_BOUND={int(provide_primal_bound)},' \
                             f'SEED_INDEX={seed_index},TIGHTEN_DISJUNCTION={td},' \
@@ -119,7 +119,7 @@ def run_batch(test_fldr: str, machine: str = "coral", max_time: int = 3600,
                             print(f"submitting to queue {queue}")
                             if queue == "mediumlong":
                                 mediumlong_submissions += 1
-                            resources = f'mem={mem}gb,vmem={mem}gb,pmem={mem}gb,walltime={total_time_limit}:00:00'
+                            resources = f'nodes=1:ppn=1,mem={mem}gb,vmem={mem}gb,pmem={mem}gb,walltime={total_time_limit}:00:00'
                             subprocess.call(
                                 ['qsub', '-V', '-q', queue, '-l', resources,
                                  '-v', remote_args, '-e', f'{stem}.err', '-o', f'{stem}.out',

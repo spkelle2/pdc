@@ -34,6 +34,7 @@ CMakeLists.txt
 cmake-build-debug/
 experiments/old
 experiments/test_sets/miplib*
+experiments/test_sets/paper3
 experiments/outputs
 experiments/results/bm23_paper2
 tmpvpc*
@@ -43,3 +44,4 @@ core
 outfiles/
 outfiles_generation/
 *.tar.gz
+*.nfs*

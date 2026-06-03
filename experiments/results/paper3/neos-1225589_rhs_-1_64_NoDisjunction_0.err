@@ -1,0 +1,88 @@
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 314165792.62195331. Calculated: 314165792.62195319.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 264014454.12774998. Calculated: 264014454.12774986.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 152969301.72514904. Calculated: 152969301.72514915.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 135768679.29675710. Calculated: 135768679.29675698.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 253208614.90261656. Calculated: 253208614.90261644.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 256309010.54029787. Calculated: 256309010.54029775.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 255209763.31984526. Calculated: 255209763.31984514.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 274343049.97029644. Calculated: 274343049.97029626.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 304443870.74928486. Calculated: 304443870.74928474.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 238432918.88090110. Calculated: 238432918.88090098.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 332286811.65575677. Calculated: 332286811.65575659.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 135921415.82665336. Calculated: 135921415.82665321.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 397908877.20537174. Calculated: 397908877.20537156.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 256356236.55074608. Calculated: 256356236.55074620.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 203705899.40509892. Calculated: 203705899.40509909.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 246775145.77631968. Calculated: 246775145.77631956.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 280450142.25402230. Calculated: 280450142.25402260.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 221631594.73949265. Calculated: 221631594.73949292.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 199714354.50793082. Calculated: 199714354.50793093.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:149: Point: Calculated dot product with obj differs from solver's. Obj viol from solver: 163494490.72366804. Calculated: 163494490.72366825.
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0
+messed up a farkas cofficient
+setting all farkas coefficients to 0

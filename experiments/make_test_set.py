@@ -39,8 +39,6 @@ def main(instances_fldr, remote: bool = True, samples=3):
 
         for p in [-1, 1]:
 
-            time.sleep(1)  # to avoid overloading the scheduler
-
             jobs_submitted += 1
             if remote:
                 # submit the job to the cluster

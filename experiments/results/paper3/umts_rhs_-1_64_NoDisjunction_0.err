@@ -1,0 +1,6 @@
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:368: Ray 3321: Calculated dot product with obj differs from solver's. Obj viol from solver: 65617.99999987. Calculated: 65618.00000001.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:368: Ray 3325: Calculated dot product with obj differs from solver's. Obj viol from solver: 63210.00000013. Calculated: 63209.99999999.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:368: Ray 3343: Calculated dot product with obj differs from solver's. Obj viol from solver: 51084.00000013. Calculated: 51083.99999999.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/utility/nbspace.cpp:368: Ray 3376: Calculated dot product with obj differs from solver's. Obj viol from solver: 12247.00000011. Calculated: 12246.99999999.
+*** WARNING (version #cc593f3): /home/sek519/warm_starting/pdc/../vpc/src/cut/PRLP.cpp:392: PRLP took too long to solve (60.500464 sec, with limit of 60.000000 sec); giving up on this point-ray collection.
+No vpcs were made from a new disjunction in first iteration. Stopping series.
